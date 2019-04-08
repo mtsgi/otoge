@@ -16,7 +16,7 @@ namespace shigeno_EditorUtility
     }
 
     [CustomPropertyDrawer(typeof(CustomLabelAttribute))]
-    public class Range2Drawer : PropertyDrawer
+    public class CustomLabelDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
