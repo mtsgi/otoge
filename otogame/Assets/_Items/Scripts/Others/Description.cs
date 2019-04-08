@@ -15,7 +15,7 @@ public class Description : MonoBehaviour
 }
 
 [CustomEditor (typeof(Description))]
-public class CharacterInspector : Editor
+public class DescriptionInspector : Editor
 {
     Description _description = null;
 
