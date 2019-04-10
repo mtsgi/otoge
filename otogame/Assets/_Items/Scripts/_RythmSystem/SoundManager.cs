@@ -89,12 +89,16 @@ namespace OtoFuda.RythmSystem
 			
 			var sources = GetComponents<AudioSource>();
 			
-			//SoundListSettingを初期化する
-			_soundListSettings = new List<SoundListSetting>();
 			for (int i = 0; i < sources.Length; i++)
 			{
-				_soundListSettings.Add(new SoundListSetting());
-				_soundListSettings[i].soundName = sources[i].clip.name;
+                if(autoSetName)
+                {
+                    _soundListSettings[i].soundName = sources[i].clip.name;
+                }
+                else
+                {
+                    _soundListSettings[i].soundName = _soundListSettings[i].soundName;
+                }
 				_soundListSettings[i].targetAudioClip = sources[i].clip;
 				_soundListSettings[i].targetAudioSource = sources[i];
 			}
