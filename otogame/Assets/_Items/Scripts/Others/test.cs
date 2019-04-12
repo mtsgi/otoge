@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using OtoFuda.RythmSystem;
 using UnityEngine;
 
-public class UserKeyInputManager : MonoBehaviour {
-    public KeyCode Key;
+public class test : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -14,9 +13,10 @@ public class UserKeyInputManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKeyDown(Key))
+		Debug.Log(SoundManager.Instance._audioSources.Length);
+		if (Input.GetKeyDown(KeyCode.A))
 		{
-            SoundManager.Instance.playSound(0).Play();
-        }
+			
+		}
 	}
 }
