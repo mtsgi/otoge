@@ -11,15 +11,16 @@ namespace OtoFuda.Card
     public class OtofudaCardBase : MonoBehaviour
     {
 
-        [SerializeField] private OtofudaFlowerType _flowerType;
-        [SerializeField] private OtofudaPointType _pointType;
-    
-        //カードの効果を実行する関数
-        internal virtual void applyEffect()
+        [SerializeField] internal OtofudaFlowerType _flowerType;
+        [SerializeField] internal OtofudaPointType _pointType;
+
+        //この音札に設定されている効果
+        [SerializeField] internal OtofudaCardEffectBase otofudaEffect;
+
+        private void OnEnable()
         {
-        
+            
         }
-    
     }
 }
 

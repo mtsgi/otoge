@@ -56,6 +56,23 @@ namespace OtoFuda.Card
         STRIP = 5,
         KASS = 1,
     }
+    
+    /// <summary>
+    /// 手札の役の種類
+    /// </summary>
+    enum OtofudaHandEffectType
+    {
+        NONE,
+        TANZAKU,
+        TANE,
+        AKATAN,
+        AOTAN,
+        INOSHIKACHOU,
+        SANKOU,
+        SHIKOU,
+        AMESHIKOU,
+        GOKOU,
+    }
 
 
     public class OtofudaType : MonoBehaviour
