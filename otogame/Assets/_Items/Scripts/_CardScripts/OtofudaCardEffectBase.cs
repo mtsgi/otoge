@@ -138,6 +138,7 @@ namespace OtoFuda.Card
 
             }
 
+            return OtofudaHandEffectType.NONE;
         }
         
     }
