@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OtofudaHandEffect : MonoBehaviour {
+namespace OtoFuda.Card
+{
+    //手札効果を辞書登録しておくクラス。
+    public class OtofudaHandEffect : SingletonMonoBehaviour<OtofudaHandEffect> {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        
+        internal Dictionary<string,OtofudaHandEffectBase> effectDictionary;
+        
+        
+       
+        
+    }
+   
 }

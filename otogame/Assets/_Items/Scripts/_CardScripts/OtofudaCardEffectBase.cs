@@ -6,7 +6,6 @@ namespace OtoFuda.Card
 {
     public class OtofudaCardEffectBase : MonoBehaviour {
 
-
         private OtofudaHandEffectType _handEffectCheck(OtofudaCardBase[] otofudaCards)
         {
             return 0;
