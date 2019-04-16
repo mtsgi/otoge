@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OtoFuda.Card;
 using UnityEngine;
 
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
@@ -14,6 +15,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 	public class Player
 	{
 		public string PlayerName;
+		public OtofudaCardBase[] playerHand;
 		public int judgePoint;
 		public int score;	
 	}
@@ -27,14 +29,4 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 	};
 
 
-	// Use this for initialization
-	void Start () 
-	{
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

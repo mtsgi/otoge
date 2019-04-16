@@ -6,7 +6,8 @@ namespace OtoFuda.Card
 {
     public class OtofudaHandEffectChecker
     {
-        private OtofudaHandEffectType check(OtofudaCardBase[] cards)
+        
+        internal OtofudaHandEffectType handCheck(OtofudaCardBase[] cards)
         {
             var cardCount = cards.Length;
             //手札枚数が三枚未満であれば効果は発生しないのではじく。
