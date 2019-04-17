@@ -15,7 +15,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 	public class Player
 	{
 		public string PlayerName;
-		public OtofudaCardBase[] playerHand;
+		public OtofudaCard[] playerHand;
 		public int judgePoint;
 		public int score;	
 	}

@@ -75,7 +75,7 @@ namespace OtoFuda.Card
     }
 
 
-    public class OtofudaType : MonoBehaviour
+    public class OtofudaType
     {
         internal OtofudaMonthType GetOtofudaMonthFromFlower(OtofudaFlowerType flowerType)
         {

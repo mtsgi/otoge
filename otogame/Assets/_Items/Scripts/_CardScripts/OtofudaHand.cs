@@ -31,6 +31,7 @@ namespace OtoFuda.Card
 		//手札の効果を発動する。
 		private void handEffectActivate(int playerNum)
 		{
+			//手札のエフェクトにチェックをかけて手札効果のタイプを取得。
 			var effectType = cheker.handCheck(_players[playerNum].playerHand);
 			//役なしであれば弾く。
 			if (effectType == OtofudaHandEffectType.NONE)

@@ -6,8 +6,10 @@ namespace OtoFuda.Card
 {
     public class OtofudaHandEffectChecker
     {
+
+        private OtofudaType otofudaType = new OtofudaType();
         
-        internal OtofudaHandEffectType handCheck(OtofudaCardBase[] cards)
+        internal OtofudaHandEffectType handCheck(OtofudaCard[] cards)
         {
             var cardCount = cards.Length;
             //手札枚数が三枚未満であれば効果は発生しないのではじく。
@@ -23,7 +25,7 @@ namespace OtoFuda.Card
                 List<OtofudaPointType> points = new List<OtofudaPointType>();
                 for (int i = 0; i < cardCount; i++)
                 {
-                    flowers[i] = cards[i]._flowerType;
+                    flowers[i] = otofudaType.GetOtofudaFlowerFromMonth(cards[i]._monthType);
                     points[i] = cards[i]._pointType;
                 }
 
@@ -69,7 +71,7 @@ namespace OtoFuda.Card
                 List<OtofudaPointType> points = new List<OtofudaPointType>();
                 for (int i = 0; i < cardCount; i++)
                 {
-                    flowers[i] = cards[i]._flowerType;
+                    flowers[i] = otofudaType.GetOtofudaFlowerFromMonth(cards[i]._monthType);
                     points[i] = cards[i]._pointType;
                 }
 
@@ -97,7 +99,7 @@ namespace OtoFuda.Card
                 List<OtofudaPointType> points = new List<OtofudaPointType>();
                 for (int i = 0; i < cardCount; i++)
                 {
-                    flowers[i] = cards[i]._flowerType;
+                    flowers[i] = otofudaType.GetOtofudaFlowerFromMonth(cards[i]._monthType);
                     points[i] = cards[i]._pointType;
                 }
 
