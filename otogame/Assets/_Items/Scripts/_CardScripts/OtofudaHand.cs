@@ -34,14 +34,20 @@ namespace OtoFuda.Card
 			//手札のエフェクトにチェックをかけて手札効果のタイプを取得。
 			var effectType = cheker.handCheck(_players[playerNum].playerHand);
 			//役なしであれば弾く。
-			if (effectType == OtofudaHandEffectType.NONE)
+			//effectTypeの0がNONEであれば役なしであることが確定している。
+			
+			if (effectType[0] == OtofudaHandEffectType.NONE)
 			{
 				return;
 			}
 			else
 			{
-				//辞書から効果を実行する。
-				_effectDictionary[effectType.ToString()].applyHandEffect(playerNum);
+				//格納されたEffectTypeの数だけ処理を実行。
+				//辞書から参照してそれぞれのapplyhandeffectが実行する
+				for (int i = 0; i < effectType.Count; i++)
+				{
+					_effectDictionary[effectType[i].ToString()].applyHandEffect(playerNum);
+				}
 			}
 		}
 

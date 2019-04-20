@@ -72,6 +72,18 @@ namespace OtoFuda.Card
         SHIKOU,
         AMESHIKOU,
         GOKOU,
+        TSUKIMI,
+        HANAMI,
+    }
+
+    /// <summary>
+    /// 役持ちの札
+    /// </summary>
+    enum OtofudaSpecialyCard
+    {
+        NONE,
+        AKATAN,
+        
     }
 
 
