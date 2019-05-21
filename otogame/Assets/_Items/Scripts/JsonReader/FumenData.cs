@@ -15,7 +15,7 @@ namespace OtoFuda.Fumen
       public int noteType = 0;
       public int lane = 0;
 
-      public List<NotesInfo> endNotes = null;
+      public List<NotesInfo> endNotes = new List<NotesInfo>();
       public int option = 0;
       public float reachFrame = 0.0f;
 
@@ -36,7 +36,7 @@ namespace OtoFuda.Fumen
           this.lane = notesInfo.lane;
 
           //endノーツが含まれていた場合、さらに生成してmainNotesの中につっこむ
-          if (noteType == 0)
+          if (noteType == 2)
           {
               for (int i = 0; i < notesInfo.end.Count; i++)
               {
