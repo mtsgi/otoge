@@ -9,6 +9,11 @@ public class IndexJsonReadManager : MonoBehaviour
     
     internal void serializeFumendata()
     {		
+    }
+
+    [ContextMenu("test")]
+    public void test()
+    {
         var textAsset = Resources.Load ("FumenJsons/"+fileName) as TextAsset;
         var jsonText = textAsset.text;
         var _index = JsonUtility.FromJson<IndexInfo>(jsonText);		
@@ -25,12 +30,5 @@ public class IndexJsonReadManager : MonoBehaviour
         Debug.Log(_index.index[0].hard);
         Debug.Log(_index.index[0].extra);
         Debug.Log(_index.index[0].author);
-        Debug.Log(_index.index[0].comment);
-    }
-
-    [ContextMenu("test")]
-    public void test()
-    {
-        serializeFumendata();
-    }
+        Debug.Log(_index.index[0].comment);    }
 }
