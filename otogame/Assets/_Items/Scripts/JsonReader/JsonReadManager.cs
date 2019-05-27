@@ -52,21 +52,24 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 			case DIFFICULTY.EASY:
 				for (int i = 0; i < fumenInfo.easy.Count; i ++)
 				{
-					_fumenDataManager.mainNotes.Add(new Note(fumenInfo.easy[i], _fumenDataManager.BPM));
+					_fumenDataManager.mainNotes.Add(new Note(fumenInfo.easy[i], _fumenDataManager.BPM,
+						_fumenDataManager.BEAT));
 				}
 				break;
 			
 			case DIFFICULTY.NORMAL:
 				for (int i = 0; i < fumenInfo.normal.Count; i ++)
 				{
-					_fumenDataManager.mainNotes.Add(new Note(fumenInfo.normal[i], _fumenDataManager.BPM));
+					_fumenDataManager.mainNotes.Add(new Note(fumenInfo.normal[i], _fumenDataManager.BPM,
+						_fumenDataManager.BEAT));
 				}
 				break;
 			
 			case DIFFICULTY.HARD:
 				for (int i = 0; i < fumenInfo.hard.Count; i ++)
 				{
-					_fumenDataManager.mainNotes.Add(new Note(fumenInfo.hard[i], _fumenDataManager.BPM));
+					_fumenDataManager.mainNotes.Add(new Note(fumenInfo.hard[i], _fumenDataManager.BPM,
+						_fumenDataManager.BEAT));
 				}
 				break;
 				
