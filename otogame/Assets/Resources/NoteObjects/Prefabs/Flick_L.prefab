@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4839910709682490}
   - component: {fileID: 212606654446973228}
+  - component: {fileID: 114332233702139162}
   m_Layer: 0
   m_Name: Flick_L
   m_TagString: Untagged
@@ -40,6 +41,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &114332233702139162
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1126388910745210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77023fddaf8f0864d8476eb659db56a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteType: 0
+  lane: 0
+  endNotes: []
+  endNotesNum: 0
+  option: 0
+  reachFrame: 0
 --- !u!212 &212606654446973228
 SpriteRenderer:
   m_ObjectHideFlags: 1

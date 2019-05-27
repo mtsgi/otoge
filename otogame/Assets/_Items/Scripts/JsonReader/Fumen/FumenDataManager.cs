@@ -7,7 +7,7 @@ public class FumenDataManager : SingletonMonoBehaviour<FumenDataManager>
 {
     internal float BPM = 120.0f;
     internal float BEAT = 4.0f;
-    internal List<Note> mainNotes = new List<Note>();
+    internal List<NoteObject> mainNotes = new List<NoteObject>();
     internal float laneLength = 0.03f;
 
 }
