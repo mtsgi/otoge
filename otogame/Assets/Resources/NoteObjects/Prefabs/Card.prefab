@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4824841966415736}
   - component: {fileID: 212169933855299862}
   - component: {fileID: 114981552748059444}
+  - component: {fileID: 210061321307316614}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -55,9 +56,18 @@ MonoBehaviour:
   noteType: 0
   lane: 0
   endNotes: []
-  endNotesNum: 0
   option: 0
   reachFrame: 0
+--- !u!210 &210061321307316614
+SortingGroup:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1485954235906678}
+  m_Enabled: 1
+  m_SortingLayerID: 312638545
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!212 &212169933855299862
 SpriteRenderer:
   m_ObjectHideFlags: 1

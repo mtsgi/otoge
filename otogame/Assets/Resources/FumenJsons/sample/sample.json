@@ -1,7 +1,7 @@
 {
     "hard": [
         {
-            "type": 1,
+            "type": 2,
             "measure": 1,
             "lane": 1,
             "position": 0,
@@ -164,7 +164,7 @@
                 {
                     "type": 1,
                     "measure": 3,
-                    "lane": 2,
+                    "lane": 1,
                     "position": 1,
                     "split": 8,
                     "option": -1,
@@ -201,7 +201,7 @@
                 {
                     "type": 1,
                     "measure": 3,
-                    "lane": 4,
+                    "lane": 5,
                     "position": 3,
                     "split": 8,
                     "option": -1,
@@ -310,7 +310,7 @@
                 {
                     "type": 1,
                     "measure": 5,
-                    "lane": 5,
+                    "lane": 1,
                     "position": 14,
                     "split": 16,
                     "option": -1,
@@ -329,7 +329,7 @@
                 {
                     "type": 1,
                     "measure": 5,
-                    "lane": 1,
+                    "lane": 5,
                     "position": 14,
                     "split": 16,
                     "option": -1,

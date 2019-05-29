@@ -20,7 +20,13 @@ namespace OtoFuda.Fumen
 
       public List<NotesInfo> endNotes = new List<NotesInfo>();
       //endnoteが全体で何個目のノーツかを格納
-      public int endNotesNum;
+      private int endNotesNum;
+
+      public int _endNotesNum
+      {
+          get { return endNotesNum; }
+          set { endNotesNum = value; }
+      }
        
       public int option = 0;
       public float reachFrame = 0.0f;

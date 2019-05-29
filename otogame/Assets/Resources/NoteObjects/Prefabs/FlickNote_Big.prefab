@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4888087020540816}
   - component: {fileID: 212149411417736644}
   - component: {fileID: 114931106093248738}
+  - component: {fileID: 210604170710935078}
   m_Layer: 0
   m_Name: FlickNote_Big
   m_TagString: Untagged
@@ -55,9 +56,18 @@ MonoBehaviour:
   noteType: 0
   lane: 0
   endNotes: []
-  endNotesNum: 0
   option: 0
   reachFrame: 0
+--- !u!210 &210604170710935078
+SortingGroup:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1417639231906542}
+  m_Enabled: 1
+  m_SortingLayerID: 312638545
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!212 &212149411417736644
 SpriteRenderer:
   m_ObjectHideFlags: 1

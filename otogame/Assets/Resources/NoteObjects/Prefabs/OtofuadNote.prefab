@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4726723028293738}
   - component: {fileID: 212444351453064390}
   - component: {fileID: 114228957714462488}
+  - component: {fileID: 210078161953876048}
   m_Layer: 0
   m_Name: OtofuadNote
   m_TagString: Untagged
@@ -52,12 +53,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34a14013672644eea4b8a5d7c4e55b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteType: 0
-  lane: 0
+  noteType: 5
+  lane: 3
   endNotes: []
-  endNotesNum: 0
-  option: 0
-  reachFrame: 0
+  option: -1
+  reachFrame: 540
+--- !u!210 &210078161953876048
+SortingGroup:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1387196882689192}
+  m_Enabled: 1
+  m_SortingLayerID: 312638545
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!212 &212444351453064390
 SpriteRenderer:
   m_ObjectHideFlags: 1
