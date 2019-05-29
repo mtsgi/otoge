@@ -52,27 +52,30 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 			case DIFFICULTY.EASY:
 				for (int i = 0; i < fumenInfo.easy.Count; i ++)
 				{
-					var _note = noteGenerate(fumenInfo.easy[i], _fumenDataManager.BPM,
-						_fumenDataManager.BEAT);
+					noteGenerate(fumenInfo.easy[i], _fumenDataManager.BPM, _fumenDataManager.BEAT);
+/*
 					_fumenDataManager.mainNotes.Add(_note);
+*/
 				}
 				break;
 			
 			case DIFFICULTY.NORMAL:
 				for (int i = 0; i < fumenInfo.normal.Count; i ++)
 				{
-					var _note = noteGenerate(fumenInfo.normal[i], _fumenDataManager.BPM,
-						_fumenDataManager.BEAT);
+					noteGenerate(fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT);
+/*
 					_fumenDataManager.mainNotes.Add(_note);
+*/
 				}
 				break;
 			
 			case DIFFICULTY.HARD:
 				for (int i = 0; i < fumenInfo.hard.Count; i ++)
 				{
-					var _note = noteGenerate(fumenInfo.hard[i], _fumenDataManager.BPM,
-						_fumenDataManager.BEAT);
+					noteGenerate(fumenInfo.hard[i], _fumenDataManager.BPM, _fumenDataManager.BEAT);
+/*
 					_fumenDataManager.mainNotes.Add(_note);
+*/
 				}
 				break;
 				
@@ -81,7 +84,7 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 	}
 
 
-	private NoteObject noteGenerate(NotesInfo notesInfo, float _bpm, float _beat)
+	private void noteGenerate(NotesInfo notesInfo, float _bpm, float _beat)
 	{
 		//ノーツのGameObject
 		GameObject noteGameObject = null;
@@ -131,25 +134,9 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 		if (_noteObject == null)
 		{
 			Debug.LogError("ノーツのオブジェクトにnoteObjectのスクリプトがアタッチされていませんでした");
-			return null;
+			return;
 		}
 		
-
-		
-		//endノーツが含まれていた場合、さらに生成してmainNotesの中につっこむ
-		if (notesInfo.type == 2)
-		{
-			for (int i = 0; i < notesInfo.end.Count; i++)
-			{
-				var longEndNote = noteGenerate(notesInfo.end[i], _bpm, _beat); 
-				FumenDataManager.Instance.mainNotes.Add(longEndNote);
-				endNoteIndex = FumenDataManager.Instance.mainNotes.Count - 1;
-			}
-		}
-		
-		
-
-
 		//一小節あたりの長さ(単位：フレーム)
 		//60 秒/_bpm (拍)で 1拍 あたり何秒なのかを算出。
 		//これに60をかけて1フレームあたり何秒なのかを算出する。
@@ -169,9 +156,45 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 		_noteObject.setNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachFrame);
 		
 		//生成
-		Instantiate(noteGameObject, spawnPos, Quaternion.identity);
+		var spawnedObject = Instantiate(noteGameObject, spawnPos, Quaternion.identity);
+		spawnedObject.transform.parent = GameObject.Find("Notes").transform;
+		
+		FumenDataManager.Instance.mainNotes.Add(noteGameObject.GetComponent<NoteObject>());	
+		
+		
+		//endノーツが含まれていた場合、さらに生成してmainNotesの中につっこむ
+		for (int i = 0; i < notesInfo.end.Count; i++)
+		{	
+			var spawnX = spawnPos.x;
+			Debug.Log(spawnPos.y);
 
-		return noteGameObject.GetComponent<NoteObject>();
+			var spawnZ = 0f;
+				
+			//終点ノーツの生成
+			noteGenerate(notesInfo.end[i], _bpm, _beat); 
+			//longNoteの終点ノーツを追加した直後なのでもっとも後ろのIndexが終点ノーツを格納したindex
+			endNoteIndex = FumenDataManager.Instance.mainNotes.Count - 1;
+			
+			//終点情報を更新
+			FumenDataManager.Instance.mainNotes[endNoteIndex]._endNotesNum = endNoteIndex;
+				
+			//終点座標からロングノーツのラインの生成座標を計算する。
+			var spawnY = (FumenDataManager.Instance.mainNotes[endNoteIndex].reachFrame * _laneLength + spawnPos.y)/2;
+			var extend = FumenDataManager.Instance.mainNotes[endNoteIndex].reachFrame * _laneLength - spawnPos.y;
+			GameObject longLine = (GameObject) Resources.Load("NoteObjects/Prefabs/testLongNote");
+
+
+			var longLinePos = new Vector3(spawnX, spawnY, spawnZ);
+			var scale = new Vector3(0.1f, 0.018f * extend * 10, 1);
+			
+			Debug.Log(extend);
+			longLine.transform.localScale = scale;
+			
+			var spawnedLongObject = Instantiate(longLine, longLinePos, Quaternion.identity);
+			spawnedLongObject.transform.parent = GameObject.Find("Notes").transform;
+
+		}
+
 	}
 
 

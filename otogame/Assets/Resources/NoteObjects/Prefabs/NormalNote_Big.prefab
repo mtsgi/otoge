@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4471959040436446}
   - component: {fileID: 212052028020609370}
   - component: {fileID: 114668223434072904}
+  - component: {fileID: 210200708282397960}
   m_Layer: 0
   m_Name: NormalNote_Big
   m_TagString: Untagged
@@ -55,9 +56,18 @@ MonoBehaviour:
   noteType: 0
   lane: 0
   endNotes: []
-  endNotesNum: 0
   option: 0
   reachFrame: 0
+--- !u!210 &210200708282397960
+SortingGroup:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1247737760524076}
+  m_Enabled: 1
+  m_SortingLayerID: 312638545
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!212 &212052028020609370
 SpriteRenderer:
   m_ObjectHideFlags: 1

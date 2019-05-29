@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4156740378278662}
   - component: {fileID: 212843207147016832}
   - component: {fileID: 114826825635404794}
+  - component: {fileID: 210755255847776278}
   m_Layer: 0
   m_Name: NormalNote
   m_TagString: Untagged
@@ -52,12 +53,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34a14013672644eea4b8a5d7c4e55b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteType: 0
-  lane: 0
+  noteType: 1
+  lane: 5
   endNotes: []
-  endNotesNum: 0
-  option: 0
-  reachFrame: 0
+  option: -1
+  reachFrame: 585
+--- !u!210 &210755255847776278
+SortingGroup:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1697640997157720}
+  m_Enabled: 1
+  m_SortingLayerID: 312638545
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!212 &212843207147016832
 SpriteRenderer:
   m_ObjectHideFlags: 1
