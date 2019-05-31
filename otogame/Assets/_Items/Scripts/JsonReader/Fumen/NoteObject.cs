@@ -31,14 +31,16 @@ namespace OtoFuda.Fumen
       public int option = 0;
       public float reachFrame = 0.0f;
 
-      private void Update()
+      private bool isPlayingGame;
+
+      private void LateUpdate()
       {
-          if (Input.GetKeyUp(KeyCode.A))
+          if (isPlayingGame)
           {
-              
+
           }
       }
-
+      
        public void setNoteObject(int _type, int _lane, int _end, int _option, float _reach)
        {
            noteType = _type;
@@ -51,6 +53,13 @@ namespace OtoFuda.Fumen
            reachFrame = _reach;
            
        }
+
+       public void changeFumenState()
+       {
+           Debug.Log("stateChange");
+           isPlayingGame = !isPlayingGame;
+       }
+       
    }
    
    

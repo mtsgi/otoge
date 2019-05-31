@@ -166,7 +166,9 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 		for (int i = 0; i < notesInfo.end.Count; i++)
 		{	
 			var spawnX = spawnPos.x;
+/*
 			Debug.Log(spawnPos.y);
+*/
 
 			var spawnZ = 0f;
 				
@@ -187,7 +189,9 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 			var longLinePos = new Vector3(spawnX, spawnY, spawnZ);
 			var scale = new Vector3(0.1f, 0.018f * extend * 10, 1);
 			
+/*
 			Debug.Log(extend);
+*/
 			longLine.transform.localScale = scale;
 			
 			var spawnedLongObject = Instantiate(longLine, longLinePos, Quaternion.identity);
