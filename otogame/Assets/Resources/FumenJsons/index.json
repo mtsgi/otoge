@@ -1,33 +1,95 @@
 ﻿{
 	"index": 
 	[
-		{
-			"name": "Sample",
-			"artist": "Sample Artist",
-			"bpm": 160.0,
-			"color": [255, 255, 255],
-			"offset": 1000,
-			"raku": -1,
-			"easy": 1,
-			"normal": 3,
-			"hard": 7,
-			"extra": -1,
-			"author": "mtsgi",
-			"comment": "譜面データのテストです。"
-		},
-		{
-			"name": "Sublimation",
-			"artist": "Yuta Ida",
-			"bpm": 165.0,
-			"color": [255, 255, 255],
-			"offset": 1000,
-			"raku": -1,
-			"easy": 3,
-			"normal": 6,
-			"hard": 10,
-			"extra": -1,
-			"author": "mtsgi",
-			"comment": "Sublimation"
-		}
+    {
+      "id": "sample",
+      "name": "Sample",
+      "artist": "Sample Artist",
+      "bpm": 160.0,
+      "color": [ 255, 255, 255 ],
+      "offset": 1000,
+      "raku": -1,
+      "easy": 1,
+      "normal": 3,
+      "hard": 7,
+      "extra": -1,
+      "author": "mtsgi",
+      "comment": "譜面データのテストです。"
+    },
+    {
+      "id": "sublimation",
+      "name": "Sublimation",
+      "artist": "Yuta Ida",
+      "bpm": 165.0,
+      "color": [ 155, 255, 205 ],
+      "offset": 1000,
+      "raku": -1,
+      "easy": 7,
+      "normal": 10,
+      "hard": 13,
+      "extra": -1,
+      "author": "mtsgi",
+      "comment": "Sublimation"
+    },
+    {
+      "id": "sakurafubuki",
+      "name": "Sakura Fubuki",
+      "artist": "Street",
+      "bpm": 175.0,
+      "color": [ 255, 205, 205 ],
+      "offset": 1000,
+      "raku": -1,
+      "easy": 3,
+      "normal": 6,
+      "hard": 11,
+      "extra": -1,
+      "author": "mtsgi",
+      "comment": ""
+    },
+    {
+      "id": "conflict",
+      "name": "conflict",
+      "artist": "nora2r + cranky",
+      "bpm": 160.0,
+      "color": [ 175, 175, 175 ],
+      "offset": 1000,
+      "raku": -1,
+      "easy": 6,
+      "normal": 8,
+      "hard": 12,
+      "extra": -1,
+      "author": "mtsgi",
+      "comment": ""
+    },
+    {
+      "id": "onsen",
+      "name": "温泉大作戦",
+      "artist": "Freezer",
+      "bpm": 205.0,
+      "color": [ 155, 205, 255 ],
+      "offset": 1000,
+      "raku": -1,
+      "easy": 3,
+      "normal": 7,
+      "hard": 12,
+      "extra": -1,
+      "author": "mtsgi",
+      "comment": ""
+    },
+    {
+      "id": "q",
+      "name": "？？？",
+      "artist": "？？？",
+      "bpm": 246,
+      "color": [ 0, 0, 0 ],
+      "offset": 1000,
+      "raku": -1,
+      "easy": 10,
+      "normal": 13,
+      "hard": 15,
+      "extra": -1,
+      "author": "mtsgi",
+      "comment": ""
+    }
 	]
 }
