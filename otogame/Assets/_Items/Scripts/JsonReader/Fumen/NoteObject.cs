@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using OtoFuda.RythmSystem;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace OtoFuda.Fumen
 {
@@ -30,15 +33,46 @@ namespace OtoFuda.Fumen
        
       public int option = 0;
       public float reachFrame = 0.0f;
+      
+      private float _laneLength = 0.0f;
+      private float _highSpeed = 1.0f;
+      
+      private bool isPlayingGame;
+      
+      private int frameConnt;
 
-      private void Update()
+      private float defPosX;
+      private float defPosZ;
+      
+      private Stopwatch _stopwatch = new Stopwatch();
+
+      private AudioSource _audioSource;
+      
+      private void Start()
       {
-          if (Input.GetKeyUp(KeyCode.A))
-          {
-              
-          }
+          _highSpeed = FumenDataManager.Instance.highSpeed;
+          _laneLength = FumenDataManager.Instance.laneLength;
+          defPosX = transform.position.x;
+          defPosZ = transform.position.z;
       }
 
+      private void LateUpdate()
+      {
+          
+          if (isPlayingGame)
+          {
+              transform.transform.position = new Vector3(defPosX, (reachFrame - _audioSource.time) * _laneLength * _highSpeed, defPosZ);
+
+/*              frameConnt++;
+              Debug.Log(frameConnt);
+              if (frameConnt == 60)
+              {
+                  frameConnt = 0;
+                  Debug.Log("Count！");
+              }*/
+          }
+      }
+      
        public void setNoteObject(int _type, int _lane, int _end, int _option, float _reach)
        {
            noteType = _type;
@@ -51,6 +85,15 @@ namespace OtoFuda.Fumen
            reachFrame = _reach;
            
        }
+
+       public void changeFumenState()
+       {
+           Debug.Log("stateChange");
+           isPlayingGame = !isPlayingGame;
+           _stopwatch.Start();
+           _audioSource = SoundManager.Instance.gameObject.GetComponents<AudioSource>()[0];
+       }
+       
    }
    
    

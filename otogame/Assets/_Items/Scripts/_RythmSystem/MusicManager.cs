@@ -15,11 +15,7 @@ namespace OtoFuda.RythmSystem
         }
         private void Update()
         {
-            if (Input.GetKey(KeyCode.Space))
-            {
-                AudioSource source = SoundManager.Instance.playSound(0);
-                source.Play();
-            }
+
         }
 
         //サウンド名で指定する場合

@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using OtoFuda.Fumen;
 using UnityEngine;
 
-public class FumenDataManager : SingletonMonoBehaviour<FumenDataManager>
+namespace OtoFuda.Fumen
 {
-    internal float BPM = 120.0f;
-    internal float BEAT = 4.0f;
-    internal List<NoteObject> mainNotes = new List<NoteObject>();
-    internal float laneLength = 0.03f;
-
+    public class FumenDataManager : SingletonMonoBehaviour<FumenDataManager>
+    {
+        internal float BPM = 120.0f;
+        internal float BEAT = 4.0f;
+        internal List<NoteObject> mainNotes = new List<NoteObject>();
+        //実寸/10で定義する
+        internal float laneLength = 0.7f;
+        internal float highSpeed = 8.0f;
+        
+    }
 }
