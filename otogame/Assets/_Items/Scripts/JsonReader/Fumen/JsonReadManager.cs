@@ -141,7 +141,7 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 		//60 秒/_bpm (拍)で 1拍 あたり何秒なのかを算出。
 		//これに60をかけて1フレームあたり何秒なのかを算出する。
 		//これにbeat(拍子数)をかけることで一小節あたりのフレーム数を計算する。
-		var measureLength = (3600 / _bpm) * _beat;
+		var measureLength = (60 / _bpm) * _beat;
 
 		//一小節あたりのフレーム数がわかれば何フレーム目で到達するノーツなのかを算出できる。
 		var reachFrame = measureLength * ((float) notesInfo.measure - 1) +
@@ -150,7 +150,7 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 		//laneの長さ
 		var _laneLength = FumenDataManager.Instance.laneLength;
 		
-		spawnPos = new Vector3(lane, reachFrame * _laneLength, 0);
+		spawnPos = new Vector3(lane, reachFrame * _laneLength * _fumenDataManager.highSpeed, 0);
 		
 		//ノーツ本体のスクリプトに値を格納
 		_noteObject.setNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachFrame);
@@ -159,8 +159,8 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 		var spawnedObject = Instantiate(noteGameObject, spawnPos, Quaternion.identity);
 		spawnedObject.transform.parent = GameObject.Find("Notes").transform;
 		
-		FumenDataManager.Instance.mainNotes.Add(noteGameObject.GetComponent<NoteObject>());	
-		
+		FumenDataManager.Instance.mainNotes.Add(spawnedObject.GetComponent<NoteObject>());	
+
 		
 		//endノーツが含まれていた場合、さらに生成してmainNotesの中につっこむ
 		for (int i = 0; i < notesInfo.end.Count; i++)
@@ -178,24 +178,30 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 			endNoteIndex = FumenDataManager.Instance.mainNotes.Count - 1;
 			
 			//終点情報を更新
-			FumenDataManager.Instance.mainNotes[endNoteIndex]._endNotesNum = endNoteIndex;
+			FumenDataManager.Instance.mainNotes[endNoteIndex-1]._endNotesNum = endNoteIndex;
 				
 			//終点座標からロングノーツのラインの生成座標を計算する。
-			var spawnY = (FumenDataManager.Instance.mainNotes[endNoteIndex].reachFrame * _laneLength + spawnPos.y)/2;
-			var extend = FumenDataManager.Instance.mainNotes[endNoteIndex].reachFrame * _laneLength - spawnPos.y;
+			var spawnY =
+				(FumenDataManager.Instance.mainNotes[endNoteIndex].reachFrame * _laneLength *
+				 _fumenDataManager.highSpeed + spawnPos.y) / 2;
+			
+			var extend = FumenDataManager.Instance.mainNotes[endNoteIndex].reachFrame * _laneLength *
+			             _fumenDataManager.highSpeed - spawnPos.y;
+			
 			GameObject longLine = (GameObject) Resources.Load("NoteObjects/Prefabs/testLongNote");
 
 
 			var longLinePos = new Vector3(spawnX, spawnY, spawnZ);
-			var scale = new Vector3(0.1f, 0.018f * extend * 10, 1);
-			
+			var scale = new Vector3(0.1f, 0.018f * extend * 9, 1);
 /*
 			Debug.Log(extend);
 */
 			longLine.transform.localScale = scale;
 			
 			var spawnedLongObject = Instantiate(longLine, longLinePos, Quaternion.identity);
-			spawnedLongObject.transform.parent = GameObject.Find("Notes").transform;
+			spawnedLongObject.transform.parent = GameObject.Find("Notes/").transform;
+			spawnedLongObject.transform.parent =
+				FumenDataManager.Instance.mainNotes[endNoteIndex].gameObject.transform;
 
 		}
 

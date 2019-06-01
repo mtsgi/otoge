@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using OtoFuda.RythmSystem;
 using UnityEngine;
 
 namespace OtoFuda.Fumen
@@ -30,6 +31,8 @@ namespace OtoFuda.Fumen
                 {
                     notes[i].changeFumenState();
                 }
+                MusicManager.Instance.Startmusic(0);
+
             }
         }
 
