@@ -7,7 +7,6 @@ namespace OtoFuda.Fumen
 {
     public class FumenFlowManager : SingletonMonoBehaviour<FumenFlowManager>
     {
-        private AudioSource _audioSource;
 
         private void Awake()
         {
@@ -15,12 +14,6 @@ namespace OtoFuda.Fumen
             Application.targetFrameRate = 60;
         }
 
-        private void Start()
-        {
-            _audioSource = GetComponent<AudioSource>();
-            _audioSource.Play();
-        }
-        
         
         private void Update()
         {

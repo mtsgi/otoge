@@ -1,24 +1,6 @@
 {
     "hard": [
         {
-            "type": 2,
-            "measure": 1,
-            "lane": 1,
-            "position": 0,
-            "split": 4,
-            "option": -1,
-            "end": []
-        },
-        {
-            "type": 4,
-            "measure": 1,
-            "lane": 2,
-            "position": 0,
-            "split": 4,
-            "option": -1,
-            "end": []
-        },
-        {
             "type": 1,
             "measure": 1,
             "lane": 5,
