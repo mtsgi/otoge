@@ -1665,7 +1665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerKeys: 7a00000078000000630000007600000062000000
-  tx: {fileID: 578068765}
+  judgeText: {fileID: 578068765}
   laneLight:
   - {fileID: 1075952893}
   - {fileID: 1865640591}
