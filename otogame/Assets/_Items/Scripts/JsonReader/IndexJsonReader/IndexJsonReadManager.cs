@@ -28,9 +28,9 @@ public class IndexJsonReadManager : MonoBehaviour
             _music.GetComponent<RectTransform>().localPosition += new Vector3( 0, -180 - 120 * cnt, 0 );
             cnt++;
             // ボタンの色
-            _music.transform.Find("MusicColor").GetComponent<Image>().color = new Color(v.color[0]/255, v.color[1]/255, v.color[2]/255, .2f);
-            Debug.Log(v.color[0]+" "+v.color[1]+" "+v.color[2]);
-            // 楽曲情報
+            _music.transform.Find("MusicColor").GetComponent<Image>().color = new Color(v.color[0]/255, v.color[1]/255, v.color[2]/255, .3f);
+
+            // 楽曲情報をボタンに表示
             _music.transform.Find("MusicName").gameObject.GetComponent<Text>().text = v.name;
             _music.transform.Find("MusicArtist").gameObject.GetComponent<Text>().text = v.artist;
             _music.transform.Find("MusicBPM").gameObject.GetComponent<Text>().text = "BPM " + v.bpm.ToString();
@@ -40,7 +40,11 @@ public class IndexJsonReadManager : MonoBehaviour
             _music.transform.Find("MusicNormalNum").gameObject.GetComponent<Text>().text = v.normal.ToString();
             _music.transform.Find("MusicHardNum").gameObject.GetComponent<Text>().text = v.hard.ToString();
 
-            // クリック時
+            // 楽曲IDを仮に設定
+            string musicid = "sublimation";
+            _music.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>("FumenJsons/"+musicid+"/"+musicid) ;
+
+            // クリック時のイベントを設定
             _music.GetComponent<Button>().onClick.AddListener( ()=> {
                 Debug.Log("楽曲を選択しました:" + v.name);
             } );
