@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using OtoFuda.Fumen;
@@ -21,6 +22,8 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 	public DIFFICULTY difficulty = DIFFICULTY.NORMAL;	
 
 	private FumenDataManager _fumenDataManager;
+
+	private InputKeyJudge _inputKeyJudge;
 	
 	private void Start()
 	{
@@ -80,10 +83,12 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 				break;
 				
 		}
-		
+
+
 	}
 
-
+	
+	//ノーツの生成処理
 	private void noteGenerate(NotesInfo notesInfo, float _bpm, float _beat)
 	{
 		//ノーツのGameObject
@@ -159,16 +164,18 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 		var spawnedObject = Instantiate(noteGameObject, spawnPos, Quaternion.identity);
 		spawnedObject.transform.parent = GameObject.Find("Notes").transform;
 		
-		FumenDataManager.Instance.mainNotes.Add(spawnedObject.GetComponent<NoteObject>());	
-
+		FumenDataManager.Instance.mainNotes.Add(spawnedObject.GetComponent<NoteObject>());
+		
+		//タイミング情報だけを格納して扱いやすくする
+		if (lane >0)
+		{
+			_fumenDataManager.timings[lane-1].Add(new FumenDataManager.NoteTimingInfomation(notesInfo.type, reachFrame));			
+		}
 		
 		//endノーツが含まれていた場合、さらに生成してmainNotesの中につっこむ
 		for (int i = 0; i < notesInfo.end.Count; i++)
 		{	
 			var spawnX = spawnPos.x;
-/*
-			Debug.Log(spawnPos.y);
-*/
 
 			var spawnZ = 0f;
 				
@@ -206,6 +213,7 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 		}
 
 	}
+
 
 
 
