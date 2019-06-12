@@ -89,6 +89,7 @@ namespace Leap.Unity {
       if (_material != null) {
         _sphereMat = new Material(_material);
         _sphereMat.hideFlags = HideFlags.DontSaveInEditor;
+        Debug.Log("Init!");
       }
     }
 
@@ -106,6 +107,9 @@ namespace Leap.Unity {
         _sphereMat.color = _rightColorList[_rightColorIndex];
         _rightColorIndex = (_rightColorIndex + 1) % _rightColorList.Length;
       }
+      
+      Debug.Log("Begin");
+
     }
 
     public override void UpdateHand() {
