@@ -73,7 +73,6 @@ public class InputKeyJudge : MonoBehaviour
                 {
                     if (Event.current.keyCode == playerKeys[i])
                     {
-
                         checkJudge(i);
                     }
 
@@ -112,8 +111,20 @@ public class InputKeyJudge : MonoBehaviour
                     if (_audioSource.time - _fumenDataManager.timings[i][ noteCount[i] ].reachTime >= 0.12f)
                     {
                         judgeText.text = "MISS";
-                        Debug.Log(_fumenDataManager.timings[i][noteCount[i]].noteType);
-                        noteCount[i]++;
+                        Debug.LogError("Miss");
+                        
+                        //ロングノーツの場合、始点をミスしたら終点もミス扱いにする
+                        if (_fumenDataManager.timings[i][noteCount[i]].noteType == 2)
+                        {
+                            //2ノーツ分カウンターを進める
+                            noteCount[i] += 2;
+                            judgeText.text = "MISS";
+                            Debug.LogError("Miss");
+                        }
+                        else
+                        {
+                            noteCount[i]++;
+                        }
                     }
                 }
             }
