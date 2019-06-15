@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using OtoFuda.Fumen;
 using MiniJSON;
+using OtoFuda.player;
 using UnityEngine;
 
 public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
