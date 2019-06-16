@@ -19,7 +19,7 @@ namespace OtoFuda.player
             //アクションを発火
             OnGetPlayerHandFinish?.Invoke(playerID);
             
-            //base.HandFinish();
+            base.HandFinish();
         }
     }
 }
