@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114228957714462488}
   - component: {fileID: 210078161953876048}
   m_Layer: 0
-  m_Name: OtofuadNote
+  m_Name: OtofudaNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

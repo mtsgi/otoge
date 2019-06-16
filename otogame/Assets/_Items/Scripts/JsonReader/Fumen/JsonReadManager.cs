@@ -120,7 +120,7 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 				noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/Flick_R");
 				break;
 			case 5:
-				noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/OtofuadNote");
+				noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/OtofudaNote");
 				lane = 3;
 				break;
 
