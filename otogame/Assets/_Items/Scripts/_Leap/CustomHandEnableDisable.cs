@@ -18,7 +18,8 @@ namespace OtoFuda.player
             Debug.Log("handDisable");
             //アクションを発火
             OnGetPlayerHandFinish?.Invoke(playerID);
-            base.HandFinish();
+            
+            //base.HandFinish();
         }
     }
 }
