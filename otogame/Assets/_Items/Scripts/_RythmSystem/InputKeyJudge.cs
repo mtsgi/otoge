@@ -48,7 +48,9 @@ namespace OtoFuda.player
 
         private void OnEnable()
         {
-            GetPlayerGesture.OnGetPlayerGesture += OnGetPlayerGesture;
+            GetPlayerFlickGesture.OnGetPlayerGesture += OnGetPlayerGesture;
+            GetPlayerBuddhaGesture.OnGetPlayerBuddhaGesture += OnGetPlayerBuddhaGesture;
+            GetPlayerBuddhaGesture.OnReleasePlayerBuddhaPalm += OnReleasePlayerBuddhaPalm;
         }
 
 
@@ -81,9 +83,8 @@ namespace OtoFuda.player
                     {
                         if (Event.current.keyCode == playerKeys[i])
                         {
-                            checkJudge(i);
+                            checkSingleJudge(i);
                         }
-
                     }
                 }
 
@@ -100,7 +101,7 @@ namespace OtoFuda.player
                         laneLight[i].SetActive(false);
                         if (isLongNoteStart[i])
                         {
-                            checkJudge(i);
+                            checkSingleJudge(i);
                             isLongNoteStart[i] = false;
                             Debug.Log("<color=yellow>LongEnd</color>");
                         }
@@ -144,7 +145,7 @@ namespace OtoFuda.player
 
 
 
-        private void checkJudge(int targetLane)
+        private void checkSingleJudge(int targetLane)
         {
             laneLight[targetLane].SetActive(true);
 
@@ -180,10 +181,6 @@ namespace OtoFuda.player
                     checkJudgeTapNote(targetLane, inputTime, judgeTime, noteType);
                 }
             }
-
-
-
-
         }
 
 
@@ -270,7 +267,7 @@ namespace OtoFuda.player
         
         //フリックノーツの判定
         //フリックジェスチャによるイベント
-        private void OnGetPlayerGesture(PlayerGesture _gesture)
+        private void OnGetPlayerGesture(int _playerId, PlayerGesture _gesture)
         {
             if (_gesture != PlayerGesture.NONE)
             {
@@ -278,7 +275,7 @@ namespace OtoFuda.player
                 checkJudgeFlickNote(_gesture);
             }
         }
-        
+
         private void checkJudgeFlickNote(PlayerGesture _playerGesture)
         {
             for (int i = 0; i < 5; i++)
@@ -349,9 +346,66 @@ namespace OtoFuda.player
             }
 
         }
-        
-        
 
+        
+        //音札ノーツの判定
+        private void OnGetPlayerBuddhaGesture(int _playerID)
+        {
+            Debug.Log("getBuddha");
+            for (int i = 0; i < laneLight.Length; i++)
+            {
+                laneLight[i].SetActive(true);
+            }
+            
+            checkOtoFudaJudge(2);
+        }
+        //手をたたいた時
+        private void checkOtoFudaJudge(int targetLane)
+        {
+            //押下したキーに対応するレーンに流れるすべてのノーツ情報。
+            var targetLaneNoteInfos = _fumenDataManager.timings[targetLane];
+
+            //レーンのカウント数が最大数と同じであればはじく
+            if (targetLaneNoteInfos.Count == noteCount[targetLane])
+            {
+                return;
+            }
+
+            //現在の次に来るはずのノーツ情報
+            var nextNoteTimingInfo = targetLaneNoteInfos[noteCount[targetLane]];
+
+            if (nextNoteTimingInfo.noteType != 5)
+            {
+                return;
+            }
+            
+            //入力された時点での楽曲の再生時間と、そのレーンのノーツの到達時間の差を見る
+            var _inputTime = _audioSource.time;
+            var _judgeTime = nextNoteTimingInfo.reachTime;
+            var _noteType = nextNoteTimingInfo.noteType;
+            
+            if (_inputTime - _judgeTime >= -0.15f && _inputTime - _judgeTime <= 0.15f)
+            {
+                noteCount[2]++;
+                judgeText.text = "PERFECT";
+                Debug.Log("Perfect");
+            }
+            else
+            {
+
+            }
+        }
+        
+        //手を離したとき
+        //判定ラインの光を消す処理
+        private void OnReleasePlayerBuddhaPalm(int _playerID)
+        {
+            for (int i = 0; i < laneLight.Length; i++)
+            {
+                laneLight[i].SetActive(false);
+            }
+        }
+        
     }
 
 }

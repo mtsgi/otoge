@@ -18,18 +18,19 @@ namespace OtoFuda.player
         RIGHT
     }
     
-    public class GetPlayerGesture : SingletonMonoBehaviour<GetPlayerGesture>
+    public class GetPlayerFlickGesture : MonoBehaviour
     {
 
         private Controller _controller = new Controller();
+        [Range(0,1)]
+        [SerializeField] private int playerID = 0;
+
         [SerializeField] private int frameGetFetechTime = 20;
         [SerializeField] private float flickJudgeDistance = 30;
-
-
-
+        
         internal PlayerGesture _playerGesture = PlayerGesture.NONE;
 
-        public static Action<PlayerGesture> OnGetPlayerGesture;
+        public static Action<int,PlayerGesture> OnGetPlayerGesture;
 
         private void Start()
         {
@@ -46,7 +47,7 @@ namespace OtoFuda.player
         {
             var _frame = _controller.Frame();
 
-            if (_frame.Hands.Count >= 1 && _controller.Frame(20) != null)
+            if (_frame.Hands.Count >= 1 && _controller.Frame(frameGetFetechTime) != null)
             {
                 var nowFramePalmPositionX = _controller.Frame(0).Hands[0].PalmPosition.x;
                 var beforeFramePalmPositionX = _controller.Frame(frameGetFetechTime).Hands[0].PalmPosition.x;
@@ -77,13 +78,10 @@ namespace OtoFuda.player
                 else
                 {
                     _playerGesture = PlayerGesture.NONE;
-/*
-                    Debug.Log("None");
-*/
                 }
 
                 //アクションを発火
-                OnGetPlayerGesture?.Invoke(_playerGesture);
+                OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
 
             }
 
