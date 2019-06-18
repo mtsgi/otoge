@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OtoFuda.player;
 using UnityEngine;
 
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
@@ -11,7 +12,13 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 	{
 		public string PlayerName;
 		public int judgePoint;
-		public int score;	
+		public int score;
+
+		public GameObject[] playerHandCardObject =  new GameObject[5];
+
+		//選択している音札のGameObjectのインデックス
+		internal int selectHandCardObjectIndex = 0;
+		
 	}
 
 	[SerializeField] [Multiline(3)]
@@ -22,15 +29,18 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 		new Player(){PlayerName = "player2",judgePoint = 0,score = 0},
 	};
 
-
-	// Use this for initialization
-	void Start () 
+	private void OnEnable()
 	{
-		
+		LeapOtoFudaSelector.OnPlayerSelectCardChange += OnPlayerSelectCardChange;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	//選択してるカードが変更されたときのイベントを定義
+	private void OnPlayerSelectCardChange(int _playerID, PlayerSelectState _selectState)
+	{
+		var targetPlayer = _players[_playerID];
+		targetPlayer.playerHandCardObject[targetPlayer.selectHandCardObjectIndex].GetComponent<Renderer>().material.color = Color.white;
+		_players[_playerID].selectHandCardObjectIndex = (int) _selectState;
+		targetPlayer.playerHandCardObject[(int)_selectState].GetComponent<Renderer>().material.color = Color.red;
+
 	}
 }

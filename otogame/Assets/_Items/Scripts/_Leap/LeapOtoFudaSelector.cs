@@ -8,50 +8,71 @@ using UnityEngine;
 
 namespace OtoFuda.player
 {
+    public enum PlayerSelectState
+    {
+        LEFT2,
+        LEFT1,
+        CENTER,
+        RIGHT1,
+        RIGHT2,
+    }
+    
     public class LeapOtoFudaSelector : MonoBehaviour
     {
         [Range(0,1)]
         [SerializeField] private int playerID;
-
-        [SerializeField] private float rayMaxDistance = 10.0f;
-        private RaycastHit _raycastHit;
         
         private Controller _controller = new Controller();
-        [SerializeField] private int frameGetFetechTime = 20;
-        [SerializeField] private float fingerIndexJudgeAngle = 3;
+
+        private PlayerSelectState _selectState = PlayerSelectState.CENTER;
+
+        //一指し指の指す方向が変更されたときに発火するアクション
+        public static Action<int, PlayerSelectState> OnPlayerSelectCardChange;
         
         private void Update()
         {
-            if (Connection.GetConnection().Frames.Count < 30 &&
-                _controller.Frame(frameGetFetechTime).Hands.Count < 30)
-            {
-                return;
-            }
+            var fingerPosX = _controller.Frame(0).Hands[0].Fingers[1].TipPosition.x;
 
-            if (_controller.Frame(frameGetFetechTime).Hands.Count == 0)
+            if (_selectState != PlayerSelectState.CENTER
+                   && -30 < fingerPosX && fingerPosX < 30)
             {
-                return;
+                _selectState = PlayerSelectState.CENTER;
+                OnPlayerSelectCardChange?.Invoke(playerID,_selectState);
+                Debug.Log("Center");
+            }
+            else if (_selectState != PlayerSelectState.RIGHT1
+                     && 50 <= fingerPosX && fingerPosX < 110)
+            {
+                _selectState = PlayerSelectState.RIGHT1;
+                OnPlayerSelectCardChange?.Invoke(playerID,_selectState);
+                Debug.Log("Right1");
+            }
+            else if (_selectState != PlayerSelectState.RIGHT2
+                     && 130 <= fingerPosX)
+            {
+                _selectState = PlayerSelectState.RIGHT2;
+                OnPlayerSelectCardChange?.Invoke(playerID,_selectState);
+                Debug.Log("Right2");
+            }
+            else if (_selectState != PlayerSelectState.LEFT1
+                     && -110 < fingerPosX && fingerPosX <= -50)
+            {
+                _selectState = PlayerSelectState.LEFT1;
+                OnPlayerSelectCardChange?.Invoke(playerID,_selectState);
+                Debug.Log("Left1");
+            }
+            else if (_selectState != PlayerSelectState.LEFT2
+                     && fingerPosX <= -130)
+            {
+                _selectState = PlayerSelectState.LEFT2;
+                OnPlayerSelectCardChange?.Invoke(playerID,_selectState);
+                Debug.Log("Left2");
+            }
+            else
+            {
+                
             }
             
-            var nowFrameIndexAngleY = _controller.Frame(0).Hands[0].Fingers[1].Bone(0).Rotation;
-            Debug.Log(360.0f - nowFrameIndexAngleY.ToQuaternion().eulerAngles.y);
-            var nowIndexAngle = 360.0f - nowFrameIndexAngleY.ToQuaternion().eulerAngles.y;
-            
-            var beforeFrameIndexAngleY = _controller.Frame(frameGetFetechTime).Hands[0].Fingers[1].Bone(0).Rotation;
-            Debug.Log(360.0f - beforeFrameIndexAngleY.ToQuaternion().eulerAngles.y);
-            var beforeIndexAngle = 360.0f - beforeFrameIndexAngleY.ToQuaternion().eulerAngles.y;
-
-            var indexAngles = Mathf.Abs(nowIndexAngle - beforeIndexAngle);
-            Debug.Log(indexAngles);
-            if (indexAngles > fingerIndexJudgeAngle)
-            {
-                Debug.Log("</color=blue> OVER!!!!! </color>");
-            }
-            
-
-
-            var nowFramePalmPositionY = _controller.Frame(0).Hands[0].PalmPosition.y;
-            var beforeFramePalmPositionY = _controller.Frame(frameGetFetechTime).Hands[0].PalmPosition.y;
             
             
         }
