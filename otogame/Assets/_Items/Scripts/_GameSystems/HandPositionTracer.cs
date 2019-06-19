@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Leap;
+using Leap.Unity;
+using UnityEngine;
+
+public class HandPositionTracer : MonoBehaviour 
+{ 
+    private Controller _controller = new Controller();
+    private Vector3 defPos = new Vector3();
+    private void Awake()
+    {
+        defPos = gameObject.transform.position;
+    }
+
+    private void LateUpdate()
+    {
+        var fingerPos = _controller.Frame(0).Hands[0].Fingers[1].TipPosition;
+        var linePos = fingerPos.ToVector3().normalized;
+        linePos.y = defPos.y;
+        linePos.z = defPos.z;
+        gameObject.transform.position = linePos;
+    }
+}

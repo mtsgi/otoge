@@ -17,7 +17,26 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 		public GameObject[] playerHandCardObject =  new GameObject[5];
 
 		//選択している音札のGameObjectのインデックス
-		internal int selectHandCardObjectIndex = 0;
+		private int focusHandCardObjectIndex = 0;
+		private int selectCardIndex = 0;
+		
+		internal void focusCard(int selectStatenum)
+		{
+			//focusとselectが同じだった場合は色の変更はしない(てｓｔ用)
+			if (focusHandCardObjectIndex != selectCardIndex)
+			{
+				playerHandCardObject[focusHandCardObjectIndex].GetComponent<Renderer>().material.color = Color.white;
+			}
+			focusHandCardObjectIndex = (int) selectStatenum;
+			playerHandCardObject[selectStatenum].GetComponent<Renderer>().material.color = Color.red;
+		}
+
+		internal void selectCard()
+		{
+			playerHandCardObject[selectCardIndex].GetComponent<Renderer>().material.color = Color.white;
+			playerHandCardObject[focusHandCardObjectIndex].GetComponent<Renderer>().material.color = Color.blue;
+			selectCardIndex = focusHandCardObjectIndex;
+		}
 		
 	}
 
@@ -31,16 +50,34 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 
 	private void OnEnable()
 	{
+		LeapOtoFudaSelector.OnPlayerFocusCardChange += OnPlayerFocusCardChange;
 		LeapOtoFudaSelector.OnPlayerSelectCardChange += OnPlayerSelectCardChange;
+
 	}
 
 	//選択してるカードが変更されたときのイベントを定義
-	private void OnPlayerSelectCardChange(int _playerID, PlayerSelectState _selectState)
+	private void OnPlayerFocusCardChange(int _playerID, PlayerSelectState _selectState)
 	{
-		var targetPlayer = _players[_playerID];
+		
+/*		var targetPlayer = _players[_playerID];
 		targetPlayer.playerHandCardObject[targetPlayer.selectHandCardObjectIndex].GetComponent<Renderer>().material.color = Color.white;
 		_players[_playerID].selectHandCardObjectIndex = (int) _selectState;
-		targetPlayer.playerHandCardObject[(int)_selectState].GetComponent<Renderer>().material.color = Color.red;
+		targetPlayer.playerHandCardObject[(int)_selectState].GetComponent<Renderer>().material.color = Color.red;*/
+
+		_players[_playerID].focusCard((int) _selectState);
+		
+	}
+	
+	//選択されているカードが選択された時のイベントを定義
+	private void OnPlayerSelectCardChange(int _playerID, PlayerSelectState _selectState)
+	{
+		
+/*		var targetPlayer = _players[_playerID];
+		targetPlayer.playerHandCardObject[targetPlayer.selectHandCardObjectIndex].GetComponent<Renderer>().material.color = Color.white;
+		_players[_playerID].selectHandCardObjectIndex = (int) _selectState;
+		targetPlayer.playerHandCardObject[(int)_selectState].GetComponent<Renderer>().material.color = Color.red;*/
+
+		_players[_playerID].selectCard();
 
 	}
 }

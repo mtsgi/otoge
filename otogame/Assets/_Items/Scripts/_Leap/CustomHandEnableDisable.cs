@@ -15,7 +15,9 @@ namespace OtoFuda.player
     
         protected override void HandFinish() 
         {
+/*
             Debug.Log("handDisable");
+*/
             //アクションを発火
             OnGetPlayerHandFinish?.Invoke(playerID);
             

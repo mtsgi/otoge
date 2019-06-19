@@ -51,6 +51,7 @@ namespace OtoFuda.player
             GetPlayerFlickGesture.OnGetPlayerGesture += OnGetPlayerGesture;
             GetPlayerBuddhaGesture.OnGetPlayerBuddhaGesture += OnGetPlayerBuddhaGesture;
             GetPlayerBuddhaGesture.OnReleasePlayerBuddhaPalm += OnReleasePlayerBuddhaPalm;
+            CustomHandEnableDisable.OnGetPlayerHandFinish += OnGetPlayerHandFinish;
         }
 
 
@@ -405,6 +406,16 @@ namespace OtoFuda.player
                 laneLight[i].SetActive(false);
             }
         }
+
+        private void OnGetPlayerHandFinish(int _playerID)
+        {
+            for (int i = 0; i < laneLight.Length; i++)
+            {
+                laneLight[i].SetActive(false);
+            }
+        }
+        
+        
         
     }
 

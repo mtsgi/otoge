@@ -20,6 +20,7 @@ namespace OtoFuda.player
 		private Controller _controller = new Controller();
 
 		private bool isBuddhaGesture = false;
+		private bool isHandRockGesture = false;
 
 		private void OnEnable()
 		{
@@ -30,9 +31,31 @@ namespace OtoFuda.player
 		private void OnGetPlayerHandFinish(int _playerID)
 		{
 			isBuddhaGesture = false;
+			isHandRockGesture = false;
 		}
 
+		private void Update()
+		{
+			var extendFinger = 0;
+			for (int i = 0; i < _controller.Frame().Hands[0].Fingers.Count; i++)
+			{
+				if (_controller.Frame().Hands[0].Fingers[i].IsExtended)
+				{
+					extendFinger += 1;
+				}
+			}
 
+			if (extendFinger == 0 && !isHandRockGesture)
+			{
+				OnGetPlayerBuddhaGesture?.Invoke(playerID);
+				isHandRockGesture = true;
+			}
+			else if(extendFinger !=0 && isHandRockGesture)
+			{
+				OnReleasePlayerBuddhaPalm?.Invoke(playerID);
+				isHandRockGesture = false;
+			}
+		}
 		//右手と左手がぶつかった瞬間に仏陀ジェスチャをしたと判定する
 		private void OnCollisionEnter(Collision other)
 		{
