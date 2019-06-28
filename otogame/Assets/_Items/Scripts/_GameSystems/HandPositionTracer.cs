@@ -11,6 +11,12 @@ public class HandPositionTracer : MonoBehaviour
     private Vector3 defPos = new Vector3();
     private void Awake()
     {
+        if (_controller.Devices.Count == 0)
+        {
+            Debug.LogError("LeapMotionが一台も接続されていませんよ！");
+            enabled = false;
+        }
+        
         defPos = gameObject.transform.position;
     }
 
