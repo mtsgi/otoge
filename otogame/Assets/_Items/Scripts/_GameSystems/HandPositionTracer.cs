@@ -5,8 +5,10 @@ using Leap;
 using Leap.Unity;
 using UnityEngine;
 
-public class HandPositionTracer : MonoBehaviour 
-{ 
+public class HandPositionTracer : MonoBehaviour
+{
+    [SerializeField] private LeapProvider provider;
+    
     private Controller _controller = new Controller();
     private Vector3 defPos = new Vector3();
     private void Awake()
@@ -16,13 +18,14 @@ public class HandPositionTracer : MonoBehaviour
             Debug.LogError("LeapMotionが一台も接続されていませんよ！");
             enabled = false;
         }
-        
+
         defPos = gameObject.transform.position;
     }
 
     private void LateUpdate()
     {
-        var fingerPos = _controller.Frame(0).Hands[0].Fingers[1].TipPosition;
+        Debug.Log(provider.CurrentFrame.Hands[0].Fingers[1].TipPosition);
+        var fingerPos = provider.CurrentFrame.Hands[0].Fingers[1].TipPosition;
         var linePos = fingerPos.ToVector3().normalized;
         linePos.y = defPos.y;
         linePos.z = defPos.z;

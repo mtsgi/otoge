@@ -20,7 +20,8 @@ namespace OtoFuda.player
     
     public class GetPlayerFlickGesture : MonoBehaviour
     {
-
+        [SerializeField] private LeapProvider targetProvider;
+        
         private Controller _controller = new Controller();
         [Range(0,1)]
         [SerializeField] private int playerID = 0;
@@ -36,7 +37,9 @@ namespace OtoFuda.player
         {
             Debug.Log(_controller.Devices.ActiveDevice);
             Debug.Log(_controller.IsConnected);
+            
 
+            
             if (_controller.Devices.Count != 2)
             {
                 Debug.LogError("There is " + _controller.Devices.Count + " device");
