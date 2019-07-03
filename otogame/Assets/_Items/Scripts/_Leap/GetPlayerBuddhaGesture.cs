@@ -55,6 +55,7 @@ namespace OtoFuda.player
 				OnReleasePlayerBuddhaPalm?.Invoke(playerID);
 				isHandRockGesture = false;
 			}
+			
 		}
 		//右手と左手がぶつかった瞬間に仏陀ジェスチャをしたと判定する
 		private void OnCollisionEnter(Collision other)

@@ -24,11 +24,15 @@ public class HandPositionTracer : MonoBehaviour
 
     private void LateUpdate()
     {
-        Debug.Log(provider.CurrentFrame.Hands[0].Fingers[1].TipPosition);
-        var fingerPos = provider.CurrentFrame.Hands[0].Fingers[1].TipPosition;
-        var linePos = fingerPos.ToVector3().normalized;
-        linePos.y = defPos.y;
-        linePos.z = defPos.z;
-        gameObject.transform.position = linePos;
+        //Debug.Log(provider.CurrentFrame.Hands[0].Fingers[1].TipPosition);
+
+        if (provider.CurrentFrame.Hands.Count > 0)
+        {
+            var fingerPos = provider.CurrentFrame.Hands[0].Fingers[1].TipPosition;
+            var linePos = fingerPos.ToVector3().normalized;
+            linePos.y = defPos.y;
+            linePos.z = defPos.z;
+            gameObject.transform.position = linePos;
+        }
     }
 }
