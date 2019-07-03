@@ -272,7 +272,7 @@ namespace OtoFuda.player
         {
             if (_gesture != PlayerGesture.NONE)
             {
-                Debug.Log("GetsGesture!" + ":" + _gesture);
+//                Debug.Log("GetsGesture!" + ":" + _gesture);
                 checkJudgeFlickNote(_gesture);
             }
         }
