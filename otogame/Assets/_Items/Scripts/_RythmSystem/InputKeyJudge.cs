@@ -362,8 +362,12 @@ namespace OtoFuda.player
 /*
             Debug.Log("getBuddha");
 */
-            var init = _playerID * 5;
-            for (int i = init; i < 5 + init; i++)
+
+            if (playerID != _playerID)
+            {
+                return;
+            }
+            for (int i = 0; i < 5 ; i++)
             {
                 laneLight[i].SetActive(true);
 /*
@@ -418,8 +422,13 @@ namespace OtoFuda.player
 /*
             Debug.Log("releaseBuddha");
 */
-            var init = _playerID * 5;
-            for (int i = init; i < 5 + init; i++)
+
+            if (playerID != _playerID)
+            {
+                return;
+            }
+            
+            for (int i = 0; i < 5; i++)
             {
                 laneLight[i].SetActive(false);
             }

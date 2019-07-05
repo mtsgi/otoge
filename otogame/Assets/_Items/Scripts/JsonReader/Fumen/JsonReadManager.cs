@@ -165,7 +165,9 @@ public class JsonReadManager : MonoBehaviour
 		//生成
 		var spawnedObject = Instantiate(noteGameObject, spawnPos, Quaternion.identity);
 		spawnedObject.transform.parent = GameObject.Find("Notes").transform;
+/*
 		Debug.Log(noteGameObject.name);
+*/
 		
 /*
 		Debug.Log(FumenDataManager.Instance.mainNotes[0].Count);

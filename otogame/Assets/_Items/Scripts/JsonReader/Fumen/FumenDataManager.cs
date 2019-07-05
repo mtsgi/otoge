@@ -42,7 +42,9 @@ namespace OtoFuda.Fumen
                     timings[i,k] = new List<NoteTimingInfomation>();
                 }
             }
+/*
             Debug.Log("timings is "+timings.Length);
+*/
             
 /*            for (int i = 0; i < 10; i++)
             {
