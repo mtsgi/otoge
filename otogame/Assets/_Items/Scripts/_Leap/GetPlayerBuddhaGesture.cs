@@ -2,24 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using Leap;
+using Leap.Unity;
 using UnityEngine;
 
 namespace OtoFuda.player
 {
 	public class GetPlayerBuddhaGesture : MonoBehaviour
 	{
+		[SerializeField] private LeapProvider _provider;
+		
 		[Range(0,1)]
 		[SerializeField] private int playerID = 0;
 
-		[SerializeField] private float judgePalmDistance = 0.01f;
-		[SerializeField] private int frameGetFetchTime = 20;
+/*		[SerializeField] private float judgePalmDistance = 0.01f;
+		[SerializeField] private int frameGetFetchTime = 20;*/
 		
 		public static Action<int> OnGetPlayerBuddhaGesture;
 		public static Action<int> OnReleasePlayerBuddhaPalm;
 		
-		private Controller _controller = new Controller();
-
+/*
 		private bool isBuddhaGesture = false;
+*/
 		private bool isHandRockGesture = false;
 
 		private void OnEnable()
@@ -30,16 +33,25 @@ namespace OtoFuda.player
 
 		private void OnGetPlayerHandFinish(int _playerID)
 		{
-			isBuddhaGesture = false;
+			//isBuddhaGesture = false;
+			OnReleasePlayerBuddhaPalm?.Invoke(playerID);
 			isHandRockGesture = false;
 		}
 
 		private void Update()
 		{
 			var extendFinger = 0;
-			for (int i = 0; i < _controller.Frame().Hands[0].Fingers.Count; i++)
+			if (_provider.CurrentFrame.Hands.Count == 0)
 			{
-				if (_controller.Frame().Hands[0].Fingers[i].IsExtended)
+				if (!isHandRockGesture)
+				{
+					isHandRockGesture = false;
+				}
+				return;
+			}
+			for (int i = 0; i < _provider.CurrentFrame.Hands[0].Fingers.Count; i++)
+			{
+				if (_provider.CurrentFrame.Hands[0].Fingers[i].IsExtended)
 				{
 					extendFinger += 1;
 				}
@@ -57,6 +69,8 @@ namespace OtoFuda.player
 			}
 			
 		}
+		
+/*
 		//右手と左手がぶつかった瞬間に仏陀ジェスチャをしたと判定する
 		private void OnCollisionEnter(Collision other)
 		{
@@ -67,8 +81,9 @@ namespace OtoFuda.player
 				OnGetPlayerBuddhaGesture?.Invoke(playerID);
 			}
 		}
+*/
 
-		private void OnCollisionStay(Collision other)
+/*		private void OnCollisionStay(Collision other)
 		{
 			if (other.gameObject.tag == "RightHand")
 			{
@@ -93,7 +108,7 @@ namespace OtoFuda.player
 				}
 			}
 			
-		}
+		}*/
 		
 	}
 

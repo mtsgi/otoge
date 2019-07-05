@@ -46,7 +46,9 @@ namespace OtoFuda.player
             palmPositionXBuffer = new float[60];
             palmPositionYBuffer = new float[60];
 
-            Debug.Log("buffer size = "+frameGetFetechTime);
+/*
+            Debug.Log("fetch = "+frameGetFetechTime);
+*/
             
             
             if (_controller.Devices.Count != 2)

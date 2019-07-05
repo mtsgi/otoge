@@ -5,8 +5,10 @@ using UnityEngine;
 
 namespace OtoFuda.Fumen
 {
-    public class FumenFlowManager : SingletonMonoBehaviour<FumenFlowManager>
+    public class FumenFlowManager : MonoBehaviour
     {
+        [Range(0,1)]
+        [SerializeField] private int playerID;
 
         private void Awake()
         {
@@ -19,7 +21,7 @@ namespace OtoFuda.Fumen
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                var notes = FumenDataManager.Instance.mainNotes;
+                var notes = FumenDataManager.Instance.mainNotes[playerID];
                 for (int i = 0; i < notes.Count; i++)
                 {
                     notes[i].changeFumenState();

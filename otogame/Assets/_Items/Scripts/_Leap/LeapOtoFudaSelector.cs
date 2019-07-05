@@ -22,8 +22,8 @@ namespace OtoFuda.player
         [Range(0, 1)]
         [SerializeField] private int playerID = 0;
         [SerializeField] private float judgeRate = 15;
-        
-        private Controller _controller = new Controller();
+
+        [SerializeField] private LeapProvider _provider;
 
         private PlayerSelectState _selectState = PlayerSelectState.CENTER;
 
@@ -35,63 +35,76 @@ namespace OtoFuda.player
         
         private void Update()
         {
-            var fingerPosX = _controller.Frame(0).Hands[0].Fingers[1].TipPosition.x;
-
+            if (_provider.CurrentFrame.Hands.Count == 0)
+            {
+                return;
+            }
+            var fingerPosX = _provider.CurrentFrame.Hands[0].Fingers[1].TipPosition.x;
             if (_selectState != PlayerSelectState.CENTER
-                   && -30 < fingerPosX && fingerPosX < 30)
+                   && -0.030 < fingerPosX && fingerPosX < 0.030)
             {
                 _selectState = PlayerSelectState.CENTER;
                 OnPlayerFocusCardChange?.Invoke(playerID,_selectState);
+
 /*
                 Debug.Log("Center");
 */
+
             }
             else if (_selectState != PlayerSelectState.RIGHT1
-                     && 50 <= fingerPosX && fingerPosX < 110)
+                     && 0.050 <= fingerPosX && fingerPosX < 0.110)
             {
                 _selectState = PlayerSelectState.RIGHT1;
                 OnPlayerFocusCardChange?.Invoke(playerID,_selectState);
+
 /*
                 Debug.Log("Right1");
 */
+
             }
             else if (_selectState != PlayerSelectState.RIGHT2
-                     && 130 <= fingerPosX)
+                     && 0.130 <= fingerPosX)
             {
                 _selectState = PlayerSelectState.RIGHT2;
                 OnPlayerFocusCardChange?.Invoke(playerID,_selectState);
+
 /*
                 Debug.Log("Right2");
 */
+
             }
             else if (_selectState != PlayerSelectState.LEFT1
-                     && -110 < fingerPosX && fingerPosX <= -50)
+                     && -0.110 < fingerPosX && fingerPosX <= -0.050)
             {
                 _selectState = PlayerSelectState.LEFT1;
                 OnPlayerFocusCardChange?.Invoke(playerID,_selectState);
+
 /*
                 Debug.Log("Left1");
 */
+
             }
             else if (_selectState != PlayerSelectState.LEFT2
-                     && fingerPosX <= -130)
+                     && fingerPosX <= -0.130)
             {
                 _selectState = PlayerSelectState.LEFT2;
                 OnPlayerFocusCardChange?.Invoke(playerID,_selectState);
+
 /*
                 Debug.Log("Left2");
 */
+
             }
             else
             {
                 
             }
 
-            var indexTipHeight = _controller.Frame(0).Hands[0].Fingers[1].TipPosition.y;
+            var indexTipHeight = _provider.CurrentFrame.Hands[0].Fingers[1].TipPosition.y;
             
-            var middleTipHeight = _controller.Frame(0).Hands[0].Fingers[2].TipPosition.y;
-            var littleTipHeight = _controller.Frame(0).Hands[0].Fingers[3].TipPosition.y;
-            var ringTipHeight = _controller.Frame(0).Hands[0].Fingers[4].TipPosition.y;
+            var middleTipHeight = _provider.CurrentFrame.Hands[0].Fingers[2].TipPosition.y;
+            var littleTipHeight = _provider.CurrentFrame.Hands[0].Fingers[3].TipPosition.y;
+            var ringTipHeight = _provider.CurrentFrame.Hands[0].Fingers[4].TipPosition.y;
 
             var fingerHeightAverage = (middleTipHeight + littleTipHeight + ringTipHeight) / 3;
 /*

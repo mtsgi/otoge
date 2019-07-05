@@ -7,9 +7,10 @@ using MiniJSON;
 using OtoFuda.player;
 using UnityEngine;
 
-public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
+public class JsonReadManager : MonoBehaviour
 {
-
+	[Range(0,1)]
+	[SerializeField] private int playerID;
 	[SerializeField] private string fileName;
 
 	//難易度をEnumで定義
@@ -155,8 +156,8 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 
 		//laneの長さ
 		var _laneLength = FumenDataManager.Instance.laneLength;
-		
-		spawnPos = new Vector3(lane, reachFrame * _laneLength * _fumenDataManager.highSpeed, 0);
+
+		spawnPos = new Vector3(lane + (playerID * 20), reachFrame * _laneLength * _fumenDataManager.highSpeed, 0);
 		
 		//ノーツ本体のスクリプトに値を格納
 		_noteObject.setNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachFrame);
@@ -164,13 +165,20 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 		//生成
 		var spawnedObject = Instantiate(noteGameObject, spawnPos, Quaternion.identity);
 		spawnedObject.transform.parent = GameObject.Find("Notes").transform;
+/*
+		Debug.Log(noteGameObject.name);
+*/
 		
-		FumenDataManager.Instance.mainNotes.Add(spawnedObject.GetComponent<NoteObject>());
+/*
+		Debug.Log(FumenDataManager.Instance.mainNotes[0].Count);
+*/
+		FumenDataManager.Instance.mainNotes[playerID].Add(spawnedObject.GetComponent<NoteObject>());
 		
 		//タイミング情報だけを格納して扱いやすくする
 		if (lane >0)
 		{
-			_fumenDataManager.timings[lane-1].Add(new FumenDataManager.NoteTimingInfomation(notesInfo.type, reachFrame));			
+			_fumenDataManager.timings[playerID, lane - 1]
+				.Add(new FumenDataManager.NoteTimingInfomation(notesInfo.type, reachFrame));
 		}
 		
 		//endノーツが含まれていた場合、さらに生成してmainNotesの中につっこむ
@@ -183,17 +191,17 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 			//終点ノーツの生成
 			noteGenerate(notesInfo.end[i], _bpm, _beat); 
 			//longNoteの終点ノーツを追加した直後なのでもっとも後ろのIndexが終点ノーツを格納したindex
-			endNoteIndex = FumenDataManager.Instance.mainNotes.Count - 1;
+			endNoteIndex = FumenDataManager.Instance.mainNotes[playerID].Count - 1;
 			
 			//終点情報を更新
-			FumenDataManager.Instance.mainNotes[endNoteIndex-1]._endNotesNum = endNoteIndex;
+			FumenDataManager.Instance.mainNotes[playerID][endNoteIndex-1]._endNotesNum = endNoteIndex;
 				
 			//終点座標からロングノーツのラインの生成座標を計算する。
 			var spawnY =
-				(FumenDataManager.Instance.mainNotes[endNoteIndex].reachFrame * _laneLength *
+				(FumenDataManager.Instance.mainNotes[playerID][endNoteIndex].reachFrame * _laneLength *
 				 _fumenDataManager.highSpeed + spawnPos.y) / 2;
 			
-			var extend = FumenDataManager.Instance.mainNotes[endNoteIndex].reachFrame * _laneLength *
+			var extend = FumenDataManager.Instance.mainNotes[playerID][endNoteIndex].reachFrame * _laneLength *
 			             _fumenDataManager.highSpeed - spawnPos.y;
 			
 			GameObject longLine = (GameObject) Resources.Load("NoteObjects/Prefabs/testLongNote");
@@ -209,7 +217,7 @@ public class JsonReadManager : SingletonMonoBehaviour<JsonReadManager>
 			var spawnedLongObject = Instantiate(longLine, longLinePos, Quaternion.identity);
 			spawnedLongObject.transform.parent = GameObject.Find("Notes/").transform;
 			spawnedLongObject.transform.parent =
-				FumenDataManager.Instance.mainNotes[endNoteIndex].gameObject.transform;
+				FumenDataManager.Instance.mainNotes[playerID][endNoteIndex].gameObject.transform;
 
 		}
 
