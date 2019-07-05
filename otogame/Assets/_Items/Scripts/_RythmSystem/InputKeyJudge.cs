@@ -10,7 +10,8 @@ namespace OtoFuda.player
 {
     public class InputKeyJudge : MonoBehaviour
     {
-        //ユーザーのキーの配列。多分10になったりする
+        [Range(0,1)]
+        [SerializeField] private int playerID;
         public KeyCode[] playerKeys = new KeyCode[5];
 
         //判定を表示する用のテキスト
@@ -21,7 +22,7 @@ namespace OtoFuda.player
         private AudioSource _audioSource;
 
         //各レーンのノーツ数を格納する配列
-        private int[] noteCount = new int[10];
+        private int[] noteCount = new int[5];
 
         [SerializeField] private GameObject[] laneLight;
         
@@ -55,6 +56,7 @@ namespace OtoFuda.player
         }
 
 
+/*
         [ContextMenu("test")]
         private void test()
         {
@@ -67,13 +69,16 @@ namespace OtoFuda.player
                 }
             }
         }
+*/
 
 
         //Updateでキー入力するより遅延が少ない、らしい(？)
         private void OnGUI()
         {
 
+/*
             var notesDatas = _fumenDataManager.timings;
+*/
 
             //推したとき        
             if (Event.current.type == EventType.KeyDown)
@@ -114,19 +119,21 @@ namespace OtoFuda.player
 
 
             //判定ラインの通過を見る
-            for (int i = 0; i < _fumenDataManager.timings.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
-                for (int k = 0; k < _fumenDataManager.timings[i].Count; k++)
+/*                Debug.Log("i"+i);
+                Debug.Log( _fumenDataManager.timings[playerID,i].Count);*/
+                for (int k = 0; k < _fumenDataManager.timings[playerID,i].Count; k++)
                 {
-                    if (noteCount[i] != _fumenDataManager.timings[i].Count)
+                    if (noteCount[i] != _fumenDataManager.timings[playerID,i].Count)
                     {
-                        if (_audioSource.time - _fumenDataManager.timings[i][noteCount[i]].reachTime >= 0.12f)
+                        if (_audioSource.time - _fumenDataManager.timings[playerID,i][noteCount[i]].reachTime >= 0.12f)
                         {
                             judgeText.text = "MISS";
                             Debug.LogError("Miss");
 
                             //ロングノーツの場合、始点をミスしたら終点もミス扱いにする
-                            if (_fumenDataManager.timings[i][noteCount[i]].noteType == 2)
+                            if (_fumenDataManager.timings[playerID, i][noteCount[i]].noteType == 2)
                             {
                                 //2ノーツ分カウンターを進める
                                 noteCount[i] += 2;
@@ -151,7 +158,7 @@ namespace OtoFuda.player
             laneLight[targetLane].SetActive(true);
 
             //押下したキーに対応するレーンに流れるすべてのノーツ情報。
-            var targetLaneNoteInfos = _fumenDataManager.timings[targetLane];
+            var targetLaneNoteInfos = _fumenDataManager.timings[playerID, targetLane];
 
             //レーンのカウント数が最大数と同じであればはじく
             if (targetLaneNoteInfos.Count == noteCount[targetLane])
@@ -282,7 +289,7 @@ namespace OtoFuda.player
             for (int i = 0; i < 5; i++)
             {
                 //押下したキーに対応するレーンに流れるすべてのノーツ情報。
-                var targetLaneNoteInfos = _fumenDataManager.timings[i];
+                var targetLaneNoteInfos = _fumenDataManager.timings[playerID,i];
                 
                 //レーンのカウント数が最大数と同じであればはじく
                 if (targetLaneNoteInfos.Count == noteCount[i])
@@ -352,19 +359,26 @@ namespace OtoFuda.player
         //音札ノーツの判定
         private void OnGetPlayerBuddhaGesture(int _playerID)
         {
+/*
             Debug.Log("getBuddha");
-            for (int i = 0; i < laneLight.Length; i++)
+*/
+            var init = _playerID * 5;
+            for (int i = init; i < 5 + init; i++)
             {
                 laneLight[i].SetActive(true);
+/*
+                Debug.Log("player:"+_playerID +"active "+i);
+*/
             }
-            
+
             checkOtoFudaJudge(2);
         }
+
         //手をたたいた時
         private void checkOtoFudaJudge(int targetLane)
         {
             //押下したキーに対応するレーンに流れるすべてのノーツ情報。
-            var targetLaneNoteInfos = _fumenDataManager.timings[targetLane];
+            var targetLaneNoteInfos = _fumenDataManager.timings[playerID,targetLane];
 
             //レーンのカウント数が最大数と同じであればはじく
             if (targetLaneNoteInfos.Count == noteCount[targetLane])
@@ -401,10 +415,15 @@ namespace OtoFuda.player
         //判定ラインの光を消す処理
         private void OnReleasePlayerBuddhaPalm(int _playerID)
         {
-            for (int i = 0; i < laneLight.Length; i++)
+/*
+            Debug.Log("releaseBuddha");
+*/
+            var init = _playerID * 5;
+            for (int i = init; i < 5 + init; i++)
             {
                 laneLight[i].SetActive(false);
             }
+
         }
 
         private void OnGetPlayerHandFinish(int _playerID)
