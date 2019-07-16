@@ -7322,11 +7322,14 @@ MonoBehaviour:
     score: 0
     focusObject: {fileID: 111358432}
     playerHand:
-    - {fileID: 11400000, guid: 01cb284e6242aec4bb00d76ef033b472, type: 2}
     - {fileID: 11400000, guid: 53b944fa896c2414f955714a9eccd4ac, type: 2}
-    - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
-    - {fileID: 11400000, guid: 01ca884bb899cb649b6d9eb5b0d5dca9, type: 2}
-    - {fileID: 11400000, guid: 489b6fcee4f318a449e2702564b9fef3, type: 2}
+    - {fileID: 11400000, guid: 53b944fa896c2414f955714a9eccd4ac, type: 2}
+    - {fileID: 11400000, guid: 53b944fa896c2414f955714a9eccd4ac, type: 2}
+    - {fileID: 11400000, guid: 53b944fa896c2414f955714a9eccd4ac, type: 2}
+    - {fileID: 11400000, guid: 53b944fa896c2414f955714a9eccd4ac, type: 2}
+    playerDeck:
+    - {fileID: 11400000, guid: 53b944fa896c2414f955714a9eccd4ac, type: 2}
+    - {fileID: 11400000, guid: 01cb284e6242aec4bb00d76ef033b472, type: 2}
     playerHandCardObject:
     - {fileID: 597483883}
     - {fileID: 26128972}
@@ -7339,10 +7342,11 @@ MonoBehaviour:
     focusObject: {fileID: 1573106624}
     playerHand:
     - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
-    - {fileID: 11400000, guid: 53b944fa896c2414f955714a9eccd4ac, type: 2}
+    - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
     - {fileID: 11400000, guid: 01cb284e6242aec4bb00d76ef033b472, type: 2}
-    - {fileID: 11400000, guid: 01ca884bb899cb649b6d9eb5b0d5dca9, type: 2}
-    - {fileID: 11400000, guid: 59b6405db75b23a4b82dd867b1d7905f, type: 2}
+    - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
+    - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
+    playerDeck: []
     playerHandCardObject:
     - {fileID: 166720998}
     - {fileID: 2056053559}

@@ -5,6 +5,7 @@ using System.Linq;
 using OtoFuda.Card;
 using OtoFuda.player;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 	
@@ -68,10 +69,11 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 
 		internal void useCard(int id)
 		{
-			Debug.Log(playerHand[selectCardIndex].cardName);
+			//Debug.Log(playerHand[selectCardIndex].cardName);
 
 			playerHand[selectCardIndex].effectActivate(id, selectCardIndex);
 		}
+		
 		
 	}
 

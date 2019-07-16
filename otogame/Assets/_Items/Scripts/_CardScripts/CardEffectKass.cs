@@ -10,7 +10,12 @@ public class CardEffectKass : OtofudaCardEffectBase
     public override void handEffect()
     {
         base.handEffect();
+        if (_targetPlayer.playerDeck.Count == 0 && _targetPlayer.playerHand.Length == 5)
+        {
+            return;
+        }
         _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[0];
         _targetPlayer.playerDeck.RemoveAt(0);
+        
     }
 }

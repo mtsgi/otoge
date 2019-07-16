@@ -142,7 +142,7 @@ namespace OtoFuda.player
                         if (_audioSource.time - _fumenDataManager.timings[playerID,i][noteCount[i]].reachTime >= 0.12f)
                         {
                             judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
-                            Debug.LogError("Miss"+(int) Judge.MISS);
+//                            Debug.LogError("Miss"+(int) Judge.MISS);
 
                             //ロングノーツの場合、始点をミスしたら終点もミス扱いにする
                             if (_fumenDataManager.timings[playerID, i][noteCount[i]].noteType == 2)
