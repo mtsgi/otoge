@@ -15,7 +15,8 @@ namespace OtoFuda.Card
         
         private PlayerManager.Player[] _players;
 
-        private PlayerManager.Player _targetPlayer;
+        internal PlayerManager.Player _targetPlayer;
+        internal int handIndex;
 
         [SerializeField] private EffectTargetType _targetType;
         private void Start()
@@ -32,7 +33,7 @@ namespace OtoFuda.Card
 
         //手札の効果を実行する部分。
         //usePlayerNumberが効果を発動したPlayer。
-        internal void applyHandEffect(int usedPlayerNumber)
+        internal void applyHandEffect(int usedPlayerNumber ,int _handIndex)
         {
             //特殊効果を実行。
             if (_targetType == EffectTargetType.MYSELF)
@@ -51,7 +52,8 @@ namespace OtoFuda.Card
                     }
                 }
             }
-            
+
+            handIndex = _handIndex;
             handEffect();
         }
 

@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OtoFuda.Card;
 using OtoFuda.player;
 using UnityEngine;
 
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
-
+	
 	[Serializable]
 	public class Player
 	{
@@ -15,7 +16,12 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 		public int score;
 
 		public GameObject focusObject;
+		//手札
+		public OtofudaCard[] playerHand; 
+		//デッキ
+		public List<OtofudaCard> playerDeck = new List<OtofudaCard>();
 		public GameObject[] playerHandCardObject =  new GameObject[5];
+ 
 
 		//選択している音札のGameObjectのインデックス
 		private int focusHandCardObjectIndex = 0;
@@ -26,6 +32,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 
 		private Color defRendererColor;
 		private Color _selectColor;
+		
 		
 		internal void init()
 		{
@@ -58,6 +65,13 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 			playerHandCardObject[focusHandCardObjectIndex].GetComponent<SpriteRenderer>().color = _selectColor;
 			selectCardIndex = focusHandCardObjectIndex;
 		}
+
+		internal void useCard(int id)
+		{
+			Debug.Log(playerHand[selectCardIndex].cardName);
+
+			playerHand[selectCardIndex].effectActivate(id, selectCardIndex);
+		}
 		
 	}
 
@@ -65,7 +79,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 
 	[SerializeField] [Multiline(3)]
 	private string _description = "プレイヤーの情報を登録しておくところ。\n開発中はここ直でいじれるようにしておくけど\n長さを2以上にしても意味ないです";
-	[SerializeField] private Player[] _players = new Player[]
+	public Player[] _players = new Player[]
 	{
 		new Player(){PlayerName = "player1",judgePoint = 0,score = 0},
 		new Player(){PlayerName = "player2",judgePoint = 0,score = 0},
@@ -83,7 +97,9 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 	{
 		LeapOtoFudaSelector.OnPlayerFocusCardChange += OnPlayerFocusCardChange;
 		LeapOtoFudaSelector.OnPlayerSelectCardChange += OnPlayerSelectCardChange;
-
+		
+		//音札を使った時のアクション
+		InputKeyJudge.OnUseOtoFudaCard += OnUseOtoFudaCard;
 	}
 
 	//選択してるカードが変更されたときのイベントを定義
@@ -110,5 +126,11 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 
 		_players[_playerID].selectCard();
 
+	}
+
+
+	private void OnUseOtoFudaCard(int _playerID)
+	{
+		_players[_playerID].useCard(_playerID);
 	}
 }
