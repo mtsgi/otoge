@@ -10,11 +10,25 @@ public class CardEffectKass : OtofudaCardEffectBase
     public override void handEffect()
     {
         base.handEffect();
-        if (_targetPlayer.playerDeck.Count == 0 && _targetPlayer.playerHand.Length == 5)
+        
+        //いったん使用した手札の情報をNoneの音札に置き換える
+        _targetPlayer.playerHand[handIndex] = PlayerManager.Instance.otofudaNone;
+        
+        //まずワンドロー
+        if (_targetPlayer.playerDeck.Count != 0)
+        {
+            _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[0];
+            _targetPlayer.playerDeck.RemoveAt(0);
+        }
+        
+        //プレイヤーのデッキ枚数が0もしくはNone以外のカード(つまり手札枚数)が五枚であれば処理を終了
+        if (_targetPlayer.playerDeck.Count == 0 || _targetPlayer.getActiveHandCount() == 5)
         {
             return;
         }
-        _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[0];
+        
+        //追加でドロー
+        _targetPlayer.playerHand[_targetPlayer.getNoneHandIndex()] = _targetPlayer.playerDeck[0];
         _targetPlayer.playerDeck.RemoveAt(0);
         
     }

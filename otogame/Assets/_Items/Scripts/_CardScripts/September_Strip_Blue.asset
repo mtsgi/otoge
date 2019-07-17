@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae7fdc355057b4a0ba9f5e6418f224ce, type: 3}
+  m_Name: September_Strip_Blue
+  m_EditorClassIdentifier: 
+  cardName: "\u83D6\u84B2\u306B\u77ED\u518A"
+  cardExplain: "\u672D\u3092\u6368\u3066\u305F\u6642\u3001\u30C7\u30C3\u30AD\u304B\u3089\u8D64\u77ED\u53C8\u306F\u9752\u77ED\u3092\r\n\u30E9\u30F3\u30C0\u30E0\u30671\u679A\u5F15\u304F\u3002 "
+  _monthType: 8
+  _pointType: 5
+  cardPicture: {fileID: 0}
+  otofudaEffect: {fileID: 114577373930650716, guid: 7c0f397744a33084e8d85c2b80a9bee0,
+    type: 2}
+  isHaveBarrier: 0

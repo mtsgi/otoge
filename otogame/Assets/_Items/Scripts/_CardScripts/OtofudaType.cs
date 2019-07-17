@@ -12,6 +12,7 @@ namespace OtoFuda.Card
     /// </summary>
     enum OtofudaFlowerType
     {
+        NONE = -1,
         MATSU,
         UME,
         SAKURA,
@@ -25,12 +26,13 @@ namespace OtoFuda.Card
         YANAGI,
         KIRI,
     }
-    
+
     /// <summary>
     /// 音札の属性情報を月で表したもの
     /// </summary>
     enum OtofudaMonthType
     {
+        NONE = -1,
         January,
         FEBRUARY,
         MARCH,

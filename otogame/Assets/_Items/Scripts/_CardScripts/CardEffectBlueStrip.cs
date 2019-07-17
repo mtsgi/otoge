@@ -1,0 +1,38 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using OtoFuda.Card;
+using UnityEngine;
+
+public class CardEffectBlueStrip : OtofudaCardEffectBase 
+{
+    //札を捨てた時、このターン相手の札効果を無効化し、短冊以外の役札をデッキからランダムに1枚引いてくる。
+    //(この札の効果は無効化されないまた既に発動している効果は無効化できない) 
+    private OtofudaCard drawCard;
+    [SerializeField] private int addHpWeight = 20;
+    public override void handEffect()
+    {
+        //最初のワンドロー処理
+        base.handEffect();
+        
+        //ワンドロー処理の代わりに発動するものなのか、ワンドロー処理に追加で発動するものなのかを後で確認する。
+       
+        //いったん使用した手札の情報をNoneの音札に置き換える
+        _targetPlayer.playerHand[handIndex] = PlayerManager.Instance.otofudaNone;
+
+        //まずワンドロー
+        if (_targetPlayer.playerDeck.Count != 0)
+        {
+            _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[0];
+            _targetPlayer.playerDeck.RemoveAt(0);
+        }
+
+        _targetPlayer.playerHp += addHpWeight;
+
+
+
+/*
+        _targetPlayer.isBarrier = true;
+*/
+    }
+    
+}

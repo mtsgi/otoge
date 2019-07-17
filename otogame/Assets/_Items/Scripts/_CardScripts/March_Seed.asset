@@ -16,4 +16,6 @@ MonoBehaviour:
   _monthType: 2
   _pointType: 10
   cardPicture: {fileID: 0}
-  otofudaEffect: {fileID: 0}
+  otofudaEffect: {fileID: 114618636200109868, guid: 3674cb8eca071264ca1e739900a761bf,
+    type: 2}
+  isHaveBarrier: 1

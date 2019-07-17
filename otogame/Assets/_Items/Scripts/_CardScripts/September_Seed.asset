@@ -9,10 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae7fdc355057b4a0ba9f5e6418f224ce, type: 3}
-  m_Name: April_Strip
+  m_Name: September_Seed
   m_EditorClassIdentifier: 
-  cardName: "\u85E4\u306B\u77ED\u518A"
+  cardName: "\u83D6\u84B2\u306B\u516B\u3064\u6A4B"
   cardExplain: "\u672D\u3092\u6368\u3066\u305F\u6642\u3001\u3053\u306E\u30BF\u30FC\u30F3\u76F8\u624B\u306E\u672D\u52B9\u679C\u3092\u7121\u52B9\u5316\u3057\u3001\u77ED\u518A\u4EE5\u5916\u306E\u5F79\u672D\r\n\u3092\u30C7\u30C3\u30AD\u304B\u3089\u30E9\u30F3\u30C0\u30E0\u306B1\u679A\u5F15\u3044\u3066\u304F\u308B\u3002(\u3053\u306E\u672D\u306E\u52B9\u679C\u306F\u7121\u52B9\u5316\u3055\u308C\r\n\u306A\u3044\u307E\u305F\u65E2\u306B\u767A\u52D5\u3057\u3066\u3044\u308B\u52B9\u679C\u306F\u7121\u52B9\u5316\u3067\u304D\u306A\u3044) "
-  _monthType: 3
-  _pointType: 5
-  otofudaEffect: {fileID: 0}
+  _monthType: 8
+  _pointType: 10
+  cardPicture: {fileID: 0}
+  otofudaEffect: {fileID: 114618636200109868, guid: 3674cb8eca071264ca1e739900a761bf,
+    type: 2}
+  isHaveBarrier: 1

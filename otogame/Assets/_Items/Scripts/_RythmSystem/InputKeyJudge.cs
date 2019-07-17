@@ -162,8 +162,16 @@ namespace OtoFuda.player
                                 noteCount[i]++;
                             }
                             
+                            
+                            //エラー回避、2レーン目のノーツ数が最大値だったらreturn
+                            if (noteCount[2] == _fumenDataManager.timings[playerID, 2].Count)
+                            {
+                                return;
+                            }
+                            
+                            
                             //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
-                            if (_fumenDataManager.timings[playerID, i][noteCount[i]].noteType == 5)
+                            if (_fumenDataManager.timings[playerID, 2][noteCount[2]].noteType == 5)
                             {
                                 _playerManager.runCoroutine();
                             }
@@ -375,8 +383,14 @@ namespace OtoFuda.player
                     }
                 }
                 
+                //エラー回避
+                if (noteCount[2] == _fumenDataManager.timings[playerID, 2].Count)
+                {
+                    return;
+                }
+                
                 //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
-                if (targetLaneNoteInfos[noteCount[i]].noteType == 5)
+                if (targetLaneNoteInfos[noteCount[2]].noteType == 5)
                 {
                     _playerManager.runCoroutine();
                 }
@@ -446,6 +460,11 @@ namespace OtoFuda.player
             {
             }
             
+            //エラー回避
+            if (noteCount[2] == _fumenDataManager.timings[playerID, 2].Count)
+            {
+                return;
+            }
             
             //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
             if (targetLaneNoteInfos[noteCount[2]].noteType == 5)

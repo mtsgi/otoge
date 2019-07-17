@@ -14,11 +14,15 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	private OtofudaCard[] otofudaCards = new OtofudaCard[2];
 
 	private bool isRunningCoroutine;
+
+	public OtofudaCard otofudaNone;
+
 	
 	[Serializable]
 	public class Player
 	{
 		public string PlayerName;
+		public int playerHp = 100;
 		public int judgePoint;
 		public int score;
 
@@ -68,18 +72,51 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 			
 /*			playerHandCardObject[selectStatenum].GetComponent<Renderer>().material.color = Color.red;*/
 		}
-
+		
 		internal void selectCard()
 		{
 			playerHandCardObject[selectCardIndex].GetComponent<SpriteRenderer>().color = defRendererColor;
 			playerHandCardObject[focusHandCardObjectIndex].GetComponent<SpriteRenderer>().color = _selectColor;
 			selectCardIndex = focusHandCardObjectIndex;
 		}
-
+		
+		
+		//現在選択しているカードを取得
 		internal OtofudaCard getSelectCard()
 		{
 			activateIndex = selectCardIndex;
 			return playerHand[selectCardIndex];
+		}
+
+
+		//手札枚数を返す
+		internal int getActiveHandCount()
+		{
+			var retCount = 0;
+			for (int i = 0; i < 5; i++)
+			{
+				if (playerHand[i].cardName == "None")
+				{
+					retCount++;
+				}
+			}
+
+			return retCount;
+		}
+
+		//Noneの手札を探索する
+		internal int getNoneHandIndex()
+		{
+			for (int i = 0; i < 5; i++)
+			{
+				if (playerHand[i].cardName == "None")
+				{
+					return i;
+				}
+			}
+			
+			Debug.LogError("ERROR! 手札枚数がおかしなことになっています");
+			return -1;
 		}
 		
 /*		internal void setCard(int id)
