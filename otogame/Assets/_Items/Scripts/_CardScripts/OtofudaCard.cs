@@ -26,7 +26,10 @@ namespace OtoFuda.Card
         public OtofudaCardEffectBase otofudaEffect;
 
         private int playerNumber;
-
+        
+        //バリアもちかどうか
+        public bool isHaveBarrier;
+        
         private void Awake()
         {
 

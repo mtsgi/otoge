@@ -18,3 +18,4 @@ MonoBehaviour:
   cardPicture: {fileID: 0}
   otofudaEffect: {fileID: 114899326417236624, guid: 3674cb8eca071264ca1e739900a761bf,
     type: 2}
+  isHaveBarrier: 1

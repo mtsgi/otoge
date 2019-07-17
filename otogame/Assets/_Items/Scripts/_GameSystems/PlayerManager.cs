@@ -7,7 +7,13 @@ using OtoFuda.player;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
+public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
+{
+
+	internal bool[] playerEffectStandby = new bool[2];
+	private OtofudaCard[] otofudaCards = new OtofudaCard[2];
+
+	private bool isRunningCoroutine;
 	
 	[Serializable]
 	public class Player
@@ -33,7 +39,10 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 
 		private Color defRendererColor;
 		private Color _selectColor;
-		
+
+		internal bool isBarrier;
+
+		internal int activateIndex;
 		
 		internal void init()
 		{
@@ -67,14 +76,17 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 			selectCardIndex = focusHandCardObjectIndex;
 		}
 
-		internal void useCard(int id)
+		internal OtofudaCard getSelectCard()
 		{
-			//Debug.Log(playerHand[selectCardIndex].cardName);
-
-			playerHand[selectCardIndex].effectActivate(id, selectCardIndex);
+			activateIndex = selectCardIndex;
+			return playerHand[selectCardIndex];
 		}
 		
-		
+/*		internal void setCard(int id)
+		{
+			//Debug.Log(playerHand[selectCardIndex].cardName);
+			playerHand[selectCardIndex].effectActivate(id, selectCardIndex);
+		}*/
 	}
 
 	 public Color selectColor;
@@ -129,10 +141,61 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager> {
 		_players[_playerID].selectCard();
 
 	}
-
-
+	
+	
+	//そのターンに使われたカードを登録する。
 	private void OnUseOtoFudaCard(int _playerID)
 	{
-		_players[_playerID].useCard(_playerID);
+		otofudaCards[_playerID] = _players[_playerID].getSelectCard();
+
+		playerEffectStandby[_playerID] = true;
 	}
+
+
+	//コルーチンを走らせる関数
+	internal void runCoroutine()
+	{
+		//コルーチンが起動してたら何もしない
+		if (isRunningCoroutine)
+		{
+			return;
+		}
+
+		isRunningCoroutine = true;
+
+		StartCoroutine(turnManagementCoroutine());
+	}
+
+	//ターンをマネジメントするコルーチン。
+	private IEnumerator turnManagementCoroutine()
+	{
+		while (true)
+		{
+			if (playerEffectStandby[0] && playerEffectStandby[1])
+			{
+				//効果がバリアもちでなければ効果を実行。
+				for (int i = 0; i < 2; i++)
+				{
+					if (!otofudaCards[i].isHaveBarrier)
+					{
+						otofudaCards[1 - i].effectActivate(1 - i, _players[1 - i].activateIndex);
+					}
+				}
+
+				playerEffectStandby[0] = false;
+				playerEffectStandby[1] = false;
+				
+				yield break;
+			}
+			
+			
+			yield return null;
+		}
+		
+		
+		yield return null;
+	}
+
+
+
 }

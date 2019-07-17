@@ -42,9 +42,14 @@ namespace OtoFuda.player
         //カードを使うときのアクション
         public static Action<int> OnUseOtoFudaCard;
 
+        private PlayerManager _playerManager;
+
+
 
         private void Start()
         {
+            _playerManager = PlayerManager.Instance;
+            
             for (int i = 0; i < laneLight.Length; i++)
             {
                 laneLight[i].SetActive(false);
@@ -156,6 +161,12 @@ namespace OtoFuda.player
                             {
                                 noteCount[i]++;
                             }
+                            
+                            //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
+                            if (_fumenDataManager.timings[playerID, i][noteCount[i]].noteType == 5)
+                            {
+                                _playerManager.runCoroutine();
+                            }
                         }
                     }
                 }
@@ -233,6 +244,7 @@ namespace OtoFuda.player
             {
 
             }
+            
         }
 
         //ロングノーツの始点を判定する関数
@@ -363,6 +375,12 @@ namespace OtoFuda.player
                     }
                 }
                 
+                //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
+                if (targetLaneNoteInfos[noteCount[i]].noteType == 5)
+                {
+                    _playerManager.runCoroutine();
+                }
+                
             }
 
         }
@@ -426,7 +444,13 @@ namespace OtoFuda.player
             }
             else
             {
-
+            }
+            
+            
+            //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
+            if (targetLaneNoteInfos[noteCount[2]].noteType == 5)
+            {
+                _playerManager.runCoroutine();
             }
         }
         
@@ -457,9 +481,6 @@ namespace OtoFuda.player
                 laneLight[i].SetActive(false);
             }
         }
-        
-        
-        
     }
 
 }

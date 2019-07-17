@@ -47,9 +47,9 @@ public class CardEffectAprilSeed : OtofudaCardEffectBase
 
             _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[randIndex];
             _targetPlayer.playerDeck.RemoveAt(randIndex);
-
-            
         }
+
+        _targetPlayer.isBarrier = true;
     }
     
 }
