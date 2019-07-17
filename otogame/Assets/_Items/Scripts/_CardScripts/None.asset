@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae7fdc355057b4a0ba9f5e6418f224ce, type: 3}
+  m_Name: None
+  m_EditorClassIdentifier: 
+  cardName: None
+  cardExplain: "\u672D\u306A\u3057"
+  _monthType: 2
+  _pointType: 5
+  cardPicture: {fileID: 0}
+  otofudaEffect: {fileID: 0}
+  isHaveBarrier: 0

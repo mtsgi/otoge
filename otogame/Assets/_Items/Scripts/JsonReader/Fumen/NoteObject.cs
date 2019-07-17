@@ -88,7 +88,7 @@ namespace OtoFuda.Fumen
 
        public void changeFumenState()
        {
-           Debug.Log("stateChange");
+//           Debug.Log("stateChange");
            isPlayingGame = !isPlayingGame;
            _stopwatch.Start();
            _audioSource = SoundManager.Instance.gameObject.GetComponents<AudioSource>()[0];

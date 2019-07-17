@@ -15,8 +15,17 @@ namespace OtoFuda.player
         public KeyCode[] playerKeys = new KeyCode[5];
 
         //判定を表示する用のテキスト
-        public Text judgeText;
+        [SerializeField] private Animator[] judgeTextAnimators;
 
+        //判定をenumで管理
+        private enum Judge
+        {
+            PERFECT = 0,
+            GOOD = 1,
+            BAD = 2,
+            MISS = 3,
+        }
+        
         private FumenDataManager _fumenDataManager;
 
         private AudioSource _audioSource;
@@ -29,10 +38,18 @@ namespace OtoFuda.player
 
         //ロングノーツの開始をチェックしておくbool
         private bool[] isLongNoteStart = new bool[10];
+        
+        //カードを使うときのアクション
+        public static Action<int> OnUseOtoFudaCard;
+
+        private PlayerManager _playerManager;
+
 
 
         private void Start()
         {
+            _playerManager = PlayerManager.Instance;
+            
             for (int i = 0; i < laneLight.Length; i++)
             {
                 laneLight[i].SetActive(false);
@@ -129,20 +146,34 @@ namespace OtoFuda.player
                     {
                         if (_audioSource.time - _fumenDataManager.timings[playerID,i][noteCount[i]].reachTime >= 0.12f)
                         {
-                            judgeText.text = "MISS";
-                            Debug.LogError("Miss");
+                            judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
+//                            Debug.LogError("Miss"+(int) Judge.MISS);
 
                             //ロングノーツの場合、始点をミスしたら終点もミス扱いにする
                             if (_fumenDataManager.timings[playerID, i][noteCount[i]].noteType == 2)
                             {
                                 //2ノーツ分カウンターを進める
                                 noteCount[i] += 2;
-                                judgeText.text = "MISS";
+                                judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
                                 Debug.LogError("Miss");
                             }
                             else
                             {
                                 noteCount[i]++;
+                            }
+                            
+                            
+                            //エラー回避、2レーン目のノーツ数が最大値だったらreturn
+                            if (noteCount[2] == _fumenDataManager.timings[playerID, 2].Count)
+                            {
+                                return;
+                            }
+                            
+                            
+                            //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
+                            if (_fumenDataManager.timings[playerID, 2][noteCount[2]].noteType == 5)
+                            {
+                                _playerManager.runCoroutine();
                             }
                         }
                     }
@@ -200,27 +231,28 @@ namespace OtoFuda.player
             {
                 checkLongStartNote(_targetLane, _noteType);
                 noteCount[_targetLane]++;
-                judgeText.text = "PERFECT";
+                judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
                 Debug.Log("Perfect");
             }
             else if (-0.2f <= _inputTime - _judgeTime && _inputTime - _judgeTime <= 0.2f)
             {
                 checkLongStartNote(_targetLane, _noteType);
                 noteCount[_targetLane]++;
-                judgeText.text = "GOOD";
+                judgeTextAnimators[(int) Judge.GOOD].Play("Judge", 0, 0.0f);
                 Debug.Log("Good");
             }
             else if (_inputTime - _judgeTime >= -0.6f && _inputTime - _judgeTime <= 0.6f)
             {
                 checkLongStartNote(_targetLane, _noteType);
                 noteCount[_targetLane]++;
-                judgeText.text = "BAD";
+                judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
                 Debug.Log("Bad");
             }
             else
             {
 
             }
+            
         }
 
         //ロングノーツの始点を判定する関数
@@ -248,25 +280,25 @@ namespace OtoFuda.player
             if (_inputTime - _judgeTime >= -0.15f && _inputTime - _judgeTime <= 0.15f)
             {
                 noteCount[_targetLane]++;
-                judgeText.text = "PERFECT";
+                judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
                 Debug.Log("Perfect");
             }
             else if (-0.2f <= _inputTime - _judgeTime && _inputTime - _judgeTime <= 0.2f)
             {
                 noteCount[_targetLane]++;
-                judgeText.text = "GOOD";
+                judgeTextAnimators[(int) Judge.GOOD].Play("Judge", 0, 0.0f);
                 Debug.Log("Good");
             }
             else if (_inputTime - _judgeTime >= -0.6f && _inputTime - _judgeTime <= 0.6f)
             {
                 noteCount[_targetLane]++;
-                judgeText.text = "BAD";
+                judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
                 Debug.Log("Bad");
             }
             else
             {
                 noteCount[_targetLane]++;
-                judgeText.text = "MISS";
+                judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
                 Debug.LogError("Miss");
             }
 
@@ -312,14 +344,14 @@ namespace OtoFuda.player
                         inputTime - judgeTime >= -0.6f && inputTime - judgeTime <= 0.6f)
                     {
                         noteCount[i]++;
-                        judgeText.text = "PERFECT";
+                        judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
                         Debug.Log("Perfect");
                     }
                     else if (_playerGesture != PlayerGesture.LEFT 
                              && inputTime - judgeTime >= -0.6f && inputTime - judgeTime <= 0.6f)
                     {
                         noteCount[i]++;
-                        judgeText.text = "BAD";
+                        judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
                         Debug.Log("Bad");
                     }
                     else
@@ -335,20 +367,32 @@ namespace OtoFuda.player
                         inputTime - judgeTime >= -0.6f && inputTime - judgeTime <= 0.6f)
                     {
                         noteCount[i]++;
-                        judgeText.text = "PERFECT";
+                        judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
                         Debug.Log("Perfect");
                     }
                     else if (_playerGesture != PlayerGesture.RIGHT 
                              && inputTime - judgeTime >= -0.6f && inputTime - judgeTime <= 0.6f)
                     {
                         noteCount[i]++;
-                        judgeText.text = "BAD";
+                        judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
                         Debug.Log("Bad");
                     }
                     else
                     {
 
                     }
+                }
+                
+                //エラー回避
+                if (noteCount[2] == _fumenDataManager.timings[playerID, 2].Count)
+                {
+                    return;
+                }
+                
+                //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
+                if (targetLaneNoteInfos[noteCount[2]].noteType == 5)
+                {
+                    _playerManager.runCoroutine();
                 }
                 
             }
@@ -406,12 +450,26 @@ namespace OtoFuda.player
             if (_inputTime - _judgeTime >= -0.15f && _inputTime - _judgeTime <= 0.15f)
             {
                 noteCount[2]++;
-                judgeText.text = "PERFECT";
+                judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
                 Debug.Log("Perfect");
+                
+                //音札を利用したというアクションを発火
+                OnUseOtoFudaCard?.Invoke(playerID);
             }
             else
             {
-
+            }
+            
+            //エラー回避
+            if (noteCount[2] == _fumenDataManager.timings[playerID, 2].Count)
+            {
+                return;
+            }
+            
+            //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
+            if (targetLaneNoteInfos[noteCount[2]].noteType == 5)
+            {
+                _playerManager.runCoroutine();
             }
         }
         
@@ -442,9 +500,6 @@ namespace OtoFuda.player
                 laneLight[i].SetActive(false);
             }
         }
-        
-        
-        
     }
 
 }
