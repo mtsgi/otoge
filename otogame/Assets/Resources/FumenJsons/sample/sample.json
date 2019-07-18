@@ -327,9 +327,36 @@
             "split": 1,
             "option": -1,
             "end": []
+        },
+        {
+            "type": 5,
+            "measure": 4,
+            "lane": -1,
+            "position": 12,
+            "split": 24,
+            "option": -1,
+            "end": []
         }
     ],
     "extra": [
+        {
+            "type": 5,
+            "measure": 3,
+            "lane": -1,
+            "position": 4,
+            "split": 8,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 5,
+            "lane": -1,
+            "position": 8,
+            "split": 16,
+            "option": -1,
+            "end": []
+        },
         {
             "type": 1,
             "measure": 4,

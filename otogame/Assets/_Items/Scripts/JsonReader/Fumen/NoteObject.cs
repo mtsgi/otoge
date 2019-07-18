@@ -42,7 +42,9 @@ namespace OtoFuda.Fumen
       private int frameConnt;
 
       private float defPosX;
-      private float defPosZ;
+      
+      //Z座標はノーツの難易度が変化するとともに変わるのでinternalとかにしておく
+      internal float posZ;
       
       private Stopwatch _stopwatch = new Stopwatch();
 
@@ -53,7 +55,7 @@ namespace OtoFuda.Fumen
           _highSpeed = FumenDataManager.Instance.highSpeed;
           _laneLength = FumenDataManager.Instance.laneLength;
           defPosX = transform.position.x;
-          defPosZ = transform.position.z;
+          posZ = transform.position.z;
       }
 
       private void LateUpdate()
@@ -61,7 +63,7 @@ namespace OtoFuda.Fumen
           
           if (isPlayingGame)
           {
-              transform.transform.position = new Vector3(defPosX, (reachFrame - _audioSource.time) * _laneLength * _highSpeed, defPosZ);
+              transform.transform.position = new Vector3(defPosX, (reachFrame - _audioSource.time) * _laneLength * _highSpeed, posZ);
 
 /*              frameConnt++;
               Debug.Log(frameConnt);

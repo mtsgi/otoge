@@ -7,6 +7,13 @@ using OtoFuda.player;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public enum PlayerFumenState
+{
+	MORE_EASY = 0,
+	DEFAULT = 1,
+	MORE_DIFFICULT = 2
+}
+
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 {
 
@@ -16,8 +23,8 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	private bool isRunningCoroutine;
 
 	public OtofudaCard otofudaNone;
-
 	
+
 	[Serializable]
 	public class Player
 	{
@@ -25,6 +32,8 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 		public int playerHp = 100;
 		public int judgePoint;
 		public int score;
+		
+		public PlayerFumenState FumenState = PlayerFumenState.DEFAULT;
 
 		public GameObject focusObject;
 		//手札
@@ -32,7 +41,12 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 		//デッキ
 		public List<OtofudaCard> playerDeck = new List<OtofudaCard>();
 		public GameObject[] playerHandCardObject =  new GameObject[5];
- 
+		
+		
+		//ノーツ情報
+		internal int[,] noteCounters = new int[3,5];
+		internal int noteSimpleCount = 0;
+
 
 		//選択している音札のGameObjectのインデックス
 		private int focusHandCardObjectIndex = 0;
@@ -208,9 +222,10 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	{
 		while (true)
 		{
+			Debug.Log("RUNCOROUTINE");
 			if (playerEffectStandby[0] && playerEffectStandby[1])
 			{
-				//効果がバリアもちでなければ効果を実行。
+				//相手効果がバリアもちでなければ効果を実行。
 				for (int i = 0; i < 2; i++)
 				{
 					if (!otofudaCards[i].isHaveBarrier)

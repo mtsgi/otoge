@@ -36,14 +36,17 @@ namespace OtoFuda.player
         private float[] palmPositionXBuffer;
         private float[] palmPositionYBuffer;
 
+        private float[] bufferCopy;
+
         private WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
         
-        private UInt32 frameCount = 0;
+        private int frameCount = 0;
 
         
         private void Start()
         {
-            palmPositionXBuffer = new float[60];
+            palmPositionXBuffer = new float[20];
+            bufferCopy = new float[palmPositionXBuffer.Length];
             palmPositionYBuffer = new float[60];
 
 /*
@@ -56,66 +59,56 @@ namespace OtoFuda.player
                 Debug.LogError("There is " + _controller.Devices.Count + " device");
             }
 
+/*
             StartCoroutine(getFlickGestureCoroutine());
+*/
         }
 
-        private void Update()
+        //暫定でこれ。
+        private void LateUpdate()
         {
-            return;
-            var _frame = _controller.Frame();
-
-
-            if (_frame.Hands.Count >= 1 )
+            //providerが手を見てなかったらはじく
+            //本当は手が現れた、消えたのActionでコルーチンを走らせたり止めたりしたい
+            if (targetProvider.CurrentFrame.Hands.Count > 0)
             {
-                if (Connection.GetConnection().Frames.Count < 30 &&
-                    _controller.Frame(frameGetFetechTime).Hands.Count < 30)
+                var nowFramePalmPositionX = targetProvider.CurrentFrame.Hands[0].PalmPosition.x;
+
+                //いったんバッファをコピー
+                Array.Copy(palmPositionXBuffer, 0, bufferCopy, 1, 19);
+                //現在のframeでの手のPosを格納
+                palmPositionXBuffer[0] = nowFramePalmPositionX;
+                Array.Copy(bufferCopy, 1, palmPositionXBuffer, 1, 19);
+                frameCount += 1;
+
+                if (frameCount > frameGetFetechTime)
                 {
-                    return;
+                    var beforeFramePalmPositionX = palmPositionXBuffer[frameGetFetechTime];
+
+                    if ((beforeFramePalmPositionX > nowFramePalmPositionX) &&
+                        Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
+                    {
+                        _playerGesture = PlayerGesture.LEFT;
+                    }
+                    else if ((beforeFramePalmPositionX < nowFramePalmPositionX) &&
+                             Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
+                    {
+                        Debug.Log("Right");
+                        _playerGesture = PlayerGesture.RIGHT;
+
+                    }
+                    else
+                    {
+                        _playerGesture = PlayerGesture.NONE;
+                    }
+
+                    OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
+                    frameCount = 0;
                 }
-
-                if (_controller.Frame(frameGetFetechTime).Hands.Count == 0)
-                {
-                    return;
-                }
-
-                var nowFramePalmPositionX = _controller.Frame(0).Hands[0].PalmPosition.x;
-                var beforeFramePalmPositionX = _controller.Frame(frameGetFetechTime).Hands[0].PalmPosition.x;
-
-                var nowFramePalmPositionY = _controller.Frame(0).Hands[0].PalmPosition.y;
-                var beforeFramePalmPositionY = _controller.Frame(frameGetFetechTime).Hands[0].PalmPosition.y;
-                
-                if ((beforeFramePalmPositionX > nowFramePalmPositionX) &&
-                    Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
-                {
-                    _playerGesture = PlayerGesture.LEFT;
-                }
-                else if ((beforeFramePalmPositionX < nowFramePalmPositionX) &&
-                         Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
-                {
-                    _playerGesture = PlayerGesture.RIGHT;
-                }
-
-/*            else if ((beforeFramePalmPositionY - nowFramePalmPositionY) < -flickJudgeDistance)
-            {
-                Debug.Log("UP!!!");
-            }
-            else if ((beforeFramePalmPositionY - nowFramePalmPositionY) > flickJudgeDistance)
-            {
-                Debug.Log("Down!!!");
-            }*/
-
-                else
-                {
-                    _playerGesture = PlayerGesture.NONE;
-                }
-
-                //アクションを発火
-                OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
-
             }
 
         }
-
+        
+/*
 
         private IEnumerator getFlickGestureCoroutine()
         {
@@ -129,35 +122,30 @@ namespace OtoFuda.player
                     var nowFramePalmPositionX = targetProvider.CurrentFrame.Hands[0].PalmPosition.x;
 
                     //いったんバッファをコピー
-                    Array.Copy(palmPositionXBuffer, 0, bufferCopy, 1, 59);
+                    Array.Copy(palmPositionXBuffer, 0, bufferCopy, 1, 19);
                     //現在のframeでの手のPosを格納
                     palmPositionXBuffer[0] = nowFramePalmPositionX;
-                    Array.Copy(bufferCopy, 1, palmPositionXBuffer, 1, 59);
-                    
+                    Array.Copy(bufferCopy, 1, palmPositionXBuffer, 1, 19);
                     frameCount += 1;
 
                     if (frameCount > frameGetFetechTime)
                     {
                         var beforeFramePalmPositionX = palmPositionXBuffer[frameGetFetechTime];
-                        //Debug.Log(Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX));
                         
                         if ((beforeFramePalmPositionX > nowFramePalmPositionX) &&
                             Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
                         {
                             _playerGesture = PlayerGesture.LEFT;
-                            //Debug.Log("Player"+(playerID+1)+" left");
                         }
                         else if ((beforeFramePalmPositionX < nowFramePalmPositionX) &&
                                  Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
                         {
                             _playerGesture = PlayerGesture.RIGHT;
-                            //Debug.Log("Player"+(playerID+1)+" right");
 
                         }
                         else
                         {
                             _playerGesture = PlayerGesture.NONE;
-                         //   Debug.Log("NOne");
                         }
                         
                         OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
@@ -171,7 +159,7 @@ namespace OtoFuda.player
                     yield return null;
                 }
             }
-        }
+        }*/
 
 
         private void updateBuffer()
