@@ -30,10 +30,9 @@ public class CardEffectBlueStrip : OtofudaCardEffectBase
         {
             _players[playerID].playerHand[handIndex].setNone(playerID, handIndex);
         }
-
+        
         _targetPlayer.playerHp += addHpWeight;
-
-
+        _targetPlayer.playerHPSlider.value = Mathf.Clamp(_targetPlayer.playerHp,0,_targetPlayer.playerHPSlider.maxValue);
 
 /*
         _targetPlayer.isBarrier = true;

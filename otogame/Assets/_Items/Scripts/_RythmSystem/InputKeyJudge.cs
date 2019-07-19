@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace OtoFuda.player
 {
+    [DefaultExecutionOrder(30000)]
     public class InputKeyJudge : MonoBehaviour
     {
         private bool isStartMusic = false;
@@ -51,12 +52,9 @@ namespace OtoFuda.player
         public static Action<int,bool> OnUseOtoFudaCard;
 
         private PlayerManager _playerManager;
-
-
-
+        
         private void Start()
         {
-
             _playerManager = PlayerManager.Instance;
 
             _noteCounters = _playerManager._players[playerID].noteCounters;
@@ -318,6 +316,12 @@ namespace OtoFuda.player
                             
                             if (_playerManager._players[playerID].FumenState == targetState)
                             {
+                                _playerManager._players[playerID].playerHp -= 5;
+                                var slider = _playerManager._players[playerID].playerHPSlider;
+                                slider.value = Mathf.Clamp(_playerManager._players[playerID].playerHp, 0,
+                                    slider.maxValue);
+
+
                                 judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
                                 Debug.LogError("Miss");
                             }
@@ -331,6 +335,12 @@ namespace OtoFuda.player
                             //引数で渡したStateが現在のプレイヤーのステートと同じであればMissの判定をする。
                             if (_playerManager._players[playerID].FumenState == targetState)
                             {
+                                _playerManager._players[playerID].playerHp -= 5;
+                                var slider = _playerManager._players[playerID].playerHPSlider;
+                                slider.value = Mathf.Clamp(_playerManager._players[playerID].playerHp, 0,
+                                    slider.maxValue);
+                                
+                                
                                 judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
                                 Debug.LogError("Miss"+(int) Judge.MISS);
                             }

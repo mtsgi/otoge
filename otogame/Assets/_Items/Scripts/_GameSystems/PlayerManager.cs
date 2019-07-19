@@ -6,6 +6,7 @@ using OtoFuda.Card;
 using OtoFuda.player;
 using OtoFuda.Player;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public enum PlayerFumenState
@@ -31,6 +32,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	{
 		public string PlayerName;
 		public int playerHp = 100;
+		public Slider playerHPSlider;
 		public int judgePoint;
 		public int score;
 		
