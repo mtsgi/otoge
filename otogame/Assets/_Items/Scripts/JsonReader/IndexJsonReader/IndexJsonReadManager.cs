@@ -7,22 +7,53 @@ using UnityEngine.UI;
 public class IndexJsonReadManager : MonoBehaviour
 {
     public int focus = 0, indexLength = 0;
+    public GameObject _levelselect;
 
     // Start時にjson読み込み
     private void Start() {
+        _levelselect = GameObject.Find("LevelSelect");
+        _levelselect.SetActive(false);
         draw();
     }
 
     private void Update() {
-        if( Input.GetKeyUp(KeyCode.UpArrow)) {
+        if (Input.GetKeyUp(KeyCode.UpArrow)) {
             if (focus == 0) focus = indexLength - 1;
             else focus -= 1;
             draw();
         }
-        else if( Input.GetKeyUp(KeyCode.DownArrow)){
+        else if (Input.GetKeyUp(KeyCode.DownArrow)) {
             if (focus == indexLength - 1) focus = 0;
             else focus += 1;
             draw();
+        }
+        //難易度選択画面へ遷移
+        else if (Input.GetKeyUp(KeyCode.Return)) {
+            _levelselect.SetActive(true);
+
+            var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
+            var jsonText = textAsset.text;
+            var _index = JsonUtility.FromJson<IndexInfo>(jsonText);
+            IndexContent m = _index.index[focus];
+
+            _levelselect.transform.Find("MusicName").gameObject.GetComponent<Text>().text = m.name;
+            _levelselect.transform.Find("MusicArtist").gameObject.GetComponent<Text>().text = m.artist;
+
+            _levelselect.transform.Find("MusicEasyNum").gameObject.GetComponent<Text>().text = m.easy.ToString();
+            _levelselect.transform.Find("MusicNormalNum").gameObject.GetComponent<Text>().text = m.normal.ToString();
+            _levelselect.transform.Find("MusicHardNum").gameObject.GetComponent<Text>().text = m.hard.ToString();
+            
+            _levelselect.transform.Find("MusicBPM").gameObject.GetComponent<Text>().text = "BPM " + m.dispbpm;
+            _levelselect.transform.Find("MusicAuthor").gameObject.GetComponent<Text>().text = "譜面制作：" + m.author;
+
+            //// 楽曲IDからTextureのパスを取得
+            string jacketPath = "FumenJsons/" + m.id + "/" + m.id;
+            _levelselect.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>(jacketPath);
+
+            _levelselect.transform.Find("MusicComment").gameObject.GetComponent<Text>().text = m.comment;
+        }
+        else if (Input.GetKeyUp(KeyCode.Escape)) {
+            _levelselect.SetActive(false);
         }
     }
 
@@ -75,34 +106,34 @@ public class IndexJsonReadManager : MonoBehaviour
 
 
         //foreach(IndexContent v in _index.index) {
-            //music.name = v.name;
-            //var _music = Instantiate(music,GameObject.Find("Canvas").transform.Find("MusicScroll/Viewport/Content"));
-            //_music.GetComponent<RectTransform>().localPosition += new Vector3( 0, -180 - 120 * cnt, 0 );
-            //cnt++;
-            //// ボタンの色
-            //_music.transform.Find("MusicColor").GetComponent<Image>().color = new Color(v.color[0]/255, v.color[1]/255, v.color[2]/255, .3f);
+        //music.name = v.name;
+        //var _music = Instantiate(music,GameObject.Find("Canvas").transform.Find("MusicScroll/Viewport/Content"));
+        //_music.GetComponent<RectTransform>().localPosition += new Vector3( 0, -180 - 120 * cnt, 0 );
+        //cnt++;
+        //// ボタンの色
+        //_music.transform.Find("MusicColor").GetComponent<Image>().color = new Color(v.color[0]/255, v.color[1]/255, v.color[2]/255, .3f);
 
-            //// 楽曲情報をボタンに表示
-            //_music.transform.Find("MusicName").gameObject.GetComponent<Text>().text = v.name;
-            //_music.transform.Find("MusicArtist").gameObject.GetComponent<Text>().text = v.artist;
-            //_music.transform.Find("MusicBPM").gameObject.GetComponent<Text>().text = "BPM " + v.dispbpm;
-            //_music.transform.Find("MusicAuthor").gameObject.GetComponent<Text>().text = "譜面制作：" + v.author;
+        //// 楽曲情報をボタンに表示
+        //_music.transform.Find("MusicName").gameObject.GetComponent<Text>().text = v.name;
+        //_music.transform.Find("MusicArtist").gameObject.GetComponent<Text>().text = v.artist;
+        //_music.transform.Find("MusicBPM").gameObject.GetComponent<Text>().text = "BPM " + v.dispbpm;
+        //_music.transform.Find("MusicAuthor").gameObject.GetComponent<Text>().text = "譜面制作：" + v.author;
 
-            //_music.transform.Find("MusicEasyNum").gameObject.GetComponent<Text>().text = v.easy.ToString();
-            //_music.transform.Find("MusicNormalNum").gameObject.GetComponent<Text>().text = v.normal.ToString();
-            //_music.transform.Find("MusicHardNum").gameObject.GetComponent<Text>().text = v.hard.ToString();
+        //_music.transform.Find("MusicEasyNum").gameObject.GetComponent<Text>().text = v.easy.ToString();
+        //_music.transform.Find("MusicNormalNum").gameObject.GetComponent<Text>().text = v.normal.ToString();
+        //_music.transform.Find("MusicHardNum").gameObject.GetComponent<Text>().text = v.hard.ToString();
 
-            //// 楽曲IDからTextureのパスを取得
-            //string jacketPath = "FumenJsons/" + v.id + "/" + v.id;
-            //_music.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>(jacketPath) ;
+        //// 楽曲IDからTextureのパスを取得
+        //string jacketPath = "FumenJsons/" + v.id + "/" + v.id;
+        //_music.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>(jacketPath) ;
 
-            //// クリック時のイベントを設定
-            //_music.GetComponent<Button>().onClick.AddListener( ()=> {
-            //    Debug.Log("[楽曲選択]");
-            //    Debug.Log("楽曲を選択しました:" + v.name);
-            //} );
+        //// クリック時のイベントを設定
+        //_music.GetComponent<Button>().onClick.AddListener( ()=> {
+        //    Debug.Log("[楽曲選択]");
+        //    Debug.Log("楽曲を選択しました:" + v.name);
+        //} );
         //}
-        
+
         //Debug.Log(_index.index.Count);
         //Debug.Log(_index.index[0].name);
         //Debug.Log(_index.index[0].artist);
