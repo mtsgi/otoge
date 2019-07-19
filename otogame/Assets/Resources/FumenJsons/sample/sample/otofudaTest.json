@@ -1,0 +1,24 @@
+{
+    "hard": [
+        {
+            "type": 5,
+            "measure": 3,
+            "lane": 3,
+            "position": 0,
+            "split": 8,
+            "option": -1,
+            "end": [
+            ]
+        },
+        {
+            "type": 5,
+            "measure": 5,
+            "lane": 2,
+            "position": 10,
+            "split": 16,
+            "option": -1,
+            "end": [
+            ]
+        }
+    ]
+}

@@ -20,6 +20,7 @@ namespace OtoFuda.Fumen
    {
       public int noteType = 0;
       public int lane = 0;
+      public int playerID;
 
       public List<NotesInfo> endNotes = new List<NotesInfo>();
       //endnoteが全体で何個目のノーツかを格納
@@ -35,7 +36,7 @@ namespace OtoFuda.Fumen
       public float reachFrame = 0.0f;
       
       private float _laneLength = 0.0f;
-      private float _highSpeed = 1.0f;
+      public float _highSpeed = 1.0f;
       
       private bool isPlayingGame;
       
@@ -52,7 +53,7 @@ namespace OtoFuda.Fumen
       
       private void Start()
       {
-          _highSpeed = FumenDataManager.Instance.highSpeed;
+          _highSpeed = FumenDataManager.Instance.highSpeed[playerID];
           _laneLength = FumenDataManager.Instance.laneLength;
           defPosX = transform.position.x;
           posZ = transform.position.z;
@@ -75,7 +76,7 @@ namespace OtoFuda.Fumen
           }
       }
       
-       public void setNoteObject(int _type, int _lane, int _end, int _option, float _reach)
+       public void setNoteObject(int _type, int _lane, int _end, int _option, float _reach ,int _playerID)
        {
            noteType = _type;
            lane = _lane;
@@ -85,7 +86,8 @@ namespace OtoFuda.Fumen
           
            option = _option;
            reachFrame = _reach;
-           
+           playerID = _playerID;
+
        }
 
        public void changeFumenState()

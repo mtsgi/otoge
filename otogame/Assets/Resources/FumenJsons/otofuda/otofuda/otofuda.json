@@ -1,0 +1,1303 @@
+{
+    "raku": [],
+    "easy": [],
+    "normal": [
+        {
+            "type": 1,
+            "measure": 2,
+            "lane": 4,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 2,
+            "lane": 4,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 3,
+            "lane": 2,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 3,
+            "lane": 2,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 4,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 5,
+            "lane": 2,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 5,
+            "lane": 3,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 3,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 7,
+            "lane": 5,
+            "position": 4,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 6,
+            "lane": 1,
+            "position": 6,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 7,
+            "lane": 5,
+            "position": 2,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 7,
+            "lane": 2,
+            "position": 3,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 5,
+            "lane": 5,
+            "position": 6,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 5,
+            "lane": 3,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 2,
+            "measure": 6,
+            "lane": 5,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 6,
+                    "lane": 5,
+                    "position": 4,
+                    "split": 8,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 1,
+            "measure": 6,
+            "lane": 1,
+            "position": 4,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 6,
+            "lane": 3,
+            "position": 5,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 7,
+            "lane": 5,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 7,
+            "lane": 2,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 8,
+            "lane": 3,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 3,
+            "measure": 8,
+            "lane": 3,
+            "position": 4,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 4,
+            "measure": 9,
+            "lane": 3,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 10,
+            "lane": 2,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 9,
+            "lane": 2,
+            "position": 6,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 9,
+            "lane": 4,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 10,
+            "lane": 3,
+            "position": 2,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 10,
+            "lane": 3,
+            "position": 3,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 11,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 11,
+            "lane": 4,
+            "position": 1,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 11,
+            "lane": 2,
+            "position": 2,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 12,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 12,
+            "lane": 3,
+            "position": 2,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 12,
+            "lane": 3,
+            "position": 3,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 13,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 13,
+            "lane": 2,
+            "position": 1,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 13,
+            "lane": 4,
+            "position": 2,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 14,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 14,
+            "lane": 2,
+            "position": 2,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 14,
+            "lane": 4,
+            "position": 2,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 15,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 15,
+            "lane": 1,
+            "position": 2,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 15,
+            "lane": 5,
+            "position": 2,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 16,
+            "lane": 4,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 16,
+            "lane": 2,
+            "position": 1,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 16,
+            "lane": 4,
+            "position": 2,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 16,
+            "lane": 2,
+            "position": 3,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 2,
+            "measure": 17,
+            "lane": 4,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 17,
+                    "lane": 4,
+                    "position": 2,
+                    "split": 4,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        }
+    ],
+    "hard": [
+        {
+            "type": 1,
+            "measure": 3,
+            "lane": 5,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 3,
+            "lane": 5,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 1,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 1,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 2,
+            "lane": 1,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 2,
+            "lane": 1,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 2,
+            "lane": 2,
+            "position": 2,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 2,
+            "lane": 3,
+            "position": 3,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 2,
+            "lane": 4,
+            "position": 4,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 2,
+            "lane": 5,
+            "position": 5,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 2,
+            "lane": 5,
+            "position": 6,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 2,
+            "lane": 4,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 2,
+            "lane": 3,
+            "position": 11,
+            "split": 16,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 2,
+            "measure": 3,
+            "lane": 3,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 3,
+                    "lane": 3,
+                    "position": 6,
+                    "split": 8,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 1,
+            "measure": 3,
+            "lane": 5,
+            "position": 6,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 3,
+            "lane": 4,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 3,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 3,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 8,
+            "lane": 3,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 2,
+            "position": 3,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 3,
+            "position": 4,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 4,
+            "position": 5,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 4,
+            "position": 6,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 2,
+            "position": 11,
+            "split": 16,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 3,
+            "position": 14,
+            "split": 16,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 5,
+            "lane": 2,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 5,
+            "lane": 1,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 5,
+            "lane": 4,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 5,
+            "lane": 5,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 2,
+            "measure": 5,
+            "lane": 4,
+            "position": 6,
+            "split": 8,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 5,
+                    "lane": 4,
+                    "position": 7,
+                    "split": 8,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "measure": 5,
+            "lane": 2,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 6,
+                    "lane": 2,
+                    "position": 0,
+                    "split": 8,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "measure": 6,
+            "lane": 5,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 6,
+                    "lane": 5,
+                    "position": 4,
+                    "split": 8,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 1,
+            "measure": 6,
+            "lane": 1,
+            "position": 4,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 6,
+            "lane": 2,
+            "position": 5,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 6,
+            "lane": 3,
+            "position": 6,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 6,
+            "lane": 4,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 7,
+            "lane": 2,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 7,
+            "lane": 3,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 7,
+            "lane": 4,
+            "position": 2,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 7,
+            "lane": 5,
+            "position": 3,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 3,
+            "measure": 7,
+            "lane": 2,
+            "position": 4,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 2,
+            "measure": 9,
+            "lane": 5,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 9,
+                    "lane": 5,
+                    "position": 2,
+                    "split": 4,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "measure": 9,
+            "lane": 1,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 9,
+                    "lane": 1,
+                    "position": 2,
+                    "split": 4,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "measure": 8,
+            "lane": 2,
+            "position": 3,
+            "split": 4,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 9,
+                    "lane": 2,
+                    "position": 2,
+                    "split": 4,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "measure": 8,
+            "lane": 4,
+            "position": 3,
+            "split": 4,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 9,
+                    "lane": 4,
+                    "position": 2,
+                    "split": 4,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "measure": 8,
+            "lane": 3,
+            "position": 2,
+            "split": 4,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 9,
+                    "lane": 3,
+                    "position": 2,
+                    "split": 4,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 1,
+            "measure": 9,
+            "lane": 4,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 10,
+            "lane": 5,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 10,
+            "lane": 5,
+            "position": 3,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 10,
+            "lane": 5,
+            "position": 5,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 10,
+            "lane": 5,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 9,
+            "lane": 2,
+            "position": 6,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 2,
+            "measure": 10,
+            "lane": 1,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 10,
+                    "lane": 1,
+                    "position": 3,
+                    "split": 4,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 2,
+            "measure": 11,
+            "lane": 2,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 11,
+                    "lane": 2,
+                    "position": 3,
+                    "split": 4,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 1,
+            "measure": 11,
+            "lane": 4,
+            "position": 3,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 11,
+            "lane": 4,
+            "position": 5,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 11,
+            "lane": 4,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 11,
+            "lane": 4,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 2,
+            "measure": 12,
+            "lane": 1,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 12,
+                    "lane": 1,
+                    "position": 3,
+                    "split": 4,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 4,
+            "measure": 12,
+            "lane": 4,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 3,
+            "measure": 12,
+            "lane": 3,
+            "position": 3,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 4,
+            "measure": 12,
+            "lane": 4,
+            "position": 5,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 3,
+            "measure": 12,
+            "lane": 3,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 2,
+            "measure": 13,
+            "lane": 5,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 13,
+                    "lane": 5,
+                    "position": 3,
+                    "split": 4,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 4,
+            "measure": 13,
+            "lane": 3,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 3,
+            "measure": 13,
+            "lane": 2,
+            "position": 3,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 13,
+            "lane": 2,
+            "position": 6,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 13,
+            "lane": 2,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 2,
+            "measure": 14,
+            "lane": 2,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": [
+                {
+                    "type": 1,
+                    "measure": 14,
+                    "lane": 2,
+                    "position": 2,
+                    "split": 4,
+                    "option": -1,
+                    "end": []
+                }
+            ]
+        },
+        {
+            "type": 1,
+            "measure": 14,
+            "lane": 5,
+            "position": 4,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 14,
+            "lane": 4,
+            "position": 5,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 14,
+            "lane": 3,
+            "position": 6,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 14,
+            "lane": 2,
+            "position": 7,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 15,
+            "lane": 1,
+            "position": 0,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 15,
+            "lane": 2,
+            "position": 1,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 15,
+            "lane": 3,
+            "position": 2,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 15,
+            "lane": 4,
+            "position": 3,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 15,
+            "lane": 5,
+            "position": 4,
+            "split": 8,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 15,
+            "lane": 1,
+            "position": 4,
+            "split": 8,
+            "option": [],
+            "end": []
+        }
+    ],
+    "extra": []
+}
