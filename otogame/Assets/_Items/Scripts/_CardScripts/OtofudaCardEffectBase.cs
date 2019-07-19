@@ -19,7 +19,7 @@ namespace OtoFuda.Card
         internal int handIndex;
         
         
-        [SerializeField] private EffectTargetType _targetType;
+        public EffectTargetType _targetType;
 
         internal void applyHandEffect(int usedPlayerNumber ,int _handIndex)
         {

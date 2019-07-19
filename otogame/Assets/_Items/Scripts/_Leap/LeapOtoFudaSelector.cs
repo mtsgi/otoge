@@ -17,6 +17,7 @@ namespace OtoFuda.player
         RIGHT2,
     }
     
+    
     public class LeapOtoFudaSelector : MonoBehaviour
     {
         [Range(0, 1)]
@@ -31,7 +32,7 @@ namespace OtoFuda.player
         public static Action<int, PlayerSelectState> OnPlayerFocusCardChange;
         
         public static Action<int, PlayerSelectState> OnPlayerSelectCardChange;
-
+        
         
         private void Update()
         {
@@ -40,6 +41,7 @@ namespace OtoFuda.player
                 return;
             }
             var fingerPosX = _provider.CurrentFrame.Hands[0].Fingers[1].TipPosition.x;
+            
             if (_selectState != PlayerSelectState.CENTER
                    && -0.030 < fingerPosX && fingerPosX < 0.030)
             {

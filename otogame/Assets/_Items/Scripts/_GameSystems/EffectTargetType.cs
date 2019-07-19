@@ -1,7 +1,7 @@
 namespace OtoFuda.Player
 {
 
-	enum EffectTargetType
+	public enum EffectTargetType
 	{
 		MYSELF,
 		OPPONENT,

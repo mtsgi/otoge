@@ -237,7 +237,7 @@ public class JsonReadManager : MonoBehaviour
 
 		if (notesInfo.type == 5)
 		{
-			Debug.Log("OTOFUDA NOTE " + spawnedObject.transform.position);
+//			Debug.Log("OTOFUDA NOTE " + spawnedObject.transform.position);
 		}
 		
 		

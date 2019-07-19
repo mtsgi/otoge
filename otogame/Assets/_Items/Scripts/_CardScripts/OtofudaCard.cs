@@ -23,8 +23,8 @@ namespace OtoFuda.Card
         [SerializeField] internal Sprite cardPicture;
         
         //この音札に設定されている効果
-        [SerializeField] private OtofudaCardEffectBase otofudaEffect;
-
+        public OtofudaCardEffectBase otofudaEffect;
+        
         private int playerNumber;
         
         //バリアもちかどうか
