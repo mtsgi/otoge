@@ -267,7 +267,6 @@ namespace OtoFuda.player
             PlayerFumenState targetState, int index)
         {
             var stateIndex = (int) targetState;
-         
             //もうリストがなくなりきってたらはじく
             if ((stateIndex == 1 && _fumenDataManager.mainNotes[playerID].Count == 0) || 
                 (stateIndex == 2 && _fumenDataManager.moreDifficultNotes[playerID].Count == 0)) 
@@ -342,7 +341,7 @@ namespace OtoFuda.player
                                 
                                 
                                 judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
-                                Debug.LogError("Miss"+(int) Judge.MISS);
+                                Debug.LogError(_playerManager._players[playerID].FumenState +"_______"+targetState);
                             }
                             
                             //通過に応じてRemove

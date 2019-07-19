@@ -76,7 +76,7 @@ public class JsonReadManager : MonoBehaviour
 				//ノーマル難易度のノーツを生成
 				for (int i = 0; i < fumenInfo.normal.Count; i++)
 				{
-					noteGenerate(FumenDataManager.Instance.mainNotes[playerID], _fumenDataManager.timings,
+					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID], _fumenDataManager.timings,
 						fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
@@ -89,7 +89,7 @@ public class JsonReadManager : MonoBehaviour
 				//ノーマル難易度のノーツを生成
 				for (int i = 0; i < fumenInfo.normal.Count; i++)
 				{
-					noteGenerate(FumenDataManager.Instance.mainNotes[playerID], _fumenDataManager.timings,
+					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID], _fumenDataManager.timings,
 						fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
@@ -260,17 +260,17 @@ public class JsonReadManager : MonoBehaviour
 			//終点ノーツの生成
 			noteGenerate(targetNotesList, targetTimingList, notesInfo.end[i], _bpm, _beat, _ZoffSet);
 			//longNoteの終点ノーツを追加した直後なのでもっとも後ろのIndexが終点ノーツを格納したindex
-			endNoteIndex = FumenDataManager.Instance.mainNotes[playerID].Count - 1;
+			endNoteIndex = targetNotesList.Count - 1;
 			
 			//終点情報を更新
-			FumenDataManager.Instance.mainNotes[playerID][endNoteIndex-1]._endNotesNum = endNoteIndex;
+			targetNotesList[endNoteIndex-1]._endNotesNum = endNoteIndex;
 				
 			//終点座標からロングノーツのラインの生成座標を計算する。
 			var spawnY =
-				(FumenDataManager.Instance.mainNotes[playerID][endNoteIndex].reachFrame * _laneLength *
+				(targetNotesList[endNoteIndex].reachFrame * _laneLength *
 				 _fumenDataManager.highSpeed[playerID] + spawnPos.y) / 2;
 			
-			var extend = FumenDataManager.Instance.mainNotes[playerID][endNoteIndex].reachFrame * _laneLength *
+			var extend = targetNotesList[endNoteIndex].reachFrame * _laneLength *
 			             _fumenDataManager.highSpeed[playerID] - spawnPos.y;
 			
 			GameObject longLine = (GameObject) Resources.Load("NoteObjects/Prefabs/testLongNote");
@@ -285,8 +285,7 @@ public class JsonReadManager : MonoBehaviour
 			
 			var spawnedLongObject = Instantiate(longLine, longLinePos, Quaternion.identity);
 			spawnedLongObject.transform.parent = GameObject.Find("Notes/").transform;
-			spawnedLongObject.transform.parent =
-				FumenDataManager.Instance.mainNotes[playerID][endNoteIndex].gameObject.transform;
+			spawnedLongObject.transform.parent = targetNotesList[endNoteIndex].gameObject.transform;
 
 		}
 
