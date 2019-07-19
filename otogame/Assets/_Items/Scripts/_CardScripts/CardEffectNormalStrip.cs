@@ -18,15 +18,18 @@ public class CardEffectNormalStrip : OtofudaCardEffectBase
        
         //いったん使用した手札の情報をNoneの音札に置き換える
         _targetPlayer.playerHand[handIndex] = PlayerManager.Instance.otofudaNone;
-
-        /*
-        //まずワンドロー
+        
+/*        //まずワンドロー
         if (_targetPlayer.playerDeck.Count != 0)
         {
-            _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[0];
-            _targetPlayer.playerDeck.RemoveAt(0);
+            _players[playerID].playerHand[handIndex] = _targetPlayer.playerDeck[0];
+            _players[playerID].playerHand[handIndex].setSprite(playerID,handIndex);
+            _players[playerID].playerDeck.RemoveAt(0);
         }
-        */
+        else
+        {
+            _players[playerID].playerHand[handIndex].setNone(playerID, handIndex);
+        }*/
 
         
         //デッキ枚数が0、もしくは手札枚数が枚であれば処理終了
@@ -63,6 +66,7 @@ public class CardEffectNormalStrip : OtofudaCardEffectBase
         //stripのインデックスリストから参照してくる
         randIndex = Random.Range(0, stripIndexList.Count);
         _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[randIndex];
+        _players[playerID].playerHand[handIndex].setSprite(playerID,handIndex);
         _targetPlayer.playerDeck.RemoveAt(randIndex);
         
 
@@ -70,5 +74,13 @@ public class CardEffectNormalStrip : OtofudaCardEffectBase
         _targetPlayer.isBarrier = true;
 */
     }
+
+/*    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            applyHandEffect(0,2);
+        }
+    }*/
     
 }

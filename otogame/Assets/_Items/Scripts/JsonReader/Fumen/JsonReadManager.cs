@@ -127,12 +127,18 @@ public class JsonReadManager : MonoBehaviour
 		
 		//ノーツのリストをソートする
 		_fumenDataManager.mainNotes[playerID].Sort((x, y) => x.reachFrame.CompareTo(y.reachFrame));
-
 		_fumenDataManager.moreDifficultNotes[playerID].Sort((x, y) => x.reachFrame.CompareTo(y.reachFrame));
 		
 		
 
-
+		for (int i = 0; i < 5; i++)
+		{
+			_fumenDataManager.timings[playerID, i].Sort((x, y) => x.reachTime.CompareTo(y.reachTime));
+			_fumenDataManager.moreDifficultTimings[playerID, i].Sort((x, y) => x.reachTime.CompareTo(y.reachTime));
+		}
+		
+		
+		
 	}
 
 	
@@ -228,6 +234,12 @@ public class JsonReadManager : MonoBehaviour
 			targetTimingList[playerID, lane - 1]
 				.Add(new FumenDataManager.NoteTimingInfomation(notesInfo.type, reachFrame));
 		}
+
+		if (notesInfo.type == 5)
+		{
+			Debug.Log("OTOFUDA NOTE " + spawnedObject.transform.position);
+		}
+		
 		
 		//endノーツが含まれていた場合、さらに生成してmainNotesの中につっこむ
 		for (int i = 0; i < notesInfo.end.Count; i++)

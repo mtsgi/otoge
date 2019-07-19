@@ -32,15 +32,22 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
         base.handEffect();
         
         //いったん使用した手札の情報をNoneの音札に置き換える
-        _targetPlayer.playerHand[handIndex] = PlayerManager.Instance.otofudaNone;
+        _players[playerID].playerHand[handIndex] = PlayerManager.Instance.otofudaNone;
         
 
         //まずワンドロー
         if (_targetPlayer.playerDeck.Count != 0)
         {
-            _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[0];
-            _targetPlayer.playerDeck.RemoveAt(0);
+            _players[playerID].playerHand[handIndex] = _targetPlayer.playerDeck[0];
+            _players[playerID].playerHand[handIndex].setSprite(playerID,handIndex);
+            _players[playerID].playerDeck.RemoveAt(0);
         }
+        else
+        {
+            _players[playerID].playerHand[handIndex].setNone(playerID, handIndex);
+        }
+        
+
 
         var _noteObjects = FumenDataManager.Instance.mainNotes[playerID];
         var _moreDifObjects = FumenDataManager.Instance.moreDifficultNotes[playerID];
@@ -81,8 +88,9 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
                 break;
             }
             
-        }
-       // Debug.Log("StartCount");
+        } 
+        
+        // Debug.Log("StartCount");
         for (int i = 0; i < _moreDifficultNoteObjects.Count; i++)
         {
             //現在のノーツから次の音札ノーツまでのTransformを操作してユーザーから見えるようにする。
@@ -100,6 +108,14 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
         //   Debug.Log("EndCount");
 
     }
+    
+/*    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            applyHandEffect(0,3);
+        }
+    }*/
     
     
     

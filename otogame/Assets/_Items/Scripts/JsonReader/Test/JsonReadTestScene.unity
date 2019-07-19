@@ -7251,14 +7251,29 @@ MonoBehaviour:
     FumenState: 1
     focusObject: {fileID: 111358432}
     playerHand:
-    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
-    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
-    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
-    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
-    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
-    playerDeck:
+    - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
     - {fileID: 11400000, guid: 53b944fa896c2414f955714a9eccd4ac, type: 2}
     - {fileID: 11400000, guid: 01cb284e6242aec4bb00d76ef033b472, type: 2}
+    - {fileID: 11400000, guid: 740117dc09aa9224ea0d8dd264f6b670, type: 2}
+    - {fileID: 11400000, guid: 740117dc09aa9224ea0d8dd264f6b670, type: 2}
+    playerDeck:
+    - {fileID: 11400000, guid: f6dd06e805728bc4b9f7ac4cbebd1aac, type: 2}
+    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
+    - {fileID: 11400000, guid: 6758ba8415ce6b44f8ff8810ded223b0, type: 2}
+    - {fileID: 11400000, guid: 01ca884bb899cb649b6d9eb5b0d5dca9, type: 2}
+    - {fileID: 11400000, guid: 489b6fcee4f318a449e2702564b9fef3, type: 2}
+    - {fileID: 11400000, guid: 8c42b5f0b3fb5514cae5b13c3f25e57e, type: 2}
+    - {fileID: 11400000, guid: 46a1c46c45146f445858030413da96be, type: 2}
+    - {fileID: 11400000, guid: 6934edf560c2d3344bd6f296de7cf1c1, type: 2}
+    - {fileID: 11400000, guid: 83b69dbd30716d845949bbb1a3c07562, type: 2}
+    - {fileID: 11400000, guid: 42f50f4797e7c0b4a9ae585be6044b52, type: 2}
+    - {fileID: 11400000, guid: f6dd06e805728bc4b9f7ac4cbebd1aac, type: 2}
+    - {fileID: 11400000, guid: 01ca884bb899cb649b6d9eb5b0d5dca9, type: 2}
+    - {fileID: 11400000, guid: d0993cefff3c9f34a8d55ce084b75c0a, type: 2}
+    - {fileID: 11400000, guid: 01cb284e6242aec4bb00d76ef033b472, type: 2}
+    - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
+    - {fileID: 11400000, guid: 59b6405db75b23a4b82dd867b1d7905f, type: 2}
+    - {fileID: 11400000, guid: 8c42b5f0b3fb5514cae5b13c3f25e57e, type: 2}
     playerHandCardObject:
     - {fileID: 597483883}
     - {fileID: 26128972}
@@ -7272,12 +7287,29 @@ MonoBehaviour:
     FumenState: 1
     focusObject: {fileID: 1573106624}
     playerHand:
-    - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
-    - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
+    - {fileID: 11400000, guid: d0993cefff3c9f34a8d55ce084b75c0a, type: 2}
+    - {fileID: 11400000, guid: 489b6fcee4f318a449e2702564b9fef3, type: 2}
+    - {fileID: 11400000, guid: 42f50f4797e7c0b4a9ae585be6044b52, type: 2}
+    - {fileID: 11400000, guid: 740117dc09aa9224ea0d8dd264f6b670, type: 2}
+    - {fileID: 11400000, guid: 740117dc09aa9224ea0d8dd264f6b670, type: 2}
+    playerDeck:
+    - {fileID: 11400000, guid: 59b6405db75b23a4b82dd867b1d7905f, type: 2}
+    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
+    - {fileID: 11400000, guid: f6dd06e805728bc4b9f7ac4cbebd1aac, type: 2}
+    - {fileID: 11400000, guid: 6758ba8415ce6b44f8ff8810ded223b0, type: 2}
     - {fileID: 11400000, guid: 01cb284e6242aec4bb00d76ef033b472, type: 2}
+    - {fileID: 11400000, guid: f6dd06e805728bc4b9f7ac4cbebd1aac, type: 2}
+    - {fileID: 11400000, guid: 01ca884bb899cb649b6d9eb5b0d5dca9, type: 2}
+    - {fileID: 11400000, guid: 8c42b5f0b3fb5514cae5b13c3f25e57e, type: 2}
     - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
+    - {fileID: 11400000, guid: 8c42b5f0b3fb5514cae5b13c3f25e57e, type: 2}
+    - {fileID: 11400000, guid: 83b69dbd30716d845949bbb1a3c07562, type: 2}
+    - {fileID: 11400000, guid: 46a1c46c45146f445858030413da96be, type: 2}
+    - {fileID: 11400000, guid: 8c42b5f0b3fb5514cae5b13c3f25e57e, type: 2}
     - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
-    playerDeck: []
+    - {fileID: 11400000, guid: 6934edf560c2d3344bd6f296de7cf1c1, type: 2}
+    - {fileID: 11400000, guid: 83b69dbd30716d845949bbb1a3c07562, type: 2}
+    - {fileID: 11400000, guid: 01ca884bb899cb649b6d9eb5b0d5dca9, type: 2}
     playerHandCardObject:
     - {fileID: 166720998}
     - {fileID: 2056053559}

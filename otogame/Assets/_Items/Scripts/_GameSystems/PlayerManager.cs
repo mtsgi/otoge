@@ -40,7 +40,9 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 		public OtofudaCard[] playerHand; 
 		//デッキ
 		public List<OtofudaCard> playerDeck = new List<OtofudaCard>();
+		//手札のカードの実体
 		public GameObject[] playerHandCardObject =  new GameObject[5];
+		internal Sprite[] handSprites = new Sprite[5];
 		
 		
 		//ノーツ情報
@@ -68,6 +70,12 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 			focusY = focusObject.transform.position.y;
 			focusZ = focusObject.transform.position.z;
 			_selectColor = Instance.selectColor;
+
+			for (int i = 0; i < 5; i++)
+			{
+				playerHandCardObject[i].GetComponent<SpriteRenderer>().sprite = playerHand[i].cardPicture;
+				//Debug.Log(playerHandCardObject[i].GetComponent<SpriteRenderer>().sprite.name);
+			}
 		}
 		
 		internal void focusCard(int selectStatenum)
@@ -132,6 +140,14 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 			Debug.LogError("ERROR! 手札枚数がおかしなことになっています");
 			return -1;
 		}
+
+		internal void setSprites(Sprite setSprite,int targethandIndex)
+		{
+			playerHandCardObject[targethandIndex].GetComponent<SpriteRenderer>().sprite = setSprite;
+
+		}
+		
+		
 		
 /*		internal void setCard(int id)
 		{
@@ -155,6 +171,25 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 		for (int i = 0; i < 2; i++)
 		{
 			_players[i].init();
+		}
+	}
+
+	private void Update()
+	{
+		if (playerEffectStandby[0] && playerEffectStandby[1])
+		{
+			//相手効果がバリアもちでなければ効果を実行。
+			for (int i = 0; i < 2; i++)
+			{
+				if (!otofudaCards[i].isHaveBarrier)
+				{
+					otofudaCards[1 - i].effectActivate(1 - i, _players[1 - i].activateIndex);
+				}
+			}
+			
+			playerEffectStandby[0] = false;
+			playerEffectStandby[1] = false;
+			Debug.Log("RUN");
 		}
 	}
 
@@ -194,59 +229,23 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	}
 	
 	
-	//そのターンに使われたカードを登録する。
-	private void OnUseOtoFudaCard(int _playerID)
+	//カードの効果を実行待ち状態にする
+	private void OnUseOtoFudaCard(int _playerID,bool isPerfect)
 	{
-		otofudaCards[_playerID] = _players[_playerID].getSelectCard();
-
+		//音札ノーツを見逃してなければ効果を登録する。
+		if (isPerfect)
+		{
+			otofudaCards[_playerID] = _players[_playerID].getSelectCard();
+		}
+		else
+		{
+			Debug.Log("OTOFUDA MISS");
+			otofudaCards[_playerID] = otofudaNone;
+		}
+		Debug.Log(otofudaCards[_playerID]);
 		playerEffectStandby[_playerID] = true;
 	}
 
-
-	//コルーチンを走らせる関数
-	internal void runCoroutine()
-	{
-		//コルーチンが起動してたら何もしない
-		if (isRunningCoroutine)
-		{
-			return;
-		}
-
-		isRunningCoroutine = true;
-
-		StartCoroutine(turnManagementCoroutine());
-	}
-
-	//ターンをマネジメントするコルーチン。
-	private IEnumerator turnManagementCoroutine()
-	{
-		while (true)
-		{
-			Debug.Log("RUNCOROUTINE");
-			if (playerEffectStandby[0] && playerEffectStandby[1])
-			{
-				//相手効果がバリアもちでなければ効果を実行。
-				for (int i = 0; i < 2; i++)
-				{
-					if (!otofudaCards[i].isHaveBarrier)
-					{
-						otofudaCards[1 - i].effectActivate(1 - i, _players[1 - i].activateIndex);
-					}
-				}
-
-				playerEffectStandby[0] = false;
-				playerEffectStandby[1] = false;
-				
-				yield break;
-			}
-			
-			
-			yield return null;
-		}
-		
-		
-		yield return null;
-	}
 
 
 

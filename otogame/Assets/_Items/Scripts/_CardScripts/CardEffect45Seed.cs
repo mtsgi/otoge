@@ -17,14 +17,17 @@ public class CardEffect45Seed : OtofudaCardEffectBase
         _targetPlayer.playerHand[handIndex] = PlayerManager.Instance.otofudaNone;
         
         //ワンドロー処理の代わりに発動するものなのか、ワンドロー処理に追加で発動するものなのかを後で確認する。
-/*      
         //まずワンドロー
-        if (_targetPlayer.playerDeck.Count != 0)
+/*        if (_targetPlayer.playerDeck.Count != 0)
         {
-            _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[0];
-            _targetPlayer.playerDeck.RemoveAt(0);
+            _players[playerID].playerHand[handIndex] = _targetPlayer.playerDeck[0];
+            _players[playerID].playerHand[handIndex].setSprite(playerID,handIndex);
+            _players[playerID].playerDeck.RemoveAt(0);
         }
-        */
+        else
+        {
+            _players[playerID].playerHand[handIndex].setNone(playerID, handIndex);
+        }*/
 
         
         //デッキ枚数が0、もしくは手札枚数が枚であれば処理終了

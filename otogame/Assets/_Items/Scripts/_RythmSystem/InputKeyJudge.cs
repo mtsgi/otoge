@@ -47,7 +47,8 @@ namespace OtoFuda.player
         private bool[] isLongNoteStart = new bool[5];
         
         //カードを使うときのアクション
-        public static Action<int> OnUseOtoFudaCard;
+        //パフェだったかのがしたか
+        public static Action<int,bool> OnUseOtoFudaCard;
 
         private PlayerManager _playerManager;
 
@@ -260,6 +261,7 @@ namespace OtoFuda.player
             }
 
         }
+        
         //メモ
         //timingとState周りをリファクタ
         //ノーツが判定ラインを通過したときの処理
@@ -283,10 +285,15 @@ namespace OtoFuda.player
                         0.12f)
                     {
 
-                        if (_playerManager._players[playerID].FumenState == targetState)
+/*                        if (_playerManager._players[playerID].FumenState == targetState)
                         {
                             judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
                             Debug.LogError("Miss"+(int) Judge.MISS);
+                        }*/
+
+                        if (targetTimings[_noteCounters[stateIndex, index]].noteType == 5)
+                        {
+                            OnUseOtoFudaCard?.Invoke(playerID, false);
                         }
                         
                         //ロングノーツの場合、始点をミスしたら終点もミス扱いにする
@@ -321,6 +328,13 @@ namespace OtoFuda.player
                             _noteCounters[stateIndex, index]++;
                             _playerManager._players[playerID].noteSimpleCount++;
                             
+                            //引数で渡したStateが現在のプレイヤーのステートと同じであればMissの判定をする。
+                            if (_playerManager._players[playerID].FumenState == targetState)
+                            {
+                                judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
+                                Debug.LogError("Miss"+(int) Judge.MISS);
+                            }
+                            
                             //通過に応じてRemove
                             if (stateIndex == 1)
                             {
@@ -332,19 +346,19 @@ namespace OtoFuda.player
                             }
                         }
                         
-                        //エラー回避、2レーン目のノーツ数が最大値だったらreturn
+/*                        //エラー回避、2レーン目のノーツ数が最大値だったらreturn
                         Debug.LogWarning(_noteCounters[stateIndex, 2]);
 
                         if (_noteCounters[stateIndex, 2] >= targetTimings.Count)
                         {
                             return;
-                        }
+                        }*/
 
-                        //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
+/*                        //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
                         if (targetTimings[_noteCounters[stateIndex, 2]].noteType == 5)
                         {
                             _playerManager.runCoroutine();
-                        }
+                        }*/
                     }
                 }
             }
@@ -363,7 +377,7 @@ namespace OtoFuda.player
             if ((stateIndex == 1 && _fumenDataManager.mainNotes[playerID].Count == 0) || 
                 (stateIndex == 2 && _fumenDataManager.moreDifficultNotes[playerID].Count == 0)) 
             {
-//                Debug.Log("<color=red>none");
+                
                 return;
             }
             
@@ -375,12 +389,9 @@ namespace OtoFuda.player
 
             //押下したキーに対応するレーンに流れるすべてのノーツ情報。
             var targetLaneNoteInfos = targetTimings;
-
-            //レーンのカウント数が最大数と同じであればはじく
-            if (targetLaneNoteInfos.Count <= _noteCounters[stateIndex,targetLane])
-            {
-                return;
-            }
+            
+            
+            
 
             //現在の次に来るはずのノーツ情報
             var nextNoteTimingInfo = targetLaneNoteInfos[_noteCounters[stateIndex,targetLane]];
@@ -413,6 +424,7 @@ namespace OtoFuda.player
             int _stateIndex)
         {
 
+            var isJudge = false;
             if (_inputTime - _judgeTime >= -0.15f && _inputTime - _judgeTime <= 0.15f)
             {
                 checkLongStartNote(_targetLane, _noteType);
@@ -421,6 +433,7 @@ namespace OtoFuda.player
                 
                 judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
                 Debug.Log("Perfect");
+                isJudge = true;
             }
             else if (-0.2f <= _inputTime - _judgeTime && _inputTime - _judgeTime <= 0.2f)
             {
@@ -429,6 +442,8 @@ namespace OtoFuda.player
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.GOOD].Play("Judge", 0, 0.0f);
                 Debug.Log("Good");
+                isJudge = true;
+
             }
             else if (_inputTime - _judgeTime >= -0.6f && _inputTime - _judgeTime <= 0.6f)
             {
@@ -437,6 +452,8 @@ namespace OtoFuda.player
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
                 Debug.Log("Bad");
+                isJudge = true;
+
             }
             else
             {
@@ -444,14 +461,20 @@ namespace OtoFuda.player
             }
             
             //判定したときは現在のステートのNoteObjectをRemoveする
-            if (_stateIndex == 1)
+            if (isJudge)
             {
-                _fumenDataManager.mainNotes[playerID].RemoveAt(0);
+                if (_stateIndex == 1)
+                {
+                    _fumenDataManager.mainNotes[playerID].RemoveAt(0);
+                }
+                else if (_stateIndex == 2)
+                {
+                    _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                }
+
+                isJudge = false;
             }
-            else if (_stateIndex == 2)
-            {
-                _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
-            }
+
 
         }
 
@@ -477,12 +500,14 @@ namespace OtoFuda.player
         //ロングノーツの終点の判定を行う関数
         private void checkJudgeLongNoteEnd(int _targetLane, float _inputTime, float _judgeTime, int _stateIndex)
         {
+            var isJudge = false;
             if (_inputTime - _judgeTime >= -0.15f && _inputTime - _judgeTime <= 0.15f)
             {
                 _noteCounters[_stateIndex, _targetLane]++;
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
                 Debug.Log("Perfect");
+                isJudge = true;
             }
             else if (-0.2f <= _inputTime - _judgeTime && _inputTime - _judgeTime <= 0.2f)
             {
@@ -490,6 +515,8 @@ namespace OtoFuda.player
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.GOOD].Play("Judge", 0, 0.0f);
                 Debug.Log("Good");
+                isJudge = true;
+
             }
             else if (_inputTime - _judgeTime >= -0.6f && _inputTime - _judgeTime <= 0.6f)
             {
@@ -497,23 +524,30 @@ namespace OtoFuda.player
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
                 Debug.Log("Bad");
+                isJudge = true;
+
             }
             else
             {
-                _noteCounters[_stateIndex, _targetLane]++;
+/*                _noteCounters[_stateIndex, _targetLane]++;
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
-                Debug.LogError("Miss");
+                Debug.LogError("Miss");*/
             }
             
             //判定したときは現在のステートのNoteObjectをRemoveする
-            if (_stateIndex == 1)
+            if (isJudge)
             {
-                _fumenDataManager.mainNotes[playerID].RemoveAt(0);
-            }
-            else if (_stateIndex == 2)
-            {
-                _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                if (_stateIndex == 1)
+                {
+                    _fumenDataManager.mainNotes[playerID].RemoveAt(0);
+                }
+                else if (_stateIndex == 2)
+                {
+                    _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                }
+
+                isJudge = false;
             }
 
             isLongNoteStart[_targetLane] = false;
@@ -582,11 +616,6 @@ namespace OtoFuda.player
                 //Debug.Log(targetLaneNoteInfos.Count+"   ___   "+_noteCounters[stateIndex, i]);
 
                 
-                //レーンのカウント数が最大数と同じであればはじく
-                if (targetLaneNoteInfos.Count <= _noteCounters[stateIndex, i])
-                {
-                    continue;
-                }
 
                 //現在の次に来るはずのノーツ情報
                 var nextNoteTimingInfo = targetLaneNoteInfos[_noteCounters[stateIndex, i]];
@@ -598,6 +627,7 @@ namespace OtoFuda.player
                 //左フリックだった時
                 if (nextNoteTimingInfo.noteType == 3)
                 {
+                    var isJudge = false;
                     //ジェスチャがLeftでなかったらBad
                     if (_playerGesture == PlayerGesture.LEFT &&
                         inputTime - judgeTime >= -0.6f && inputTime - judgeTime <= 0.6f)
@@ -606,6 +636,7 @@ namespace OtoFuda.player
                         _playerManager._players[playerID].noteSimpleCount++;
                         judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
                         Debug.Log("Perfect");
+                        isJudge = true;
                     }
                     else if (_playerGesture != PlayerGesture.LEFT
                              && inputTime - judgeTime >= -0.6f && inputTime - judgeTime <= 0.6f)
@@ -614,6 +645,8 @@ namespace OtoFuda.player
                         _playerManager._players[playerID].noteSimpleCount++;
                         judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
                         Debug.Log("Bad");
+                        isJudge = true;
+
                     }
                     else
                     {
@@ -621,18 +654,24 @@ namespace OtoFuda.player
                     }
                     
                     //判定したときは現在のステートのNoteObjectをRemoveする
-                    if ((int)fumenState == 1)
+                    if (isJudge)
                     {
-                        _fumenDataManager.mainNotes[playerID].RemoveAt(0);
-                    }
-                    else if ((int)fumenState == 2)
-                    {
-                        _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                        if (stateIndex == 1)
+                        {
+                            _fumenDataManager.mainNotes[playerID].RemoveAt(0);
+                        }
+                        else if (stateIndex == 2)
+                        {
+                            _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                        }
+
+                        isJudge = false;
                     }
                 }
                 //右フリックだった時
                 else if (nextNoteTimingInfo.noteType == 4)
                 {
+                    var isJudge = false;
                     //ジェスチャがLeftでなかったらBad
                     if (_playerGesture == PlayerGesture.RIGHT &&
                         inputTime - judgeTime >= -0.6f && inputTime - judgeTime <= 0.6f)
@@ -641,6 +680,7 @@ namespace OtoFuda.player
                         _playerManager._players[playerID].noteSimpleCount++;
                         judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
                         Debug.Log("Perfect");
+                        isJudge = true;
                     }
                     else if (_playerGesture != PlayerGesture.RIGHT
                              && inputTime - judgeTime >= -0.6f && inputTime - judgeTime <= 0.6f)
@@ -649,19 +689,26 @@ namespace OtoFuda.player
                         _playerManager._players[playerID].noteSimpleCount++;
                         judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
                         Debug.Log("Bad");
+                        isJudge = true;
+
                     }
                     else
                     {
 
                     }
                     //判定したときは現在のステートのNoteObjectをRemoveする
-                    if ((int)fumenState == 1)
+                    if (isJudge)
                     {
-                        _fumenDataManager.mainNotes[playerID].RemoveAt(0);
-                    }
-                    else if ((int)fumenState == 2)
-                    {
-                        _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                        if (stateIndex == 1)
+                        {
+                            _fumenDataManager.mainNotes[playerID].RemoveAt(0);
+                        }
+                        else if (stateIndex == 2)
+                        {
+                            _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                        }
+
+                        isJudge = false;
                     }
                 }
 
@@ -673,17 +720,17 @@ namespace OtoFuda.player
                     return;
                 }
 
-                //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
+/*                //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
                 if (targetLaneNoteInfos[_noteCounters[stateIndex, 2]].noteType == 5)
                 {
                     _playerManager.runCoroutine();
-                }
-
+                }*/
             }
 
         }
 
 
+        
         //音札ノーツの判定
         private void OnGetPlayerBuddhaGesture(int _playerID)
         {
@@ -745,11 +792,7 @@ namespace OtoFuda.player
             //押下したキーに対応するレーンに流れるすべてのノーツ情報。
             var targetLaneNoteInfos = targetTimings;
 
-            //レーンのカウント数が最大数と同じであればはじく
-            if (targetLaneNoteInfos.Count <= _noteCounters[stateIndex,2])
-            {
-                return;
-            }
+
 
             //現在の次に来るはずのノーツ情報
             var nextNoteTimingInfo = targetLaneNoteInfos[_noteCounters[stateIndex,2]];
@@ -763,7 +806,10 @@ namespace OtoFuda.player
             var _inputTime = _audioSource.time;
             var _judgeTime = nextNoteTimingInfo.reachTime;
             var _noteType = nextNoteTimingInfo.noteType;
+            
+            
 
+            var isJudge = false;
             if (_inputTime - _judgeTime >= -0.15f && _inputTime - _judgeTime <= 0.15f)
             {
                 _noteCounters[stateIndex,2]++;
@@ -772,20 +818,30 @@ namespace OtoFuda.player
                 Debug.Log("Perfect");
 
                 //音札を利用したというアクションを発火
-                OnUseOtoFudaCard?.Invoke(playerID);
+                OnUseOtoFudaCard?.Invoke(playerID,true);
+                isJudge = true;
             }
             else
             {
+/*                _noteCounters[stateIndex,2]++;
+                _playerManager._players[playerID].noteSimpleCount++;
+                judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
+                OnUseOtoFudaCard?.Invoke(playerID,false);*/
             }
             
             //判定したときは現在のステートのNoteObjectをRemoveする
-            if ((int)fumenState == 1)
+            if (isJudge)
             {
-                _fumenDataManager.mainNotes[playerID].RemoveAt(0);
-            }
-            else if ((int)fumenState == 2)
-            {
-                _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                if (stateIndex == 1)
+                {
+                    _fumenDataManager.mainNotes[playerID].RemoveAt(0);
+                }
+                else if (stateIndex == 2)
+                {
+                    _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                }
+
+                isJudge = false;
             }
 
             //エラー回避
@@ -795,11 +851,11 @@ namespace OtoFuda.player
             }
             Debug.LogWarning(targetLaneNoteInfos[_noteCounters[stateIndex,2]].noteType);
 
-            //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
+/*            //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
             if (targetLaneNoteInfos[_noteCounters[stateIndex,2]].noteType == 5)
             {
                 _playerManager.runCoroutine();
-            }
+            }*/
         }
 
         //手を離したとき

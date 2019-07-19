@@ -22,8 +22,13 @@ public class CardEffectBlueStrip : OtofudaCardEffectBase
         //まずワンドロー
         if (_targetPlayer.playerDeck.Count != 0)
         {
-            _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[0];
-            _targetPlayer.playerDeck.RemoveAt(0);
+            _players[playerID].playerHand[handIndex] = _targetPlayer.playerDeck[0];
+            _players[playerID].playerHand[handIndex].setSprite(playerID,handIndex);
+            _players[playerID].playerDeck.RemoveAt(0);
+        }
+        else
+        {
+            _players[playerID].playerHand[handIndex].setNone(playerID, handIndex);
         }
 
         _targetPlayer.playerHp += addHpWeight;
@@ -35,4 +40,14 @@ public class CardEffectBlueStrip : OtofudaCardEffectBase
 */
     }
     
+/*
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            applyHandEffect(0,3);
+        }
+    }
+    */
+
 }

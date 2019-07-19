@@ -4,15 +4,6 @@
             "type": 1,
             "measure": 1,
             "lane": 5,
-            "position": 1,
-            "split": 4,
-            "option": -1,
-            "end": []
-        },
-        {
-            "type": 1,
-            "measure": 1,
-            "lane": 5,
             "position": 2,
             "split": 4,
             "option": -1,
