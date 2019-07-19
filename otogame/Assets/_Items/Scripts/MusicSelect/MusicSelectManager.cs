@@ -24,14 +24,14 @@ public class MusicSelectManager : SingletonMonoBehaviour<MusicSelectManager>
                 if (Input.GetKeyDown(KeyInputSettings[i].KeyCodes[0]))
                 {
                     KeyInputSettings[i].frameWaveAnimController[0].Play("Wave", 0, 0.0f);
-                    KeyInputSettings[i].targetJsonReadManager.ScroolUp();
+//                    KeyInputSettings[i].targetJsonReadManager.ScroolUp();
                     
                     Debug.Log("上");
                 }
                 else if (Input.GetKeyDown(KeyInputSettings[i].KeyCodes[1]))
                 {
                     KeyInputSettings[i].frameWaveAnimController[1].Play("Wave", 0, 0.0f);
-                    KeyInputSettings[i].targetJsonReadManager.ScroolDown();
+ //                   KeyInputSettings[i].targetJsonReadManager.ScroolDown();
 
                     Debug.Log("下");
                 }
