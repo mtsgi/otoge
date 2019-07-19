@@ -13,12 +13,14 @@ public class JsonReadManager : MonoBehaviour
 	[SerializeField] private int playerID;
 	[SerializeField] private string fileName;
 
+	public bool isDebug = false;
+
 	//難易度をEnumで定義
 	public enum DIFFICULTY
 	{
-		EASY,
-		NORMAL,
-		HARD
+		EASY = 0,
+		NORMAL = 1,
+		HARD = 2
 	}
 
 	public DIFFICULTY difficulty = DIFFICULTY.NORMAL;	
@@ -29,6 +31,13 @@ public class JsonReadManager : MonoBehaviour
 	
 	private void Start()
 	{
+		if (!isDebug)
+		{
+			fileName = MusicSelectManager.jsonFilePath;
+			difficulty = MusicSelectManager.LEVELS[playerID];
+			Debug.Log("player1 LEVEL is "+ difficulty);
+		}
+		
 		_fumenDataManager = FumenDataManager.Instance;
 		serializeFumendata();
 		
@@ -68,7 +77,7 @@ public class JsonReadManager : MonoBehaviour
 				for (int i = 0; i < fumenInfo.normal.Count; i++)
 				{
 					noteGenerate(FumenDataManager.Instance.mainNotes[playerID], _fumenDataManager.timings,
-						fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,0.3f);
+						fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -90,7 +99,7 @@ public class JsonReadManager : MonoBehaviour
 				for (int i = 0; i < fumenInfo.hard.Count; i++)
 				{
 					noteGenerate(FumenDataManager.Instance.mainNotes[playerID], _fumenDataManager.timings,
-						fumenInfo.hard[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,0.3f);
+						fumenInfo.hard[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -114,7 +123,7 @@ public class JsonReadManager : MonoBehaviour
 				for (int i = 0; i < fumenInfo.extra.Count; i++)
 				{
 					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID], _fumenDataManager.moreDifficultTimings,
-						fumenInfo.extra[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,0.3f);
+						fumenInfo.extra[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -211,10 +220,10 @@ public class JsonReadManager : MonoBehaviour
 		//laneの長さ
 		var _laneLength = FumenDataManager.Instance.laneLength;
 
-		spawnPos = new Vector3(lane + (playerID * 20), reachFrame * _laneLength * _fumenDataManager.highSpeed, 0+_ZoffSet);
+		spawnPos = new Vector3(lane + (playerID * 20), reachFrame * _laneLength * _fumenDataManager.highSpeed[playerID], 0+_ZoffSet);
 		
 		//ノーツ本体のスクリプトに値を格納
-		_noteObject.setNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachFrame);
+		_noteObject.setNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachFrame,playerID);
 		
 		//生成
 		var spawnedObject = Instantiate(noteGameObject, spawnPos, Quaternion.identity);
@@ -259,15 +268,15 @@ public class JsonReadManager : MonoBehaviour
 			//終点座標からロングノーツのラインの生成座標を計算する。
 			var spawnY =
 				(FumenDataManager.Instance.mainNotes[playerID][endNoteIndex].reachFrame * _laneLength *
-				 _fumenDataManager.highSpeed + spawnPos.y) / 2;
+				 _fumenDataManager.highSpeed[playerID] + spawnPos.y) / 2;
 			
 			var extend = FumenDataManager.Instance.mainNotes[playerID][endNoteIndex].reachFrame * _laneLength *
-			             _fumenDataManager.highSpeed - spawnPos.y;
+			             _fumenDataManager.highSpeed[playerID] - spawnPos.y;
 			
 			GameObject longLine = (GameObject) Resources.Load("NoteObjects/Prefabs/testLongNote");
 
 
-			var longLinePos = new Vector3(spawnX, spawnY, spawnZ);
+			var longLinePos = new Vector3(spawnX, spawnY, _ZoffSet);
 			var scale = new Vector3(0.1f, 0.018f * extend * 9, 1);
 /*
 			Debug.Log(extend);

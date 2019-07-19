@@ -614,8 +614,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d4d3ff2b6da4261a32752f2747999b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BPM: 120
-  highSpeed: 8
+  isDebug: 0
+  BPM: 240
+  highSpeed:
+  - 8
+  - 8
 --- !u!1 &111358432
 GameObject:
   m_ObjectHideFlags: 0
@@ -6668,7 +6671,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 0
-  fileName: sample/sample
+  fileName: otofuda/otofuda/otofuda
+  isDebug: 0
   difficulty: 2
 --- !u!1 &1201543538
 GameObject:
@@ -7695,8 +7699,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: 1
-  fileName: sample/sample
-  difficulty: 2
+  fileName: otofuda/otofuda/otofuda
+  isDebug: 0
+  difficulty: 1
 --- !u!4 &1391623343
 Transform:
   m_ObjectHideFlags: 0
@@ -8114,7 +8119,6 @@ MonoBehaviour:
   - {fileID: 402907542}
   - {fileID: 676705124}
   - {fileID: 725701319}
-  _playerHpSlider: {fileID: 0}
 --- !u!4 &1481647811
 Transform:
   m_ObjectHideFlags: 0
@@ -9722,7 +9726,6 @@ MonoBehaviour:
   - {fileID: 1792688930}
   - {fileID: 1137870312}
   - {fileID: 11514594}
-  _playerHpSlider: {fileID: 0}
 --- !u!1 &1597501889
 GameObject:
   m_ObjectHideFlags: 0

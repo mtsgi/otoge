@@ -1,27 +1,45 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using OtoFuda.Fumen.index;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class IndexJsonReadManager : MonoBehaviour
 {
     [SerializeField] private Transform targetCanvasgameobject;
-    
     [SerializeField] private string fileName = "index";
+    [SerializeField,Range(0,1)] private int playerID;
+    
 
     public int focus = 0, indexLength = 0;
     private GameObject _levelselect;
+    private int selectLevelindex = 1;
 
+    private bool isLevelSelectOpen;
+
+    public bool isSelectLevel;
+    
+    //シーンを多重ロードするのを防ぐためのbool
+    private bool isSceneLoadStart;
+    
     // Start時にjson読み込み
-    private void Start() {
+    private void Start() 
+    {
+        //ハイスピ値の初期化。ユーザー登録するならここでいろいろする
+        for (int i = 0; i < 2; i++)
+        {
+            MusicSelectManager.HISPEED[i] = 1.0f;
+        }
+        
         _levelselect = targetCanvasgameobject.Find("LevelSelect").gameObject;
         _levelselect.SetActive(false);
         draw();
     }
 
     private void Update() {
-        if (Input.GetKeyUp(KeyCode.UpArrow)) {
+/*        if (Input.GetKeyUp(KeyCode.UpArrow)) {
 
         }
         else if (Input.GetKeyUp(KeyCode.DownArrow)) {
@@ -32,7 +50,7 @@ public class IndexJsonReadManager : MonoBehaviour
 
         }
         else if (Input.GetKeyUp(KeyCode.Escape)) {
-        }
+        }*/
     }
 
     public void ScrollUp()
@@ -49,14 +67,34 @@ public class IndexJsonReadManager : MonoBehaviour
         draw();
     }
 
-    public void SelectMusic()
+    public void SelectMusic(int _focus)
     {
         _levelselect.SetActive(true);
-
         var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
         var jsonText = textAsset.text;
         var _index = JsonUtility.FromJson<IndexInfo>(jsonText);
-        IndexContent m = _index.index[focus];
+        IndexContent m = _index.index[_focus];
+        
+        if (isLevelSelectOpen && !isSelectLevel)
+        {
+/*            MusicSelectManager.musicID = m.id;
+            MusicSelectManager.jsonFilePath = m.id + "/" + m.id + "/" + m.id;
+            MusicSelectManager.BPM = m.bpm;
+
+            isSceneLoadStart = true;
+            Debug.Log(MusicSelectManager.jsonFilePath);
+            
+            SceneManager.LoadScene("JsonReadTestScene");*/
+
+
+            MusicSelectManager.LEVELS[playerID] =
+                (JsonReadManager.DIFFICULTY) Enum.ToObject(typeof(JsonReadManager.DIFFICULTY), selectLevelindex);
+
+            isSelectLevel = true;
+            Debug.Log("LEVEL SELECT!");
+            return;
+        }
+        
 
         _levelselect.transform.Find("MusicName").gameObject.GetComponent<Text>().text = m.name;
         _levelselect.transform.Find("MusicArtist").gameObject.GetComponent<Text>().text = m.artist;
@@ -73,11 +111,117 @@ public class IndexJsonReadManager : MonoBehaviour
         _levelselect.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>(jacketPath);
 
         _levelselect.transform.Find("MusicComment").gameObject.GetComponent<Text>().text = m.comment;
+        
+        isLevelSelectOpen = true;
+        
+/*
+        Debug.Log("SELECTED");
+*/
+    }
+
+    public void LoadScene(int _focus)
+    {
+        _levelselect.SetActive(true);
+        var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
+        var jsonText = textAsset.text;
+        var _index = JsonUtility.FromJson<IndexInfo>(jsonText);
+        IndexContent m = _index.index[_focus];
+
+        if (isLevelSelectOpen && isSelectLevel)
+        {
+            MusicSelectManager.musicID = m.id;
+            MusicSelectManager.jsonFilePath = m.id + "/" + m.id + "/" + m.id;
+            MusicSelectManager.BPM = m.bpm;
+
+            isSceneLoadStart = true;
+            Debug.Log(MusicSelectManager.jsonFilePath);
+            
+            SceneManager.LoadScene("JsonReadTestScene");
+        }
     }
 
     public void Escape()
     {
         _levelselect.SetActive(false);
+        isLevelSelectOpen = false;
+         isSelectLevel= false;
+    }
+    
+    public void InputLeft()
+    {
+        if (isSelectLevel)
+        {
+            return;
+        }
+        
+        if (isLevelSelectOpen)
+        {
+            if (selectLevelindex == 1)
+            {
+                _levelselect.transform.Find("SelectFrame").position=_levelselect.transform.Find("MusicEasyColor").position;
+                _levelselect.transform.Find("SelectFrame").gameObject.GetComponent<Animator>().Play("Wave", 0, 0.0f);
+                selectLevelindex -= 1;
+
+            }
+            else if (selectLevelindex == 2)
+            {
+                _levelselect.transform.Find("SelectFrame").position=_levelselect.transform.Find("MusicNormalColor").position;
+                _levelselect.transform.Find("SelectFrame").gameObject.GetComponent<Animator>().Play("Wave", 0, 0.0f);
+                selectLevelindex -= 1;
+            }
+/*
+            Debug.Log("ENTER LEFT");
+*/
+            return;
+        }
+        
+        MusicSelectManager.HISPEED[playerID] = Mathf.Clamp(MusicSelectManager.HISPEED[playerID] - 0.5f, 1.0f, 10.0f);
+        targetCanvasgameobject.Find("HiSpeedText").GetComponent<Text>().text =
+            string.Format("HI-SPEED : {0:0.0}", MusicSelectManager.HISPEED[playerID]);
+/*
+        Debug.Log("HI SPEED DOWN");
+*/
+
+
+    }
+    
+    public void InputRight()
+    {
+        if (isSelectLevel)
+        {
+            return;
+        }
+        
+        if (isLevelSelectOpen)
+        {
+            _levelselect.transform.Find("SelectFrame").gameObject.GetComponent<Animator>().Play("Wave", 0, 0.0f);
+
+            if (selectLevelindex == 1)
+            {
+                _levelselect.transform.Find("SelectFrame").position=_levelselect.transform.Find("MusicHardColor").position;
+                selectLevelindex += 1;
+            }
+            else if (selectLevelindex == 0)
+            {
+                _levelselect.transform.Find("SelectFrame").position=_levelselect.transform.Find("MusicNormalColor").position;
+                selectLevelindex += 1;
+            }
+/*
+            Debug.Log("ENTER RIGHT");
+*/
+
+            return;
+        }
+
+        MusicSelectManager.HISPEED[playerID] = Mathf.Clamp(MusicSelectManager.HISPEED[playerID] + 0.5f, 1.0f, 10.0f);
+        targetCanvasgameobject.Find("HiSpeedText").GetComponent<Text>().text =
+            string.Format("HI-SPEED : {0:0.0}", MusicSelectManager.HISPEED[playerID]);
+/*
+        Debug.Log("HI SPEED UP");
+*/
+
+
+
     }
 
     internal void serializeFumendata()
@@ -125,8 +269,7 @@ public class IndexJsonReadManager : MonoBehaviour
                 focusing.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>(jacketPath);
             }
         }
-
-
+        
         //foreach(IndexContent v in _index.index) {
         //music.name = v.name;
         //var _music = Instantiate(music,GameObject.Find("Canvas").transform.Find("MusicScroll/Viewport/Content"));
