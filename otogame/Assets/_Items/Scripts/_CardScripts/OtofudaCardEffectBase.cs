@@ -12,38 +12,20 @@ namespace OtoFuda.Card
             return 0;
         }
         
-        private PlayerManager.Player[] _players;
+        public PlayerManager.Player[] _players;
 
         internal PlayerManager.Player _targetPlayer;
         internal int playerID;
         internal int handIndex;
         
         
-        [SerializeField] private EffectTargetType _targetType;
-        
+        public EffectTargetType _targetType;
 
-/*        private void Start()
-        {
-            if (PlayerManager.Instance == null)
-            {
-                Debug.LogError("<color=#FF0000>ERROR</color> on"+name+" ! PlayerManagerがScene存在していないか、非表示になってるっぽいです。");
-                return;
-            }
-            
-            //Player情報を引っ張ってくる。
-            _players = PlayerManager.Instance._players;
-        }*/
-
-        //手札の効果を実行する部分。
-        //usePlayerNumberが効果を発動したPlayer。
-        
-        
         internal void applyHandEffect(int usedPlayerNumber ,int _handIndex)
         {
             _players = PlayerManager.Instance._players;
             playerID = usedPlayerNumber;
 
-//            Debug.Log(usedPlayerNumber);
             //特殊効果を実行。
             if (_targetType == EffectTargetType.MYSELF)
             {
@@ -83,6 +65,7 @@ namespace OtoFuda.Card
             
             
         }
+
 
     }
 

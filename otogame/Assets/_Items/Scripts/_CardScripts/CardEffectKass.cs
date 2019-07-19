@@ -17,8 +17,13 @@ public class CardEffectKass : OtofudaCardEffectBase
         //まずワンドロー
         if (_targetPlayer.playerDeck.Count != 0)
         {
-            _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[0];
-            _targetPlayer.playerDeck.RemoveAt(0);
+            _players[playerID].playerHand[handIndex] = _targetPlayer.playerDeck[0];
+            _players[playerID].playerHand[handIndex].setSprite(playerID,handIndex);
+            _players[playerID].playerDeck.RemoveAt(0);
+        }
+        else
+        {
+            _players[playerID].playerHand[handIndex].setNone(playerID, handIndex);
         }
         
         //プレイヤーのデッキ枚数が0もしくはNone以外のカード(つまり手札枚数)が五枚であれば処理を終了
@@ -28,7 +33,9 @@ public class CardEffectKass : OtofudaCardEffectBase
         }
         
         //追加でドロー
-        _targetPlayer.playerHand[_targetPlayer.getNoneHandIndex()] = _targetPlayer.playerDeck[0];
+        var targetIndex = _targetPlayer.getNoneHandIndex();
+        _targetPlayer.playerHand[targetIndex] = _targetPlayer.playerDeck[0];
+        _players[playerID].playerHand[targetIndex].setSprite(playerID,targetIndex);
         _targetPlayer.playerDeck.RemoveAt(0);
         
     }

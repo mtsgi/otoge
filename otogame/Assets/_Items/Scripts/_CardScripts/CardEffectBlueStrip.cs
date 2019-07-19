@@ -22,17 +22,31 @@ public class CardEffectBlueStrip : OtofudaCardEffectBase
         //まずワンドロー
         if (_targetPlayer.playerDeck.Count != 0)
         {
-            _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[0];
-            _targetPlayer.playerDeck.RemoveAt(0);
+            _players[playerID].playerHand[handIndex] = _targetPlayer.playerDeck[0];
+            _players[playerID].playerHand[handIndex].setSprite(playerID,handIndex);
+            _players[playerID].playerDeck.RemoveAt(0);
         }
-
+        else
+        {
+            _players[playerID].playerHand[handIndex].setNone(playerID, handIndex);
+        }
+        
         _targetPlayer.playerHp += addHpWeight;
-
-
+        _targetPlayer.playerHPSlider.value = Mathf.Clamp(_targetPlayer.playerHp,0,_targetPlayer.playerHPSlider.maxValue);
 
 /*
         _targetPlayer.isBarrier = true;
 */
     }
     
+/*
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            applyHandEffect(0,3);
+        }
+    }
+    */
+
 }

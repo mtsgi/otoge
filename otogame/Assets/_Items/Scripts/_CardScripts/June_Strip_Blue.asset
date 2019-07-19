@@ -15,7 +15,7 @@ MonoBehaviour:
   cardExplain: "\u672D\u3092\u6368\u3066\u305F\u6642\u3001\u30C7\u30C3\u30AD\u304B\u3089\u8D64\u77ED\u53C8\u306F\u9752\u77ED\u3092\r\n\u30E9\u30F3\u30C0\u30E0\u30671\u679A\u5F15\u304F\u3002 "
   _monthType: 2
   _pointType: 5
-  cardPicture: {fileID: 0}
+  cardPicture: {fileID: 21300000, guid: 7d793c3f12a973f408eeb7098ccb6558, type: 3}
   otofudaEffect: {fileID: 114577373930650716, guid: 7c0f397744a33084e8d85c2b80a9bee0,
     type: 2}
   isHaveBarrier: 0

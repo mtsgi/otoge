@@ -15,6 +15,6 @@ MonoBehaviour:
   cardExplain: "\u672D\u306A\u3057"
   _monthType: 2
   _pointType: 5
-  cardPicture: {fileID: 0}
+  cardPicture: {fileID: 21300000, guid: 58afc354f5a3a43d29af3091d869057c, type: 3}
   otofudaEffect: {fileID: 0}
   isHaveBarrier: 0

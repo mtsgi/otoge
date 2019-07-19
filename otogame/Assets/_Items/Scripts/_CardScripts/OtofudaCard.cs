@@ -24,34 +24,43 @@ namespace OtoFuda.Card
         
         //この音札に設定されている効果
         public OtofudaCardEffectBase otofudaEffect;
-
+        
         private int playerNumber;
         
         //バリアもちかどうか
         public bool isHaveBarrier;
         
-        private void Awake()
+        
+        internal void setSprite(int _playerID, int _handIndex)
         {
-
+            PlayerManager.Instance._players[_playerID].setSprites(cardPicture, _handIndex);
         }
-
-        private void OnEnable()
+        
+        internal void setNone(int _playerID, int _handIndex)
         {
+            PlayerManager.Instance._players[_playerID].setSprites(PlayerManager.Instance.otofudaNone.cardPicture, _handIndex);
         }
-
+        
 
         /// <summary>
         /// 音札の効果の実行。
         /// 普通、ノーツを叩いた瞬間に実行される。
         /// </summary>
-        internal void effectActivate(int _playerID, int _handIndex)
+        public void effectActivate(int _playerID, int _handIndex)
         {
             if (otofudaEffect == null)
             {
+                Debug.Log("EFFECT IS NULL!");
                 return;
             }
 
+/*
+            Debug.Log(otofudaEffect.name);
+*/
             otofudaEffect.applyHandEffect(_playerID, _handIndex);
+            
+            Debug.Log("EFFECT ACTIVATE!");
+
         }
 
         //resourceフォルダからカードを使用or破棄した時のエフェクトを参照してInstantitateする。
