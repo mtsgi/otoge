@@ -6,65 +6,87 @@ using UnityEngine.UI;
 
 public class IndexJsonReadManager : MonoBehaviour
 {
+    [SerializeField] private Transform targetCanvasgameobject;
+    
+    [SerializeField] private string fileName = "index";
+
     public int focus = 0, indexLength = 0;
-    public GameObject _levelselect;
+    private GameObject _levelselect;
 
     // Start時にjson読み込み
     private void Start() {
-        _levelselect = GameObject.Find("LevelSelect");
+        _levelselect = targetCanvasgameobject.Find("LevelSelect").gameObject;
         _levelselect.SetActive(false);
         draw();
     }
 
     private void Update() {
         if (Input.GetKeyUp(KeyCode.UpArrow)) {
-            if (focus == 0) focus = indexLength - 1;
-            else focus -= 1;
-            draw();
+
         }
         else if (Input.GetKeyUp(KeyCode.DownArrow)) {
-            if (focus == indexLength - 1) focus = 0;
-            else focus += 1;
-            draw();
+
         }
         //難易度選択画面へ遷移
         else if (Input.GetKeyUp(KeyCode.Return)) {
-            _levelselect.SetActive(true);
 
-            var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
-            var jsonText = textAsset.text;
-            var _index = JsonUtility.FromJson<IndexInfo>(jsonText);
-            IndexContent m = _index.index[focus];
-
-            _levelselect.transform.Find("MusicName").gameObject.GetComponent<Text>().text = m.name;
-            _levelselect.transform.Find("MusicArtist").gameObject.GetComponent<Text>().text = m.artist;
-
-            _levelselect.transform.Find("MusicEasyNum").gameObject.GetComponent<Text>().text = m.easy.ToString();
-            _levelselect.transform.Find("MusicNormalNum").gameObject.GetComponent<Text>().text = m.normal.ToString();
-            _levelselect.transform.Find("MusicHardNum").gameObject.GetComponent<Text>().text = m.hard.ToString();
-            
-            _levelselect.transform.Find("MusicBPM").gameObject.GetComponent<Text>().text = "BPM " + m.dispbpm;
-            _levelselect.transform.Find("MusicAuthor").gameObject.GetComponent<Text>().text = "譜面制作：" + m.author;
-
-            //// 楽曲IDからTextureのパスを取得
-            string jacketPath = "FumenJsons/" + m.id + "/" + m.id;
-            _levelselect.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>(jacketPath);
-
-            _levelselect.transform.Find("MusicComment").gameObject.GetComponent<Text>().text = m.comment;
         }
         else if (Input.GetKeyUp(KeyCode.Escape)) {
-            _levelselect.SetActive(false);
         }
     }
 
-    [SerializeField] private string fileName = "index";
-    
+    public void ScrollUp()
+    {
+        if (focus == 0) focus = indexLength - 1;
+        else focus -= 1;
+        draw();
+    }
+
+    public void ScrollDown()
+    {
+        if (focus == indexLength - 1) focus = 0;
+        else focus += 1;
+        draw();
+    }
+
+    public void SelectMusic()
+    {
+        _levelselect.SetActive(true);
+
+        var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
+        var jsonText = textAsset.text;
+        var _index = JsonUtility.FromJson<IndexInfo>(jsonText);
+        IndexContent m = _index.index[focus];
+
+        _levelselect.transform.Find("MusicName").gameObject.GetComponent<Text>().text = m.name;
+        _levelselect.transform.Find("MusicArtist").gameObject.GetComponent<Text>().text = m.artist;
+
+        _levelselect.transform.Find("MusicEasyNum").gameObject.GetComponent<Text>().text = m.easy.ToString();
+        _levelselect.transform.Find("MusicNormalNum").gameObject.GetComponent<Text>().text = m.normal.ToString();
+        _levelselect.transform.Find("MusicHardNum").gameObject.GetComponent<Text>().text = m.hard.ToString();
+            
+        _levelselect.transform.Find("MusicBPM").gameObject.GetComponent<Text>().text = "BPM " + m.dispbpm;
+        _levelselect.transform.Find("MusicAuthor").gameObject.GetComponent<Text>().text = "譜面制作：" + m.author;
+
+        //// 楽曲IDからTextureのパスを取得
+        string jacketPath = "FumenJsons/" + m.id + "/" + m.id;
+        _levelselect.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>(jacketPath);
+
+        _levelselect.transform.Find("MusicComment").gameObject.GetComponent<Text>().text = m.comment;
+    }
+
+    public void Escape()
+    {
+        _levelselect.SetActive(false);
+    }
+
     internal void serializeFumendata()
     {		
     }
 
     [ContextMenu("曲目を生成")]
-    public void draw() {
+    public void draw() 
+    {
         var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
         var jsonText = textAsset.text;
         var _index = JsonUtility.FromJson<IndexInfo>(jsonText);
@@ -74,7 +96,7 @@ public class IndexJsonReadManager : MonoBehaviour
 
         //選択中の楽曲情報
         for( int i=-2; i<=2; i++ ) {
-            var focusing = GameObject.Find("Music" + i.ToString());
+            var focusing = targetCanvasgameobject.Find("Music" + i.ToString());
             int idx = focus + i;
             //先頭でループ
             if (idx == -2) idx = indexLength - 2;
