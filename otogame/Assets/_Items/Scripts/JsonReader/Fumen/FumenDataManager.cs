@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using OtoFuda.Fumen;
@@ -16,7 +17,8 @@ namespace OtoFuda.Fumen
         internal List<NoteObject>[] mainNotes = new List<NoteObject>[2];
         internal List<NoteObject>[] moreEasyNotes = new List<NoteObject>[2];
         internal List<NoteObject>[] moreDifficultNotes = new List<NoteObject>[2];
-
+        [SerializeField] private FumenFlowManager[] _fumenFlowManager;
+ 
 
         //実寸/10で定義する
         internal float laneLength = 0.7f;
@@ -89,9 +91,31 @@ namespace OtoFuda.Fumen
             var path ="Musics/" + MusicSelectManager.musicID;
             Debug.Log(path);
             var audioClip = Resources.Load(path, typeof(AudioClip)) as AudioClip;
-            SoundManager.Instance.gameObject.GetComponent<AudioSource>().clip = audioClip;
+            SoundManager.Instance.gameObject.GetComponents<AudioSource>()[0].clip = audioClip;
             SoundManager.Instance._soundListSettings[0].soundName = audioClip.name;
             SoundManager.Instance.initDictionary();
+            StartCoroutine(fumenStartWait());
+
+        }
+        
+        private IEnumerator fumenStartWait()
+        {
+            Debug.Log("Start");
+            var waitSec = (60 / BPM);
+            var waitForBlankRythm = new WaitForSeconds(waitSec);
+            yield return new WaitForSeconds(2);
+            SoundManager.Instance.playSound(1).Play();
+            yield return waitForBlankRythm;
+            SoundManager.Instance.playSound(1).Play();
+            yield return waitForBlankRythm;
+            SoundManager.Instance.playSound(1).Play();
+            yield return waitForBlankRythm;
+
+            for (int i = 0; i < 2; i++)
+            {
+                _fumenFlowManager[i].startFumenFlow();
+            }
+            
         }
     }
 }
