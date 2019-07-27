@@ -341,7 +341,7 @@ namespace OtoFuda.player
                                 
                                 
                                 judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
-                                Debug.LogError(_playerManager._players[playerID].FumenState +"_______"+targetState);
+                               // Debug.LogError(_playerManager._players[playerID].FumenState +"_______"+targetState);
                             }
                             
                             //通過に応じてRemove
@@ -441,7 +441,7 @@ namespace OtoFuda.player
                 _playerManager._players[playerID].noteSimpleCount++;
                 
                 judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
-                Debug.Log("Perfect");
+            //    Debug.Log("Perfect");
                 isJudge = true;
             }
             else if (-0.2f <= _inputTime - _judgeTime && _inputTime - _judgeTime <= 0.2f)
@@ -450,7 +450,7 @@ namespace OtoFuda.player
                 _noteCounters[_stateIndex, _targetLane]++;
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.GOOD].Play("Judge", 0, 0.0f);
-                Debug.Log("Good");
+           //     Debug.Log("Good");
                 isJudge = true;
 
             }
@@ -460,7 +460,7 @@ namespace OtoFuda.player
                 _noteCounters[_stateIndex, _targetLane]++;
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
-                Debug.Log("Bad");
+              //  Debug.Log("Bad");
                 isJudge = true;
 
             }
@@ -515,7 +515,7 @@ namespace OtoFuda.player
                 _noteCounters[_stateIndex, _targetLane]++;
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
-                Debug.Log("Perfect");
+             //   Debug.Log("Perfect");
                 isJudge = true;
             }
             else if (-0.2f <= _inputTime - _judgeTime && _inputTime - _judgeTime <= 0.2f)
@@ -523,7 +523,7 @@ namespace OtoFuda.player
                 _noteCounters[_stateIndex, _targetLane]++;
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.GOOD].Play("Judge", 0, 0.0f);
-                Debug.Log("Good");
+             //   Debug.Log("Good");
                 isJudge = true;
 
             }
@@ -532,7 +532,7 @@ namespace OtoFuda.player
                 _noteCounters[_stateIndex, _targetLane]++;
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
-                Debug.Log("Bad");
+               // Debug.Log("Bad");
                 isJudge = true;
 
             }
@@ -644,7 +644,7 @@ namespace OtoFuda.player
                         _noteCounters[stateIndex, i]++;
                         _playerManager._players[playerID].noteSimpleCount++;
                         judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
-                        Debug.Log("Perfect");
+                    //    Debug.Log("Perfect");
                         isJudge = true;
                     }
                     else if (_playerGesture != PlayerGesture.LEFT
@@ -653,7 +653,7 @@ namespace OtoFuda.player
                         _noteCounters[stateIndex, i]++;
                         _playerManager._players[playerID].noteSimpleCount++;
                         judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
-                        Debug.Log("Bad");
+              //          Debug.Log("Bad");
                         isJudge = true;
 
                     }
@@ -688,7 +688,7 @@ namespace OtoFuda.player
                         _noteCounters[stateIndex, i]++;
                         _playerManager._players[playerID].noteSimpleCount++;
                         judgeTextAnimators[(int) Judge.PERFECT].Play("Judge", 0, 0.0f);
-                        Debug.Log("Perfect");
+                   //     Debug.Log("Perfect");
                         isJudge = true;
                     }
                     else if (_playerGesture != PlayerGesture.RIGHT
@@ -697,7 +697,7 @@ namespace OtoFuda.player
                         _noteCounters[stateIndex, i]++;
                         _playerManager._players[playerID].noteSimpleCount++;
                         judgeTextAnimators[(int) Judge.BAD].Play("Judge", 0, 0.0f);
-                        Debug.Log("Bad");
+                   //     Debug.Log("Bad");
                         isJudge = true;
 
                     }
@@ -747,6 +747,8 @@ namespace OtoFuda.player
             Debug.Log("getBuddha");
 */
 
+            return;
+            
             if (playerID != _playerID)
             {
                 return;

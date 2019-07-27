@@ -18,31 +18,46 @@ namespace OtoFuda.Fumen
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
         }
-        
+
+        private void Start()
+        {
+        }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                var notes = FumenDataManager.Instance.mainNotes[playerID];
-                var difNotes = FumenDataManager.Instance.moreDifficultNotes[playerID];
 
-                for (int i = 0; i < notes.Count; i++)
-                {
-                    notes[i].changeFumenState();
-                }
-
-                for (int i = 0; i < difNotes.Count; i++)
-                {
-                    difNotes[i].changeFumenState();
-                }
-                
-                MusicManager.Instance.Startmusic(0);
-                
-                OnMusicStart?.Invoke(playerID);
 
             }
+            
         }
+
+        internal void startFumenFlow()
+        {
+            var notes = FumenDataManager.Instance.mainNotes[playerID];
+            var difNotes = FumenDataManager.Instance.moreDifficultNotes[playerID];
+
+            for (int i = 0; i < notes.Count; i++)
+            {
+                notes[i].changeFumenState();
+            }
+
+            for (int i = 0; i < difNotes.Count; i++)
+            {
+                difNotes[i].changeFumenState();
+            }
+                
+            MusicManager.Instance.Startmusic(0);
+                
+            OnMusicStart?.Invoke(playerID);
+        }
+
+
+
+        
+        
+        
 
         
     }

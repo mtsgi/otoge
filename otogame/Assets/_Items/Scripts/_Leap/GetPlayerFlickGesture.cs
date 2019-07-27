@@ -87,13 +87,17 @@ namespace OtoFuda.player
                     if ((beforeFramePalmPositionX > nowFramePalmPositionX) &&
                         Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
                     {
+                        Debug.Log("Left");
                         _playerGesture = PlayerGesture.LEFT;
+                        OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
+
                     }
                     else if ((beforeFramePalmPositionX < nowFramePalmPositionX) &&
                              Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
                     {
                         Debug.Log("Right");
                         _playerGesture = PlayerGesture.RIGHT;
+                        OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
 
                     }
                     else
@@ -101,7 +105,6 @@ namespace OtoFuda.player
                         _playerGesture = PlayerGesture.NONE;
                     }
 
-                    OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
                     frameCount = 0;
                 }
             }
