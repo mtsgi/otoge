@@ -51,6 +51,27 @@
       "author": "？？？",
       "comment": "ボス曲だよ",
       "demo": 2000
-    }
-	]
+    }, 
+      {
+        "id": "sample",
+        "name": "sample",
+        "artist": "sample",
+        "bpm": 180.0,
+        "dispbpm": "180",
+        "color": [
+          255,
+          255,
+          205
+        ],
+        "offset": 1000,
+        "raku": -1,
+        "easy": 2,
+        "normal": 4,
+        "hard": 8,
+        "extra": -1,
+        "author": "sample",
+        "comment": "sample",
+        "demo": 2000
+      }
+    ]
 }
