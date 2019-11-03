@@ -3277,6 +3277,7 @@ MonoBehaviour:
   playerID: 1
   focus: 2
   indexLength: 0
+  isSelectLevel: 0
 --- !u!1 &455215355
 GameObject:
   m_ObjectHideFlags: 0
@@ -14082,6 +14083,7 @@ MonoBehaviour:
   playerID: 0
   focus: 2
   indexLength: 0
+  isSelectLevel: 0
 --- !u!1 &1680172675
 GameObject:
   m_ObjectHideFlags: 0

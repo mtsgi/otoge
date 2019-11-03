@@ -84,8 +84,8 @@ namespace OtoFuda.player
         private void OnEnable()
         {
             GetPlayerFlickGesture.OnGetPlayerGesture += OnGetPlayerGesture;
-            GetPlayerBuddhaGesture.OnGetPlayerBuddhaGesture += OnGetPlayerBuddhaGesture;
-            GetPlayerBuddhaGesture.OnReleasePlayerBuddhaPalm += OnReleasePlayerBuddhaPalm;
+/*            GetPlayerGripGesture.OnGetPlayerBuddhaGesture += OnGetPlayerBuddhaGesture;
+            GetPlayerGripGesture.OnReleasePlayerBuddhaPalm += OnReleasePlayerBuddhaPalm;*/
             CustomHandEnableDisable.OnGetPlayerHandFinish += OnGetPlayerHandFinish;
             FumenFlowManager.OnMusicStart += OnMusicStart;
         }

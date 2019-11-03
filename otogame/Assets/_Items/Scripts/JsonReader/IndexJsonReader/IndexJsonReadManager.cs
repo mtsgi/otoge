@@ -135,8 +135,8 @@ public class IndexJsonReadManager : MonoBehaviour
 
             isSceneLoadStart = true;
             Debug.Log(MusicSelectManager.jsonFilePath);
-            
-            SceneManager.LoadScene("JsonReadTestScene");
+
+            SceneManager.LoadScene("OtofudaMainScene");
         }
     }
 

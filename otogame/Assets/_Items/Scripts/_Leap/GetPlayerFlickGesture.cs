@@ -18,6 +18,7 @@ namespace OtoFuda.player
         RIGHT
     }
     
+    
     public class GetPlayerFlickGesture : MonoBehaviour
     {
         [SerializeField] private LeapProvider targetProvider; 
@@ -26,150 +27,62 @@ namespace OtoFuda.player
         [Range(0,1)]
         [SerializeField] private int playerID = 0;
 
-        [SerializeField] private int frameGetFetechTime = 20;
-        [SerializeField] private float flickJudgeDistance = 30;
-        
-        private PlayerGesture _playerGesture = PlayerGesture.NONE;
 
         public static Action<int,PlayerGesture> OnGetPlayerGesture;
-
-        private float[] palmPositionXBuffer;
-        private float[] palmPositionYBuffer;
-
-        private float[] bufferCopy;
-
-        private WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
         
-        private int frameCount = 0;
+        
+        public static PlayerGesture _playerGesture = PlayerGesture.NONE;
+        [SerializeField] private float velocityJudgeThreshold = 0.44f;
 
         
-        private void Start()
+        private void OnEnable()
         {
-            palmPositionXBuffer = new float[20];
-            bufferCopy = new float[palmPositionXBuffer.Length];
-            palmPositionYBuffer = new float[60];
-
-/*
-            Debug.Log("fetch = "+frameGetFetechTime);
-*/
-            
-            
             if (_controller.Devices.Count != 2)
             {
                 Debug.LogError("There is " + _controller.Devices.Count + " device");
             }
-
-/*
-            StartCoroutine(getFlickGestureCoroutine());
-*/
         }
 
         //暫定でこれ。
-        private void LateUpdate()
+        private void Update()
         {
-            //providerが手を見てなかったらはじく
-            //本当は手が現れた、消えたのActionでコルーチンを走らせたり止めたりしたい
             if (targetProvider.CurrentFrame.Hands.Count > 0)
             {
-                var nowFramePalmPositionX = targetProvider.CurrentFrame.Hands[0].PalmPosition.x;
-
-                //いったんバッファをコピー
-                Array.Copy(palmPositionXBuffer, 0, bufferCopy, 1, 19);
-                //現在のframeでの手のPosを格納
-                palmPositionXBuffer[0] = nowFramePalmPositionX;
-                Array.Copy(bufferCopy, 1, palmPositionXBuffer, 1, 19);
-                frameCount += 1;
-
-                if (frameCount > frameGetFetechTime)
+                var vel = targetProvider.CurrentFrame.Hands[0].PalmVelocity;
+//                Debug.Log(vel.x);
+                if (vel.x > velocityJudgeThreshold)
                 {
-                    var beforeFramePalmPositionX = palmPositionXBuffer[frameGetFetechTime];
-
-                    if ((beforeFramePalmPositionX > nowFramePalmPositionX) &&
-                        Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
-                    {
-                        Debug.Log("Left");
-                        _playerGesture = PlayerGesture.LEFT;
-                        OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
-
-                    }
-                    else if ((beforeFramePalmPositionX < nowFramePalmPositionX) &&
-                             Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
-                    {
-                        Debug.Log("Right");
-                        _playerGesture = PlayerGesture.RIGHT;
-                        OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
-
-                    }
-                    else
-                    {
-                        _playerGesture = PlayerGesture.NONE;
-                    }
-
-                    frameCount = 0;
+//                    Debug.Log("Right!!!");
+                    _playerGesture = PlayerGesture.RIGHT;
+                    OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
                 }
-            }
-
-        }
-        
-/*
-
-        private IEnumerator getFlickGestureCoroutine()
-        {
-            var bufferCopy = new float[60];
-            while (true)
-            {
-                //providerが手を見てなかったらはじく
-                //本当は手が現れた、消えたのActionでコルーチンを走らせたり止めたりしたい
-                if (targetProvider.CurrentFrame.Hands.Count > 0)
+                else if (vel.x < -velocityJudgeThreshold)
                 {
-                    var nowFramePalmPositionX = targetProvider.CurrentFrame.Hands[0].PalmPosition.x;
-
-                    //いったんバッファをコピー
-                    Array.Copy(palmPositionXBuffer, 0, bufferCopy, 1, 19);
-                    //現在のframeでの手のPosを格納
-                    palmPositionXBuffer[0] = nowFramePalmPositionX;
-                    Array.Copy(bufferCopy, 1, palmPositionXBuffer, 1, 19);
-                    frameCount += 1;
-
-                    if (frameCount > frameGetFetechTime)
-                    {
-                        var beforeFramePalmPositionX = palmPositionXBuffer[frameGetFetechTime];
-                        
-                        if ((beforeFramePalmPositionX > nowFramePalmPositionX) &&
-                            Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
-                        {
-                            _playerGesture = PlayerGesture.LEFT;
-                        }
-                        else if ((beforeFramePalmPositionX < nowFramePalmPositionX) &&
-                                 Mathf.Abs(beforeFramePalmPositionX - nowFramePalmPositionX) > flickJudgeDistance)
-                        {
-                            _playerGesture = PlayerGesture.RIGHT;
-
-                        }
-                        else
-                        {
-                            _playerGesture = PlayerGesture.NONE;
-                        }
-                        
-                        OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
-
-                    }
-                    
-                    yield return _waitForEndOfFrame;
+//                    Debug.Log("Left!!!");
+                    _playerGesture = PlayerGesture.LEFT;
+                    OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
+                } //上下は今は使わないよ
+/*                else if (vel.y < -velocityJudgeThreshold)
+                {
+                    Debug.Log("Up!!!");
+                    _playerGesture = PlayerGesture.UP;
+                    OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
                 }
+                else if (vel.y < -velocityJudgeThreshold)
+                {
+                    Debug.Log("Down!!!");
+                    _playerGesture = PlayerGesture.DOWN;
+                    OnGetPlayerGesture?.Invoke(playerID, _playerGesture);
+                }*/
                 else
                 {
-                    yield return null;
+                    _playerGesture = PlayerGesture.NONE;
                 }
+                
+                
             }
-        }*/
-
-
-        private void updateBuffer()
-        {
 
         }
-
 
     }
 

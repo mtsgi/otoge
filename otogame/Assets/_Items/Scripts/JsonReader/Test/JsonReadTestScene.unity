@@ -6418,8 +6418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetProvider: {fileID: 644735929}
   playerID: 0
-  frameGetFetechTime: 10
-  flickJudgeDistance: 0.0005
+  velocityJudgeThreshold: 2
 --- !u!114 &1043786655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7739,7 +7738,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1379926243}
   - component: {fileID: 1379926242}
-  - component: {fileID: 1379926244}
   m_Layer: 0
   m_Name: '[Player1]OtofudaSelecter'
   m_TagString: Untagged
@@ -7774,19 +7772,6 @@ Transform:
   m_Father: {fileID: 354525610}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1379926244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1379926241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b61a8a8742497f849b564b34a7700163, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _provider: {fileID: 644735929}
-  playerID: 0
 --- !u!1 &1391623341
 GameObject:
   m_ObjectHideFlags: 0
@@ -8494,8 +8479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetProvider: {fileID: 644735929}
   playerID: 0
-  frameGetFetechTime: 10
-  flickJudgeDistance: 0.0005
+  velocityJudgeThreshold: 2
 --- !u!114 &1533764229
 MonoBehaviour:
   m_ObjectHideFlags: 0
