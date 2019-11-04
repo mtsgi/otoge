@@ -79,7 +79,8 @@ public class PlayerOtofudaMovement : PlayerMovement
             return;
         }
         
-
+/*        Debug.Log(_inputManager._noteCounters[stateIndex, targetLane]);
+        Debug.Log(targetLane + "___" + targetTimings[_inputManager._noteCounters[stateIndex, targetLane]]);*/
         //現在の次に来るはずのノーツ情報
         var nextNoteTimingInfo = targetTimings[_inputManager._noteCounters[stateIndex, targetLane]];
 
@@ -95,6 +96,8 @@ public class PlayerOtofudaMovement : PlayerMovement
         
         if (judgeResult != PlayerKeyInpuManager.Judge.None)
         {
+            //ここでいったん譜面の難易度を戻しておく
+            _inputManager._playerManager._players[PlayerId].FumenState = PlayerFumenState.DEFAULT;
             _inputManager.judgeTextAnimators[(int) judgeResult].Play("Judge", 0, 0.0f);
         }
         else
@@ -114,8 +117,7 @@ public class PlayerOtofudaMovement : PlayerMovement
             _inputManager._fumenDataManager.moreDifficultNotes[PlayerId].RemoveAt(0);
         }
         
-        //ここでいったん譜面の難易度を戻しておく
-        _inputManager._playerManager._players[PlayerId].FumenState = PlayerFumenState.DEFAULT;
+
         
         //アクションを発火して手札を管理してるやつにPlayerIDとPerfectかどうかをわたしつつ委譲する
         OnOtofudaUse?.Invoke(PlayerId, judgeResult == PlayerKeyInpuManager.Judge.Perfect);

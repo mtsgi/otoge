@@ -8485,11 +8485,11 @@ MonoBehaviour:
     FumenState: 1
     focusObject: {fileID: 111358432}
     playerHand:
-    - {fileID: 11400000, guid: 740117dc09aa9224ea0d8dd264f6b670, type: 2}
-    - {fileID: 11400000, guid: 53b944fa896c2414f955714a9eccd4ac, type: 2}
-    - {fileID: 11400000, guid: 01cb284e6242aec4bb00d76ef033b472, type: 2}
-    - {fileID: 11400000, guid: 976eaebe1d0d7c648be416d74e5f2c1d, type: 2}
-    - {fileID: 11400000, guid: 740117dc09aa9224ea0d8dd264f6b670, type: 2}
+    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
+    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
+    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
+    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
+    - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}
     playerDeck:
     - {fileID: 11400000, guid: f6dd06e805728bc4b9f7ac4cbebd1aac, type: 2}
     - {fileID: 11400000, guid: 25e52fcb687d9a144830b9a1d524b30d, type: 2}

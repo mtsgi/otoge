@@ -45,7 +45,9 @@ public class PlayerKeyInpuManager : MonoBehaviour
         
     //カードを使うときのアクション
     //パフェだったかのがしたか
+/*
     public static Action<int,bool> OnUseOtoFudaCard; 
+*/
     
     //プレイヤー情報を格納
     internal PlayerManager _playerManager;
@@ -148,30 +150,22 @@ public class PlayerKeyInpuManager : MonoBehaviour
 
         for (int k = 0; k < targetTimings.Count; k++)
         {
-            if (_noteCounters[stateIndex, index] != targetTimings.Count)
+            if (_noteCounters[stateIndex, index] <= targetTimings.Count)
             {
+                Debug.Log((PlayerFumenState) (stateIndex) + ":" + _noteCounters[stateIndex, index]);
                 if (targetTimings[_noteCounters[stateIndex, index]].reachTime -_audioSource.time < -judgeProfile.badThreshold)
                 {
-                    if (_playerManager._players[playerID].FumenState == targetState)
+/*                    if (_playerManager._players[playerID].FumenState == targetState)
                     {
                         //Debug.Log(" aaa :"+ (targetTimings[_noteCounters[stateIndex, index]].reachTime - _audioSource.time));
                         judgeTextAnimators[(int) Judge.Miss].Play("Judge", 0, 0.0f);
                         //Debug.LogError("Miss" + (int) Judge.Miss);
-                    }
+                    }*/
 
-                    if (targetTimings[_noteCounters[stateIndex, index]].noteType == 5)
-                    {
-                        OnUseOtoFudaCard?.Invoke(playerID, false);
-                    }
 
                     //ロングノーツの場合、始点をミスしたら終点もミス扱いにする
                     if (targetTimings[_noteCounters[stateIndex, index]].noteType == 2)
                     {
-                        //2ノーツ分カウンターを進める
-                        _noteCounters[stateIndex, index] += 2;
-                        _playerManager._players[playerID].noteSimpleCount += 2;
-
-
                         //通過に応じてRemove
                         if (stateIndex == 1)
                         {
@@ -201,13 +195,26 @@ public class PlayerKeyInpuManager : MonoBehaviour
                             judgeTextAnimators[(int) Judge.Miss].Play("Judge", 0, 0.0f);
                             //Debug.LogError("Miss");
                         }
+                        
+                        //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
+                        if (targetTimings[_noteCounters[stateIndex, index]].noteType == 5)
+                        {
+                            if (_playerManager._players[playerID].FumenState == targetState)
+                            {
+                                _playerManager._players[playerID].FumenState = PlayerFumenState.DEFAULT;
+                            }
+                        }
+                        
+                        //2ノーツ分カウンターを進める
+                        _noteCounters[stateIndex, index] += 2;
+                        _playerManager._players[playerID].noteSimpleCount += 2;
+                        Debug.Log("long");
+
 
                     }
                     else
                     {
-                        _noteCounters[stateIndex, index]++;
-                        _playerManager._players[playerID].noteSimpleCount++;
-
+                        
                         //引数で渡したStateが現在のプレイヤーのステートと同じであればMissの判定をする。
                         if (_playerManager._players[playerID].FumenState == targetState)
                         {
@@ -233,7 +240,21 @@ public class PlayerKeyInpuManager : MonoBehaviour
                             _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
                             _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
                         }
+                        
+                        //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
+                        if (targetTimings[_noteCounters[stateIndex, index]].noteType == 5)
+                        {
+                            if (_playerManager._players[playerID].FumenState == targetState)
+                            {
+                                _playerManager._players[playerID].FumenState = PlayerFumenState.DEFAULT;
+                            }
+                        }
+                        
+                        _noteCounters[stateIndex, index]++;
+                        _playerManager._players[playerID].noteSimpleCount++;
                     }
+                    
+
 
 /*                        //エラー回避、2レーン目のノーツ数が最大値だったらreturn
                         Debug.LogWarning(_noteCounters[stateIndex, 2]);

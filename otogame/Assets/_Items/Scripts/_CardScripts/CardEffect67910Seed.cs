@@ -109,13 +109,13 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
 
     }
     
-/*    private void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+/*        if (Input.GetKeyDown(KeyCode.A))
         {
             applyHandEffect(0,3);
-        }
-    }*/
+        }*/
+    }
     
     
     
