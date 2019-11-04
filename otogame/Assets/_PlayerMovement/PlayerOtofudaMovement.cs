@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using OtoFuda.Fumen;
 using OtoFuda.player;
@@ -6,6 +7,8 @@ using UnityEngine;
 
 public class PlayerOtofudaMovement : PlayerMovement
 {
+    [SerializeField] private GetPlayerGripGesture _getPlayerGripGesture;
+    public static Action<int,bool> OnOtofudaUse;
 
     private PlayerGripState _receivedGripState;
     //フリックの判定を持つために一時的に代入しておく変数
@@ -20,9 +23,9 @@ public class PlayerOtofudaMovement : PlayerMovement
     public override void PlayerMovementCheck()
     {
         //Debug.Log("てーすと:"+_receivedGripState);
-        if (GetPlayerGripGesture._PlayerGripState != PlayerGripState.RELEASE)
+        if (_getPlayerGripGesture._PlayerGripState != PlayerGripState.RELEASE)
         {
-            _receivedGripState = GetPlayerGripGesture._PlayerGripState;
+            _receivedGripState = _getPlayerGripGesture._PlayerGripState;
             
             InputFunction(2, _inputManager._fumenDataManager.timings[PlayerId, 2],
                 _inputManager._playerManager._players[PlayerId].FumenState);
@@ -33,17 +36,16 @@ public class PlayerOtofudaMovement : PlayerMovement
 
     private void OnGetPlayerGripGesture(int _playerId, PlayerGripState _gripState)
     {
-        if (_playerId == PlayerId)
-        {
-            _receivedGripState = _gripState;
-        }
+        if (_playerId != PlayerId) return;
         
+        _receivedGripState = _gripState;
+
         if (_receivedGripState == PlayerGripState.RELEASE)
         {
             foreach (var t in _inputManager.laneLight)
             {
                 t.SetActive(false);
-             //   Debug.Log("おふった");
+//                Debug.Log("おふった");
             }
         }
         else if (_receivedGripState == PlayerGripState.GRIP)
@@ -102,7 +104,7 @@ public class PlayerOtofudaMovement : PlayerMovement
             return;
         }
 
-        Debug.Log("残りノーツ数: "+_inputManager._noteCounters[stateIndex, targetLane]);
+//        Debug.Log("残りノーツ数: "+_inputManager._noteCounters[stateIndex, targetLane]);
         
         if (stateIndex == 1)
         {
@@ -114,6 +116,9 @@ public class PlayerOtofudaMovement : PlayerMovement
         }
         
         
+        //アクションを発火して手札を管理してるやつにPlayerIDとPerfectかどうかをわたしつつ委譲する
+        OnOtofudaUse?.Invoke(PlayerId, judgeResult == PlayerKeyInpuManager.Judge.Perfect);
+//        Debug.Log("Invoke!");
     }
 
 
@@ -143,7 +148,7 @@ public class PlayerOtofudaMovement : PlayerMovement
             {
                 _inputManager._noteCounters[stateIndex, targetLane]++;
                 _inputManager._playerManager._players[PlayerId].noteSimpleCount++;
-                Debug.Log("ぱふぇ！");
+//                Debug.Log("ぱふぇ！");
                 return PlayerKeyInpuManager.Judge.Perfect;
             }
         }

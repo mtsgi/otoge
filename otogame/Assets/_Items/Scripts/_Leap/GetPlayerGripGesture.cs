@@ -25,7 +25,7 @@ namespace OtoFuda.player
 
 		public static Action<int, PlayerGripState> OnGetPlayerGripGesture;
 		
-		public static PlayerGripState _PlayerGripState = PlayerGripState.NONE;
+		internal PlayerGripState _PlayerGripState = PlayerGripState.NONE;
 
 		
 		private void OnEnable()
@@ -56,24 +56,26 @@ namespace OtoFuda.player
 					extendFinger += 1;
 				}
 			}
+			
+			Debug.Log(targetProvider);
 
 			if (extendFinger == 0 && _PlayerGripState == PlayerGripState.NONE)
 			{
 				_PlayerGripState = PlayerGripState.GRIP;
 				OnGetPlayerGripGesture?.Invoke(playerID, _PlayerGripState);
-				Debug.Log("グー！");
+				//Debug.Log(playerID+":グー！");
 			}
 			else if (extendFinger >= 3 && _PlayerGripState == PlayerGripState.GRIP)
 			{
 				_PlayerGripState = PlayerGripState.RELEASE;
 				OnGetPlayerGripGesture?.Invoke(playerID, _PlayerGripState);
-				Debug.Log("パー！");
+			//	Debug.Log(playerID+":パー！");
 			}
 			else if (_PlayerGripState == PlayerGripState.RELEASE)
 			{
 				_PlayerGripState = PlayerGripState.NONE;
 				OnGetPlayerGripGesture?.Invoke(playerID, _PlayerGripState);
-				Debug.Log("なんもなし");
+			//	Debug.Log(playerID+":なんもなし");
 			}
 
 		}

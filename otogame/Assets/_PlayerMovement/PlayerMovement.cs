@@ -103,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             //判定がNoneだったばあい、そのノーツは処理していないのでretする
-            Debug.Log("すきっぷ");
+//            Debug.Log("すきっぷ");
         }
         
         
@@ -115,23 +115,25 @@ public class PlayerMovement : MonoBehaviour
     public virtual PlayerKeyInpuManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType,
         int stateIndex)
     {
-        Debug.Log(inputTime - judgeTime);
+//        Debug.Log(inputTime - judgeTime);
         
         var judgeResult = PlayerKeyInpuManager.Judge.None;
 
         if (-PerfectThreshold <= inputTime - judgeTime && inputTime - judgeTime <= PerfectThreshold)
         {
+/*
             Debug.Log("perfe");
+*/
             judgeResult = PlayerKeyInpuManager.Judge.Perfect;
         }
         else if (-GoodThreshold <= inputTime - judgeTime && inputTime - judgeTime <= GoodThreshold)
         {
-            Debug.Log("good");
+/*            Debug.Log("good");*/
             judgeResult = PlayerKeyInpuManager.Judge.Good;
         }
         else if (-BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
         {
-            Debug.Log("bad");
+/*            Debug.Log("bad");*/
             judgeResult = PlayerKeyInpuManager.Judge.Bad;
         }
 
@@ -166,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (_type == 2)
         {
-            Debug.Log("<color=yellow>StartLong</color>");
+//            Debug.Log("<color=yellow>StartLong</color>");
             _inputManager.isLongNoteStart[_lane] = true;
         }
     }
