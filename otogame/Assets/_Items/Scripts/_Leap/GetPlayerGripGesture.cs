@@ -57,7 +57,7 @@ namespace OtoFuda.player
 				}
 			}
 			
-			Debug.Log(targetProvider);
+//			Debug.Log(targetProvider);
 
 			if (extendFinger == 0 && _PlayerGripState == PlayerGripState.NONE)
 			{

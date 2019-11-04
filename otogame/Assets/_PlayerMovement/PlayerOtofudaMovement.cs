@@ -62,7 +62,6 @@ public class PlayerOtofudaMovement : PlayerMovement
         PlayerFumenState fumenState)
     {
         var stateIndex = (int) fumenState;
-
         //もうリストがなくなりきってたらはじく
         if ((stateIndex == 1 && _inputManager._fumenDataManager.mainNotes[PlayerId].Count == 0) ||
             (stateIndex == 2 && _inputManager._fumenDataManager.moreDifficultNotes[PlayerId].Count == 0))
@@ -115,6 +114,8 @@ public class PlayerOtofudaMovement : PlayerMovement
             _inputManager._fumenDataManager.moreDifficultNotes[PlayerId].RemoveAt(0);
         }
         
+        //ここでいったん譜面の難易度を戻しておく
+        _inputManager._playerManager._players[PlayerId].FumenState = PlayerFumenState.DEFAULT;
         
         //アクションを発火して手札を管理してるやつにPlayerIDとPerfectかどうかをわたしつつ委譲する
         OnOtofudaUse?.Invoke(PlayerId, judgeResult == PlayerKeyInpuManager.Judge.Perfect);

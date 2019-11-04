@@ -67,8 +67,8 @@ public class JsonReadManager : MonoBehaviour
 				//イージー難易度のノーツを生成
 				for (int i = 0; i < fumenInfo.easy.Count; i++)
 				{
-					noteGenerate(FumenDataManager.Instance.mainNotes[playerID],_fumenDataManager.timings, fumenInfo.easy[i],
-						_fumenDataManager.BPM, _fumenDataManager.BEAT,0);
+					noteGenerate(FumenDataManager.Instance.mainNotes[playerID], _fumenDataManager.timings,
+						fumenInfo.easy[i], _fumenDataManager.BPM, _fumenDataManager.BEAT, 0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -76,7 +76,7 @@ public class JsonReadManager : MonoBehaviour
 				//ノーマル難易度のノーツを生成
 				for (int i = 0; i < fumenInfo.normal.Count; i++)
 				{
-					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID], _fumenDataManager.timings,
+					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID], _fumenDataManager.moreDifficultTimings,
 						fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
@@ -89,7 +89,7 @@ public class JsonReadManager : MonoBehaviour
 				//ノーマル難易度のノーツを生成
 				for (int i = 0; i < fumenInfo.normal.Count; i++)
 				{
-					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID], _fumenDataManager.timings,
+					noteGenerate(FumenDataManager.Instance.mainNotes[playerID], _fumenDataManager.timings,
 						fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
@@ -98,7 +98,7 @@ public class JsonReadManager : MonoBehaviour
 				//ハード難易度のノーツを生成
 				for (int i = 0; i < fumenInfo.hard.Count; i++)
 				{
-					noteGenerate(FumenDataManager.Instance.mainNotes[playerID], _fumenDataManager.timings,
+					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID], _fumenDataManager.moreDifficultTimings,
 						fumenInfo.hard[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);

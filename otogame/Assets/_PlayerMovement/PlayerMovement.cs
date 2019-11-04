@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         if ((stateIndex == 1 && _inputManager._fumenDataManager.mainNotes[PlayerId].Count == 0) ||
             (stateIndex == 2 && _inputManager._fumenDataManager.moreDifficultNotes[PlayerId].Count == 0))
         {
-            Debug.Log("ないよ");
+//            Debug.Log("ないよ");
             return;
         }
 

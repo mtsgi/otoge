@@ -190,7 +190,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	{
 //		Debug.Log(_players[0].selectCardIndex);
 
-		Debug.Log("Player1:" + playerEffectStandby[0] + "____" + "Player2:" + playerEffectStandby[1]);
+//		Debug.Log("Player1:" + playerEffectStandby[0] + "____" + "Player2:" + playerEffectStandby[1]);
 		if (playerEffectStandby[0] && playerEffectStandby[1])
 		{
 			//相手効果がバリアもちでなければ効果を実行。

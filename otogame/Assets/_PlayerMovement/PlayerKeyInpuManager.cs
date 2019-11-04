@@ -205,6 +205,7 @@ public class PlayerKeyInpuManager : MonoBehaviour
                         //引数で渡したStateが現在のプレイヤーのステートと同じであればMissの判定をする。
                         if (_playerManager._players[playerID].FumenState == targetState)
                         {
+                            Debug.Log("State : " + _playerManager._players[playerID].FumenState);
                             _playerManager._players[playerID].playerHp -= 5;
                             var slider = _playerManager._players[playerID].playerHPSlider;
                             slider.value = Mathf.Clamp(_playerManager._players[playerID].playerHp, 0,
