@@ -34,5 +34,21 @@ public class PlayerTapMovement : PlayerMovement
         }
 
     }
-    
+
+    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInfomation> targetTimings, PlayerFumenState fumenState)
+    {
+        base.InputFunction(targetLane, targetTimings, fumenState);
+    }
+
+    public override PlayerKeyInpuManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType, int stateIndex)
+    {
+        if (noteType == 1)
+        {
+            return base.InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
+        }
+        else
+        {
+            return PlayerKeyInpuManager.Judge.None;
+        }
+    }
 }

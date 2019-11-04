@@ -97,6 +97,11 @@ namespace OtoFuda.Fumen
            _stopwatch.Start();
            _audioSource = SoundManager.Instance.gameObject.GetComponents<AudioSource>()[0];
        }
+
+       public void DeleteNote()
+       {
+           transform.gameObject.SetActive(false);
+       }
        
    }
    

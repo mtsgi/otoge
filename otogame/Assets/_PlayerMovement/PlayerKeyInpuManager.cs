@@ -127,14 +127,14 @@ public class PlayerKeyInpuManager : MonoBehaviour
         
         for (var i = 0; i < 5; i++)
         {
-            fumenPassChecker(_fumenDataManager.timings[playerID, i], PlayerFumenState.DEFAULT, i);
-            fumenPassChecker(_fumenDataManager.moreDifficultTimings[playerID, i], PlayerFumenState.MORE_DIFFICULT, i);
+            FumenPassChecker(_fumenDataManager.timings[playerID, i], PlayerFumenState.DEFAULT, i);
+            FumenPassChecker(_fumenDataManager.moreDifficultTimings[playerID, i], PlayerFumenState.MORE_DIFFICULT, i);
         } 
         //       Debug.Log("PassCheck");
 
     }
 
-    private void fumenPassChecker(List<FumenDataManager.NoteTimingInfomation> targetTimings,
+    private void FumenPassChecker(List<FumenDataManager.NoteTimingInfomation> targetTimings,
         PlayerFumenState targetState, int index)
     {
         var stateIndex = (int) targetState;
@@ -175,12 +175,18 @@ public class PlayerKeyInpuManager : MonoBehaviour
                         //通過に応じてRemove
                         if (stateIndex == 1)
                         {
+                            _fumenDataManager.mainNotes[playerID][0].DeleteNote();
                             _fumenDataManager.mainNotes[playerID].RemoveAt(0);
+                            
+                            _fumenDataManager.mainNotes[playerID][0].DeleteNote();
                             _fumenDataManager.mainNotes[playerID].RemoveAt(0);
                         }
                         else if (stateIndex == 2)
                         {
+                            _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
                             _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                            
+                            _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
                             _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
                         }
 
@@ -219,10 +225,12 @@ public class PlayerKeyInpuManager : MonoBehaviour
                         //通過に応じてRemove
                         if (stateIndex == 1)
                         {
+                            _fumenDataManager.mainNotes[playerID][0].DeleteNote();
                             _fumenDataManager.mainNotes[playerID].RemoveAt(0);
                         }
                         else if (stateIndex == 2)
                         {
+                            _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
                             _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
                         }
                     }
