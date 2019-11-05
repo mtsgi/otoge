@@ -41,7 +41,7 @@ public class PlayerTapMovement : PlayerMovement
 
     public override PlayerKeyInpuManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType, int stateIndex)
     {
-        if (noteType == 1)
+        if (noteType == 1 || noteType == 2)
         {
             //Debug.Log(base.InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex));
             return base.InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
