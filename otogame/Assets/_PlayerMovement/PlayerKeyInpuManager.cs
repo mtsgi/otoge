@@ -147,12 +147,13 @@ public class PlayerKeyInpuManager : MonoBehaviour
 //            Debug.Log("はじいたよ");
             return;
         }
-
         for (int k = 0; k < targetTimings.Count; k++)
         {
-            if (_noteCounters[stateIndex, index] <= targetTimings.Count)
+            if (_noteCounters[stateIndex, index] < targetTimings.Count)
             {
+/*
                 Debug.Log((PlayerFumenState) (stateIndex) + ":" + _noteCounters[stateIndex, index]);
+*/
                 if (targetTimings[_noteCounters[stateIndex, index]].reachTime -_audioSource.time < -judgeProfile.badThreshold)
                 {
 /*                    if (_playerManager._players[playerID].FumenState == targetState)
@@ -218,7 +219,7 @@ public class PlayerKeyInpuManager : MonoBehaviour
                         //引数で渡したStateが現在のプレイヤーのステートと同じであればMissの判定をする。
                         if (_playerManager._players[playerID].FumenState == targetState)
                         {
-                            Debug.Log("State : " + _playerManager._players[playerID].FumenState);
+//                            Debug.Log("State : " + _playerManager._players[playerID].FumenState);
                             _playerManager._players[playerID].playerHp -= 5;
                             var slider = _playerManager._players[playerID].playerHPSlider;
                             slider.value = Mathf.Clamp(_playerManager._players[playerID].playerHp, 0,
