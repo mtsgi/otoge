@@ -191,7 +191,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 //		Debug.Log(_players[0].selectCardIndex);
 
 //		Debug.Log("Player1:" + playerEffectStandby[0] + "____" + "Player2:" + playerEffectStandby[1]);
-		if (playerEffectStandby[0] && playerEffectStandby[1])
+/*		if (playerEffectStandby[0] && playerEffectStandby[1])
 		{
 			//相手効果がバリアもちでなければ効果を実行。
 			for (int i = 0; i < 2; i++)
@@ -206,7 +206,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 			playerEffectStandby[0] = false;
 			playerEffectStandby[1] = false;
 			Debug.Log("RUN");
-		}
+		}*/
 	}
 
 	private void OnEnable()
@@ -214,8 +214,8 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 		LeapOtoFudaSelector.OnPlayerFocusCardChange += OnPlayerFocusCardChange;
 		LeapOtoFudaSelector.OnPlayerSelectCardChange += OnPlayerSelectCardChange;
 		
-		//音札を使った時のアクション
-		PlayerOtofudaMovement.OnOtofudaUse += OnUseOtoFudaCard;
+/*		//音札を使った時のアクション
+		PlayerOtofudaMovement.OnOtofudaUse += OnUseOtoFudaCard;*/
 	}
 	
 
@@ -248,13 +248,14 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	
 	
 	//カードの効果を実行待ち状態にする
-	private void OnUseOtoFudaCard(int _playerID, bool isPerfect)
+	public void OnUseOtoFudaCard(int _playerID, bool isPerfect)
 	{
 //		Debug.Log(_playerID);
 		//音札ノーツを見逃してなければ効果を登録する。
 		if (isPerfect)
 		{
 			otofudaCards[_playerID] = _players[_playerID].getSelectCard();
+			otofudaCards[_playerID].effectActivate(_playerID, _players[_playerID].activateIndex);
 			
 			Debug.Log(_players[_playerID].getSelectCard());
 		}

@@ -117,16 +117,18 @@ public class PlayerKeyInpuManager : MonoBehaviour
     }
 
 
-    private void OnGUI()
+    private void Update()
     {
+/*        Debug.Log(_playerManager._players[playerID].FumenState);*/
+
         //プレイヤーの行動(入力)をチェックする
         foreach (var t in _playerMovement)
         {
             t.PlayerMovementCheck();
         }
-        
+
         //        Debug.Log("Movement");
-        
+
         for (var i = 0; i < 5; i++)
         {
             FumenPassChecker(_fumenDataManager.timings[playerID, i], PlayerFumenState.DEFAULT, i);

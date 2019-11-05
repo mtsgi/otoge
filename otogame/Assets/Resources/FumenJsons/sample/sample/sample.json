@@ -1,7 +1,7 @@
 {
     "normal": [
         {
-            "type": 1,
+            "type": 5,
             "measure": 1,
             "lane": 3,
             "position": 2,
@@ -11,27 +11,6 @@
         },
         {
             "type": 1,
-            "measure": 3,
-            "lane": 3,
-            "position": 1,
-            "split": 8,
-            "option": -1,
-            "end": []
-        },
-        {
-            "type": 1,
-            "measure": 10,
-            "lane": 3,
-            "position": 1,
-            "split": 8,
-            "option": -1,
-            "end": []
-        }
-    ],
-    
-    "hard": [
-        {
-            "type": 5,
             "measure": 5,
             "lane": 3,
             "position": 2,
@@ -40,11 +19,77 @@
             "end":[]
         },
         {
-            "type": 5,
+            "type": 1,
             "measure": 8,
             "lane": 3,
             "position": 1,
             "split": 8,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 9,
+            "lane": 1,
+            "position": 0,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 15,
+            "lane": 3,
+            "position": 1,
+            "split": 4,
+            "option": -1,
+            "end": []
+        }
+    ],
+    
+    "hard": [
+        {        
+            "type": 5,
+            "measure": 1,
+            "lane": 3,
+            "position": 2,
+            "split": 4,
+            "option": -1,
+            "end":[]
+        },
+        {
+            "type": 1,
+            "measure": 5,
+            "lane": 3,
+            "position": 2,
+            "split": 4,
+            "option": -1,
+            "end":[]
+        },
+        {
+            "type": 1,
+            "measure": 8,
+            "lane": 3,
+            "position": 1,
+            "split": 8,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 9,
+            "lane": 1,
+            "position": 0,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 15,
+            "lane": 3,
+            "position": 1,
+            "split": 4,
             "option": -1,
             "end": []
         }

@@ -92,10 +92,12 @@ public class PlayerMovement : MonoBehaviour
             
             if (stateIndex == 1)
             {
+                _inputManager._fumenDataManager.mainNotes[PlayerId][0].DeleteNote();
                 _inputManager._fumenDataManager.mainNotes[PlayerId].RemoveAt(0);
             }
             else if (stateIndex == 2)
             {
+                _inputManager._fumenDataManager.moreDifficultNotes[PlayerId][0].DeleteNote();
                 _inputManager._fumenDataManager.moreDifficultNotes[PlayerId].RemoveAt(0);
             }
             

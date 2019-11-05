@@ -9,10 +9,9 @@ public class PlayerHoldMovement : PlayerMovement
     public override void PlayerMovementCheck()
     {
         //離したとき
-        if (Event.current.type != EventType.KeyUp) return;
         for (int i = 0; i < PlayerKeys.Length; i++)
         {
-            if (Event.current.keyCode != PlayerKeys[i]) continue;
+            if (!Input.GetKeyUp(PlayerKeys[i])) continue;
             //ここでキービームをオフにしている
             _inputManager.laneLight[i].SetActive(false);
             if (!_inputManager.isLongNoteStart[i]) continue;

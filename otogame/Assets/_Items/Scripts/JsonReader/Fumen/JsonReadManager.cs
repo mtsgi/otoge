@@ -95,6 +95,7 @@ public class JsonReadManager : MonoBehaviour
 					_fumenDataManager.mainNotes.Add(_note);
 */
 				}
+//				Debug.Log(fumenInfo.normal.Count);
 				//ハード難易度のノーツを生成
 				for (int i = 0; i < fumenInfo.hard.Count; i++)
 				{
@@ -104,6 +105,9 @@ public class JsonReadManager : MonoBehaviour
 					_fumenDataManager.mainNotes.Add(_note);
 */
 				}
+/*
+				Debug.Log(fumenInfo.hard.Count);
+*/
 
 				break;
 			

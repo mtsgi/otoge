@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 759fdd07da9b69d459d8c2fc3184862c, type: 3}
   m_Name: JudgeProfile
   m_EditorClassIdentifier: 
-  perfectThreshold: 0.08
+  perfectThreshold: 0.1
   goodThreshold: 0.12
   badThreshold: 0.16
   missThreshold: 0

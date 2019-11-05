@@ -8,7 +8,9 @@ using UnityEngine;
 public class PlayerOtofudaMovement : PlayerMovement
 {
     [SerializeField] private GetPlayerGripGesture _getPlayerGripGesture;
+/*
     public static Action<int,bool> OnOtofudaUse;
+*/
 
     private PlayerGripState _receivedGripState;
     //フリックの判定を持つために一時的に代入しておく変数
@@ -92,12 +94,11 @@ public class PlayerOtofudaMovement : PlayerMovement
         _tmpNoteType = nextNoteTimingInfo.noteType;
             
         var judgeResult = InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
-            
-        
+
+
         if (judgeResult != PlayerKeyInpuManager.Judge.None)
         {
             //ここでいったん譜面の難易度を戻しておく
-            _inputManager._playerManager._players[PlayerId].FumenState = PlayerFumenState.DEFAULT;
             _inputManager.judgeTextAnimators[(int) judgeResult].Play("Judge", 0, 0.0f);
         }
         else
@@ -107,20 +108,36 @@ public class PlayerOtofudaMovement : PlayerMovement
         }
 
 //        Debug.Log("残りノーツ数: "+_inputManager._noteCounters[stateIndex, targetLane]);
-        
-        if (stateIndex == 1)
+
+
+        //Debug.Log(_inputManager._fumenDataManager.mainNotes[PlayerId][0].noteType);
+        if (_inputManager._fumenDataManager.mainNotes[PlayerId].Count != 0)
         {
+            _inputManager._fumenDataManager.mainNotes[PlayerId][0].DeleteNote();
             _inputManager._fumenDataManager.mainNotes[PlayerId].RemoveAt(0);
         }
-        else if (stateIndex == 2)
+
+
+        //Debug.Log(_inputManager._fumenDataManager.moreDifficultNotes[PlayerId][0].noteType);
+        if (_inputManager._fumenDataManager.moreDifficultNotes[PlayerId].Count != 0 )
         {
+            _inputManager._fumenDataManager.moreDifficultNotes[PlayerId][0].DeleteNote();
             _inputManager._fumenDataManager.moreDifficultNotes[PlayerId].RemoveAt(0);
         }
         
+/*        if (stateIndex == 1)
+        {
+            _inputManager._fumenDataManager.mainNotes[PlayerId].RemoveAt(0);
+
+        }
+        else if (stateIndex == 2)
+        {
+        }*/
+        
 
         
-        //アクションを発火して手札を管理してるやつにPlayerIDとPerfectかどうかをわたしつつ委譲する
-        OnOtofudaUse?.Invoke(PlayerId, judgeResult == PlayerKeyInpuManager.Judge.Perfect);
+        //音札のアクティベート関数を実行
+        _inputManager._playerManager.OnUseOtoFudaCard(PlayerId, judgeResult == PlayerKeyInpuManager.Judge.Perfect);
 //        Debug.Log("Invoke!");
     }
 

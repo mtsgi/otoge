@@ -69,6 +69,7 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
 
         //Debug.Log("<color=red>EFFECT!</color>");
         var notteObjectList = new List<NoteObject>();
+        //対象が自分になってるのであとでなおそう
         var _noteObjects = FumenDataManager.Instance.mainNotes[playerID];
         var _moreDifficultNoteObjects = FumenDataManager.Instance.moreDifficultNotes[playerID];
         
@@ -87,7 +88,6 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
             {
                 break;
             }
-            
         } 
         
         // Debug.Log("StartCount");
@@ -96,7 +96,6 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
             //現在のノーツから次の音札ノーツまでのTransformを操作してユーザーから見えるようにする。
             _moreDifficultNoteObjects[i].posZ = 0;
             //Debug.Log(_moreDifficultNoteObjects[i].transform.position);
-            
             if (_noteObjects[i].noteType == 5)
             {
                 break;
