@@ -176,7 +176,7 @@ namespace NfcPcSc
             ReadResult.cardId = cardId;
 
             OnNfcCardInput?.Invoke(cardId);
-            Debug.Log(OnNfcCardInput);
+//            Debug.Log(OnNfcCardInput);
 
             return null;
             

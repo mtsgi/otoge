@@ -2,14 +2,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using NfcPcSc;
+using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class TitleSceneManager : MonoBehaviour
 {
     [SerializeField] private TitleSceneUIUpdater _titleSceneUiUpdater;
     public List<PlayerTitleSceneInfo> playerTitleSceneInfos = new List<PlayerTitleSceneInfo>();
-    public TitleSceneStatus status = TitleSceneStatus.StandBy;
+    public TitleSceneStatus status = TitleSceneStatus.NfcInput;
+
+    private bool tmpRegistered = false;
+    private string tmpAccessCode = "";
+    private string tmpName = "お名前";
+    private float tmpHiSpeed =0.5f;
+
+
+    private string underDefaultMessage;
+
+    private bool isFinishUserDataInput = false;
     
     [Serializable]
     public class PlayerTitleSceneInfo
@@ -29,38 +41,148 @@ public class TitleSceneManager : MonoBehaviour
 
             return false;
         }
+        
+        public int KeyCheckValue()
+        {
+            for (var index = 0; index < keys.Length; index++)
+            {
+                var t = keys[index];
+                if (Input.GetKeyDown(t))
+                {
+                    return index;
+                }
+            }
+
+            return -1;
+        }
     }
     
     public enum TitleSceneStatus
     {
         StandBy,
-        InvalidInput,
+        NfcInput,
+        SelectPosition,
+        WaitReady,
+    }
+    
+    private void Start()
+    {
+        underDefaultMessage = _titleSceneUiUpdater.UnderMessageText.text; 
+        status = TitleSceneStatus.NfcInput;
 
     }
+
 
     private void OnEnable()
     {
         NfcMain.OnNfcCardInput += OnNfcCardInput;
     }
 
-    
-    private void OnNfcCardInput(string nfcId)
-    {
-        status = TitleSceneStatus.InvalidInput;
-        OtofudaNetAPIAccessManager.Instance.SendNfcId(nfcId);
-    }
 
+    private async void OnNfcCardInput(string nfcId)
+    {
+        //読み取っても、NfcInputじゃなかったらなんもしない
+        if(status != TitleSceneStatus.NfcInput) return;
+        if (playerTitleSceneInfos[0].isReady && playerTitleSceneInfos[1].isReady) return;
+
+        status = TitleSceneStatus.NfcInput;
+        var jsonText = await OtofudaNetAPIAccessManager.Instance.SendNfcId(nfcId);
+        
+        var getData = new OtofudaAPIJSON();
+        getData = JsonUtility.FromJson<OtofudaAPIJSON>(jsonText);
+
+
+        if (getData.data.registered)
+        {
+            var message = "登録情報を確認し、ボタンを押してください";
+            var name = getData.data.name;
+            var speed = (getData.data.hispeed / 2.0f).ToString();
+            _titleSceneUiUpdater.nfcDataDisplayUi.InitUI(message, name, speed);
+            
+            tmpAccessCode = getData.data.public_uid;
+            tmpRegistered = getData.data.registered;
+
+            tmpHiSpeed = getData.data.hispeed / 2.0f;
+            tmpName = getData.data.name;
+        }
+        else
+        {
+            var message = "登録情報を確認し、ボタンを押してください";
+            var name = "未登録のユーザ";
+            var speed = (getData.data.hispeed / 2.0f).ToString();
+            _titleSceneUiUpdater.nfcDataDisplayUi.InitUI(message, name, speed);
+            
+            tmpAccessCode = getData.data.public_uid;
+            tmpRegistered = getData.data.registered;
+
+            tmpHiSpeed = 5.0f;
+            tmpName = "ゲストユーザー";
+        }
+
+
+        
+        status = TitleSceneStatus.SelectPosition;
+    }
+    
+    
+/*
+    private void 
+    
+*/
 
     public void Update()
     {
-        if(status == TitleSceneStatus.InvalidInput) return;
-        for (int i = 0; i < playerTitleSceneInfos.Count; i++)
+        if(isFinishUserDataInput) return;
+        if (playerTitleSceneInfos[0].isReady && playerTitleSceneInfos[1].isReady && status != TitleSceneStatus.StandBy)
         {
-            if (playerTitleSceneInfos[i].KeyCheck())
+            status = TitleSceneStatus.StandBy;
+            SceneManager.LoadScene("IndexJsonReadTestScene");
+            isFinishUserDataInput = true;
+        }
+        
+        if(status == TitleSceneStatus.NfcInput) return;
+        if (status == TitleSceneStatus.SelectPosition)
+        {
+            for (int i = 0; i < playerTitleSceneInfos.Count; i++)
             {
-                _titleSceneUiUpdater.ActivatePlayerUI(i);
-                status = TitleSceneStatus.InvalidInput;
+                //準備整っちゃってたらはじく
+                if(playerTitleSceneInfos[i].isReady) continue;
+                
+                if (playerTitleSceneInfos[i].KeyCheck())
+                {
+                    _titleSceneUiUpdater.nfcDataDisplayUi.parentPanel.SetActive(false);
+                    _titleSceneUiUpdater.UnderMessageText.text = "";
+
+                    _titleSceneUiUpdater.MessageUpdatePlayerUI(i, tmpAccessCode, tmpRegistered);
+                    
+                    PlayerInformationManager.Instance.hispeed[i] = tmpHiSpeed;
+                    PlayerInformationManager.Instance.name[i] = tmpName;
+                    status = TitleSceneStatus.WaitReady;
+                    return;
+                }
             }
         }
+        
+        if (status == TitleSceneStatus.WaitReady)
+        {
+            for (int i = 0; i < playerTitleSceneInfos.Count; i++)
+            {
+                //準備整っちゃってたらはじく
+                if(playerTitleSceneInfos[i].isReady) continue;
+                var index = playerTitleSceneInfos[i].KeyCheckValue();
+                if (index != -1)
+                {
+                    //真ん中のボタンだった時
+                    if (index == 2)
+                    {
+                        playerTitleSceneInfos[i].isReady = true;
+                        status = TitleSceneStatus.NfcInput;
+                        _titleSceneUiUpdater.UnderMessageText.text = underDefaultMessage;
+                        return;
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -69,8 +69,9 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 
 		internal int activateIndex;
 		
-		internal void init()
+		internal void init(int playerIndex)
 		{
+			PlayerName = PlayerInformationManager.Instance.name[playerIndex];
 			defRendererColor = playerHandCardObject[3].GetComponent<SpriteRenderer>().color;
 			focusY = focusObject.transform.position.y;
 			focusZ = focusObject.transform.position.z;
@@ -176,7 +177,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	{
 		for (int i = 0; i < 2; i++)
 		{
-			_players[i].init();
+			_players[i].init(i);
 		}
 		
 		for (int i = 0; i < 2; i++)

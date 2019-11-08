@@ -30,7 +30,10 @@ public class IndexJsonReadManager : MonoBehaviour
         //ハイスピ値の初期化。ユーザー登録するならここでいろいろする
         for (int i = 0; i < 2; i++)
         {
-            MusicSelectManager.HISPEED[i] = 1.0f;
+            MusicSelectManager.HISPEED[i] = PlayerInformationManager.Instance.hispeed[i];
+            
+            targetCanvasgameobject.Find("HiSpeedText").GetComponent<Text>().text =
+                $"HI-SPEED : {MusicSelectManager.HISPEED[playerID]:0.0}";
         }
         
         _levelselect = targetCanvasgameobject.Find("LevelSelect").gameObject;
