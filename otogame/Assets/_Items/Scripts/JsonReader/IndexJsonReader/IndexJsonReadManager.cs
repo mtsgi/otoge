@@ -175,7 +175,7 @@ public class IndexJsonReadManager : MonoBehaviour
             return;
         }
         
-        MusicSelectManager.HISPEED[playerID] = Mathf.Clamp(MusicSelectManager.HISPEED[playerID] - 0.5f, 1.0f, 10.0f);
+        MusicSelectManager.HISPEED[playerID] = Mathf.Clamp(MusicSelectManager.HISPEED[playerID] - 0.5f, 0.5f, 10.0f);
         targetCanvasgameobject.Find("HiSpeedText").GetComponent<Text>().text =
             string.Format("HI-SPEED : {0:0.0}", MusicSelectManager.HISPEED[playerID]);
 /*

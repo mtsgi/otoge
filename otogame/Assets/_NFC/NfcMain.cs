@@ -7,6 +7,8 @@ namespace NfcPcSc
 {
     public class NfcMain : MonoBehaviour
     {
+        public static Action<string> OnNfcCardInput;
+        
         private IntPtr context;
         private List<string> readersList;
         private NfcApi.SCARD_READERSTATE[] readerStateArray;
@@ -45,7 +47,7 @@ namespace NfcPcSc
                         isTouchingCard = true;
                         isBeginTouch = false;
                     }
-                    Debug.Log(index+" に カードタッチ中");
+//                    Debug.Log(index+" に カードタッチ中");
                     NfcApi.SCardReleaseContext(context);
                 }
                 else
@@ -56,7 +58,7 @@ namespace NfcPcSc
                         isBeginTouch = true;
                         isTouchingCard = false;
                     }
-                    Debug.Log(index+" に カードがタッチされていない");
+//                    Debug.Log(index+" に カードがタッチされていない");
                 }
             }
             else
@@ -170,11 +172,14 @@ namespace NfcPcSc
             string cardId = readCardId(hCard);
             Debug.Log(readerName + " (S/N " + readerSerialNumber + ") から、カードを読み取りました。" + cardId);
             disconnect(hCard);
- 
             ReadResult.readerSerialNumber = readerSerialNumber;
             ReadResult.cardId = cardId;
+
+            OnNfcCardInput?.Invoke(cardId);
+            Debug.Log(OnNfcCardInput);
+
             return null;
- 
+            
         }
         string readReaderSerialNumber(IntPtr hCard)
         {

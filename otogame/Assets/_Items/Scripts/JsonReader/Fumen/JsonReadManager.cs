@@ -26,8 +26,6 @@ public class JsonReadManager : MonoBehaviour
 	public DIFFICULTY difficulty = DIFFICULTY.NORMAL;	
 
 	private FumenDataManager _fumenDataManager;
-
-	private InputKeyJudge _inputKeyJudge;
 	
 	private void Start()
 	{

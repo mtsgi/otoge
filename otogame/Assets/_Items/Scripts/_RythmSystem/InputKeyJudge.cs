@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using OtoFuda.Fumen;
@@ -38,7 +39,7 @@ namespace OtoFuda.player
         private int[] noteCount = new int[5];
         private int[] moreDifficulNoteCount = new int[5];
         private int[] moreEasyNoteCount = new int[5];
-*/
+#1#
 
 
         [SerializeField] private GameObject[] laneLight;
@@ -85,7 +86,7 @@ namespace OtoFuda.player
         {
             GetPlayerFlickGesture.OnGetPlayerGesture += OnGetPlayerGesture;
 /*            GetPlayerGripGesture.OnGetPlayerBuddhaGesture += OnGetPlayerBuddhaGesture;
-            GetPlayerGripGesture.OnReleasePlayerBuddhaPalm += OnReleasePlayerBuddhaPalm;*/
+            GetPlayerGripGesture.OnReleasePlayerBuddhaPalm += OnReleasePlayerBuddhaPalm;#1#
             CustomHandEnableDisable.OnGetPlayerHandFinish += OnGetPlayerHandFinish;
             FumenFlowManager.OnMusicStart += OnMusicStart;
         }
@@ -113,7 +114,7 @@ namespace OtoFuda.player
                 }
             }
         }
-*/
+#1#
 
 
         //Updateでキー入力するより遅延が少ない、らしい(？)
@@ -122,7 +123,7 @@ namespace OtoFuda.player
 
 /*
             var notesDatas = _fumenDataManager.timings;
-*/
+#1#
 
             
             //推したとき        
@@ -203,14 +204,14 @@ namespace OtoFuda.player
                     }
 
                     debugStr += j+":"+st + " " ;
-                }*/
+                }#1#
 
                 //通過時は各難易度ごとに譜面情報を更新しておいて、譜面難易度に変化があった時にちゃんと描画されるようにする
                 fumenPassChecker(_fumenDataManager.timings[playerID,i],PlayerFumenState.DEFAULT,i);
                 fumenPassChecker(_fumenDataManager.moreDifficultTimings[playerID,i],PlayerFumenState.MORE_DIFFICULT,i);
 
 /*                Debug.Log("i"+i);
-                Debug.Log( _fumenDataManager.timings[playerID,i].Count);*/
+                Debug.Log( _fumenDataManager.timings[playerID,i].Count);#1#
 
 
 
@@ -255,7 +256,7 @@ namespace OtoFuda.player
                             }
                         }
                     }
-                }*/
+                }#1#
             }
 
         }
@@ -286,7 +287,7 @@ namespace OtoFuda.player
                         {
                             judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
                             Debug.LogError("Miss"+(int) Judge.MISS);
-                        }*/
+                        }#1#
 
                         if (targetTimings[_noteCounters[stateIndex, index]].noteType == 5)
                         {
@@ -361,13 +362,13 @@ namespace OtoFuda.player
                         if (_noteCounters[stateIndex, 2] >= targetTimings.Count)
                         {
                             return;
-                        }*/
+                        }#1#
 
 /*                        //次のノーツが音札ノーツであればターンチェックのコルーチンを走らせ始める
                         if (targetTimings[_noteCounters[stateIndex, 2]].noteType == 5)
                         {
                             _playerManager.runCoroutine();
-                        }*/
+                        }#1#
                     }
                 }
             }
@@ -497,7 +498,7 @@ namespace OtoFuda.player
             /*if (_fumenDataManager.timings[_lane][noteCount[_lane]].isHaveChildNote)
             {
                 
-            }*/
+            }#1#
             
             if (_type == 2)
             {
@@ -541,7 +542,7 @@ namespace OtoFuda.player
 /*                _noteCounters[_stateIndex, _targetLane]++;
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
-                Debug.LogError("Miss");*/
+                Debug.LogError("Miss");#1#
             }
             
             //判定したときは現在のステートのNoteObjectをRemoveする
@@ -588,7 +589,7 @@ namespace OtoFuda.player
                                 PlayerFumenState.MORE_DIFFICULT);
 /*
                             checkSingleJudge(i, _fumenDataManager.timings[playerID, i], PlayerFumenState.MORE_DIFFICULT);
-*/
+#1#
                             break;
                         default:
                             break;
@@ -597,7 +598,7 @@ namespace OtoFuda.player
                 }
 /*
                 checkJudgeFlickNote(_gesture);
-*/
+#1#
             }
         }
         //メモ
@@ -733,7 +734,7 @@ namespace OtoFuda.player
                 if (targetLaneNoteInfos[_noteCounters[stateIndex, 2]].noteType == 5)
                 {
                     _playerManager.runCoroutine();
-                }*/
+                }#1#
             }
 
         }
@@ -745,7 +746,7 @@ namespace OtoFuda.player
         {
 /*
             Debug.Log("getBuddha");
-*/
+#1#
 
             return;
             
@@ -758,7 +759,7 @@ namespace OtoFuda.player
                 laneLight[i].SetActive(true);
 /*
                 Debug.Log("player:"+_playerID +"active "+i);
-*/
+#1#
             }
             
             if (!isStartMusic)
@@ -837,7 +838,7 @@ namespace OtoFuda.player
 /*                _noteCounters[stateIndex,2]++;
                 _playerManager._players[playerID].noteSimpleCount++;
                 judgeTextAnimators[(int) Judge.MISS].Play("Judge", 0, 0.0f);
-                OnUseOtoFudaCard?.Invoke(playerID,false);*/
+                OnUseOtoFudaCard?.Invoke(playerID,false);#1#
             }
             
             //判定したときは現在のステートのNoteObjectをRemoveする
@@ -866,7 +867,7 @@ namespace OtoFuda.player
             if (targetLaneNoteInfos[_noteCounters[stateIndex,2]].noteType == 5)
             {
                 _playerManager.runCoroutine();
-            }*/
+            }#1#
         }
 
         //手を離したとき
@@ -875,7 +876,7 @@ namespace OtoFuda.player
         {
 /*
             Debug.Log("releaseBuddha");
-*/
+#1#
 
             if (playerID != _playerID)
             {
@@ -899,3 +900,4 @@ namespace OtoFuda.player
     }
 
 }
+*/
