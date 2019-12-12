@@ -9,14 +9,16 @@ using UnityEngine.SceneManagement;
 
 public class TitleSceneManager : MonoBehaviour
 {
+    [SerializeField] private bool isTestMode;
     [SerializeField] private TitleSceneUIUpdater _titleSceneUiUpdater;
     public List<PlayerTitleSceneInfo> playerTitleSceneInfos = new List<PlayerTitleSceneInfo>();
     public TitleSceneStatus status = TitleSceneStatus.NfcInput;
-
+    
     private bool tmpRegistered = false;
     private string tmpAccessCode = "";
     private string tmpName = "お名前";
     private float tmpHiSpeed =0.5f;
+    private string tmpQECodeURI = "";
 
 
     private string underDefaultMessage;
@@ -86,13 +88,25 @@ public class TitleSceneManager : MonoBehaviour
         if (playerTitleSceneInfos[0].isReady && playerTitleSceneInfos[1].isReady) return;
 
         status = TitleSceneStatus.NfcInput;
-        var jsonText = await OtofudaNetAPIAccessManager.Instance.SendNfcId(nfcId);
+
+        var jsonText = "";
+        if (isTestMode)
+        {
+            jsonText = await OtofudaNetAPIAccessManager.Instance.SendNfcId(
+                Guid.NewGuid().ToString("N").Substring(0, 10));
+        }
+        else
+        {
+            jsonText = await OtofudaNetAPIAccessManager.Instance.SendNfcId(nfcId);
+        }
         
         var getData = new OtofudaAPIJSON();
         getData = JsonUtility.FromJson<OtofudaAPIJSON>(jsonText);
 
-
-        if (getData.data.registered)
+        var isRegistered = getData.data.registered;
+        var qr = getData.data.qr;
+        
+        if (isRegistered)
         {
             var message = "登録情報を確認し、ボタンを押してください";
             var name = getData.data.name;
@@ -117,6 +131,7 @@ public class TitleSceneManager : MonoBehaviour
 
             tmpHiSpeed = 5.0f;
             tmpName = "ゲストユーザー";
+            tmpQECodeURI = getData.data.qr;
         }
 
 
@@ -153,7 +168,7 @@ public class TitleSceneManager : MonoBehaviour
                     _titleSceneUiUpdater.nfcDataDisplayUi.parentPanel.SetActive(false);
                     _titleSceneUiUpdater.UnderMessageText.text = "";
 
-                    _titleSceneUiUpdater.MessageUpdatePlayerUI(i, tmpAccessCode, tmpRegistered);
+                    _titleSceneUiUpdater.MessageUpdatePlayerUI(i, tmpAccessCode, tmpQECodeURI, tmpRegistered);
                     
                     PlayerInformationManager.Instance.hispeed[i] = tmpHiSpeed;
                     PlayerInformationManager.Instance.name[i] = tmpName;

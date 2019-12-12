@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx.Async;
@@ -24,15 +25,14 @@ public class TitleSceneUIUpdater : MonoBehaviour
         public Text hispeed_text;
         //後日アイコンや最終プレー日時のUI追加
 
-        public void InitUI(string message,string name,string speed)
+        public void InitUI(string message, string name, string speed)
         {
-            parentPanel.SetActive(true);
-            parentPanel.GetComponent<Animator>().Play("Active");
-            
             message_text.text = message;
             name_text.text = name;
             hispeed_text.text = speed;
             
+            parentPanel.SetActive(true);
+            parentPanel.GetComponent<Animator>().Play("Active");
         }
     }
     
@@ -41,7 +41,7 @@ public class TitleSceneUIUpdater : MonoBehaviour
     public class PlayerTitleUI
     {
         public GameObject playerUiPanel;
-        
+        public RawImage QRCodeImage;
         public GameObject AccessCodePanel;
         public GameObject OtofudaHintPanel;
 
@@ -61,29 +61,32 @@ public class TitleSceneUIUpdater : MonoBehaviour
         
     }*/
 
-    public void MessageUpdatePlayerUI(int playerId, string accessCode, bool isRegistered)
+    public async Task<bool> MessageUpdatePlayerUI(int playerId, string accessCode, string qr, bool isRegistered)
     {
         var targetUIs = PlayerTitleUis[playerId];
-        
+
         targetUIs.playerUiPanel.SetActive(true);
-        
+
         if (isRegistered)
         {
             targetUIs.AccessCodePanel.SetActive(false);
             targetUIs.OtofudaHintPanel.SetActive(true);
-            
+
             targetUIs.AccessCodeText.text = "";
+
+            targetUIs.QRCodeImage.gameObject.SetActive(false);
         }
         else
         {
             targetUIs.AccessCodePanel.SetActive(true);
             targetUIs.OtofudaHintPanel.SetActive(false);
+            targetUIs.QRCodeImage.texture = await OtofudaNetAPIAccessManager.Instance.GetQRCodeImage(qr);
+
             targetUIs.AccessCodeText.text = accessCode;
         }
-        
+
         targetUIs.MessageText.text = "準備ができたら真ん中のボタンを押してください。";
-
-
+        return true;
     }
 
 

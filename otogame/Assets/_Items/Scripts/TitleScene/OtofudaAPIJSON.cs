@@ -19,4 +19,5 @@ public class UserData
     public bool registered = false;
     public bool slowfast = false;
     public int hispeed = 0;
+    public string qr = "";
 }
