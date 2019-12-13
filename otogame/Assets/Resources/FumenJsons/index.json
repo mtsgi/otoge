@@ -7,7 +7,7 @@
       "artist": "idady",
       "bpm": 180.0,
       "dispbpm": "180",
-      "color": [ 255, 255, 205 ],
+      "color": [ 254, 254, 205 ],
       "offset": 1000,
       "raku": -1,
       "easy": 2,
@@ -24,7 +24,7 @@
       "artist": "idady",
       "bpm": 120.0,
       "dispbpm": "120",
-      "color": [ 155, 255, 205 ],
+      "color": [ 155, 254, 205 ],
       "offset": 1000,
       "raku": -1,
       "easy": 4,
@@ -59,8 +59,8 @@
         "bpm": 180.0,
         "dispbpm": "180",
         "color": [
-          255,
-          255,
+          230,
+          240,
           205
         ],
         "offset": 1000,

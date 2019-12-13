@@ -12,7 +12,6 @@ public class IndexJsonReadManager : MonoBehaviour
     [SerializeField] private string fileName = "index";
     [SerializeField,Range(0,1)] private int playerID;
     
-
     public int focus = 0, indexLength = 0;
     private GameObject _levelselect;
     private int selectLevelindex = 1;
@@ -77,7 +76,7 @@ public class IndexJsonReadManager : MonoBehaviour
         var jsonText = textAsset.text;
         var _index = JsonUtility.FromJson<IndexInfo>(jsonText);
         IndexContent m = _index.index[_focus];
-        
+
         if (isLevelSelectOpen && !isSelectLevel)
         {
 /*            MusicSelectManager.musicID = m.id;
@@ -95,6 +94,10 @@ public class IndexJsonReadManager : MonoBehaviour
 
             isSelectLevel = true;
             Debug.Log("LEVEL SELECT!");
+            //難易度情報の送信
+            OtofudaSerialPortManager.Instance.SendDifficultyColor(playerID,
+                (JsonReadManager.DIFFICULTY) Enum.ToObject(typeof(JsonReadManager.DIFFICULTY), selectLevelindex));
+            
             return;
         }
         
@@ -261,15 +264,17 @@ public class IndexJsonReadManager : MonoBehaviour
             focusing.transform.Find("MusicHardNum").gameObject.GetComponent<Text>().text = m.hard.ToString();
 
             focusing.transform.Find("MusicColor").GetComponent<Image>().color = new Color(m.color[0]/255, m.color[1]/255, m.color[2]/255, .3f);
-
             //
-            if ( i == 0 ) {
+            if ( i == 0 ) 
+            {
                 focusing.transform.Find("MusicBPM").gameObject.GetComponent<Text>().text = "BPM " + m.dispbpm;
                 focusing.transform.Find("MusicAuthor").gameObject.GetComponent<Text>().text = "譜面制作：" + m.author;
 
                 //// 楽曲IDからTextureのパスを取得
                 string jacketPath = "FumenJsons/" + m.id + "/" + m.id;
                 focusing.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>(jacketPath);
+
+                OtofudaSerialPortManager.Instance.SendFumenColor(playerID, m.color);
             }
         }
         

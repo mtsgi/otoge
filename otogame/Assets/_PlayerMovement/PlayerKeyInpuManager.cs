@@ -189,11 +189,12 @@ public class PlayerKeyInpuManager : MonoBehaviour
 
                         if (_playerManager._players[playerID].FumenState == targetState)
                         {
-                            _playerManager._players[playerID].playerHp -= 5;
+                            var prevValue = _playerManager._players[playerID].playerHp;
+                            var currentValue = Mathf.Clamp(prevValue - 5, 0, _playerManager._players[playerID].playerMaxHp);
                             var slider = _playerManager._players[playerID].playerHPSlider;
-                            slider.value = Mathf.Clamp(_playerManager._players[playerID].playerHp, 0,
-                                slider.maxValue);
-
+                            
+                            _playerManager._players[playerID].playerHp = currentValue;
+                            slider.value = currentValue;
 
                             judgeTextAnimators[(int) Judge.Miss].Play("Judge", 0, 0.0f);
                             //Debug.LogError("Miss");
@@ -211,7 +212,7 @@ public class PlayerKeyInpuManager : MonoBehaviour
                         //2ノーツ分カウンターを進める
                         _noteCounters[stateIndex, index] += 2;
                         _playerManager._players[playerID].noteSimpleCount += 2;
-                        Debug.Log("long");
+//                        Debug.Log("long");
 
 
                     }
@@ -222,11 +223,13 @@ public class PlayerKeyInpuManager : MonoBehaviour
                         if (_playerManager._players[playerID].FumenState == targetState)
                         {
 //                            Debug.Log("State : " + _playerManager._players[playerID].FumenState);
-                            _playerManager._players[playerID].playerHp -= 5;
-                            var slider = _playerManager._players[playerID].playerHPSlider;
-                            slider.value = Mathf.Clamp(_playerManager._players[playerID].playerHp, 0,
-                                slider.maxValue);
 
+                            var prevValue = _playerManager._players[playerID].playerHp;
+                            var currentValue = Mathf.Clamp(prevValue - 5, 0, _playerManager._players[playerID].playerMaxHp);
+                            var slider = _playerManager._players[playerID].playerHPSlider;
+                            
+                            _playerManager._players[playerID].playerHp = currentValue;
+                            slider.value = currentValue;
 
                             judgeTextAnimators[(int) Judge.Miss].Play("Judge", 0, 0.0f);
                             // Debug.LogError(_playerManager._players[playerID].FumenState +"_______"+targetState);

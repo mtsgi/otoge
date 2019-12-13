@@ -12,7 +12,7 @@ public class OtofudaNetAPIAccessManager : SingletonMonoBehaviour<OtofudaNetAPIAc
 {
     [SerializeField] private string apiUrl = "https://otofudanet-staging.herokuapp.com/api/v1/users/";
     //SecurityTokenKeyWard
-    private string SecurityKeyWard = "otofuda";
+    private string SecurityKeyWord = "otofuda";
     private readonly StringBuilder _accessTokenBuilder = new StringBuilder();
     
 
@@ -50,7 +50,7 @@ public class OtofudaNetAPIAccessManager : SingletonMonoBehaviour<OtofudaNetAPIAc
         var date = DateTime.Today;
         _accessTokenBuilder.Append(date.Month);
         _accessTokenBuilder.Append(date.Day);
-        _accessTokenBuilder.Append(SecurityKeyWard);
+        _accessTokenBuilder.Append(SecurityKeyWord);
 
         var securityKey = _accessTokenBuilder.ToString();
 

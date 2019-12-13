@@ -5,6 +5,7 @@ using System.Linq;
 using OtoFuda.Card;
 using OtoFuda.player;
 using OtoFuda.Player;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -22,6 +23,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	internal bool[] playerEffectStandby = new bool[2];
 	private OtofudaCard[] otofudaCards = new OtofudaCard[2];
 
+	private int[] playerHpBuffer = new int[2] {100, 100};
 	private bool isRunningCoroutine;
 
 	public OtofudaCard otofudaNone;
@@ -32,6 +34,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	{
 		public string PlayerName;
 		public int playerHp = 100;
+		public int playerMaxHp = 100;
 		public Slider playerHPSlider;
 		public int judgePoint;
 		public int score;
@@ -76,7 +79,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 			focusY = focusObject.transform.position.y;
 			focusZ = focusObject.transform.position.z;
 			_selectColor = Instance.selectColor;
-
+			playerHPSlider.maxValue = playerMaxHp;
 			for (int i = 0; i < 5; i++)
 			{
 				playerHandCardObject[i].GetComponent<SpriteRenderer>().sprite = playerHand[i].cardPicture;
@@ -185,8 +188,23 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 			OnPlayerFocusCardChange(i, PlayerSelectState.CENTER);
 			OnPlayerSelectCardChange(i, PlayerSelectState.CENTER);
 		}
+
+		this.ObserveEveryValueChanged(x => _players[0].playerHp)
+			.Where(x => x >= 0)
+			.Subscribe(_ => OnPlayerHpChanged(0));
+
+		this.ObserveEveryValueChanged(x => _players[1].playerHp)
+			.Where(x => x >= 0)
+			.Subscribe(_ => OnPlayerHpChanged(1));
 	}
 
+	//現在の二人のHpを送信する
+	private void OnPlayerHpChanged(int playerId)
+	{
+		playerHpBuffer[playerId] = _players[playerId].playerHp;
+//		Debug.Log(_players[playerId].playerHp);
+		OtofudaSerialPortManager.Instance.SendPlayerHp(playerHpBuffer);
+	}
 	private void Update()
 	{
 //		Debug.Log(_players[0].selectCardIndex);
