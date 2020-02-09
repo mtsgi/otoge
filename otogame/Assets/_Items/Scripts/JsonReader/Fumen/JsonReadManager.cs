@@ -66,7 +66,8 @@ public class JsonReadManager : MonoBehaviour
 				for (int i = 0; i < fumenInfo.easy.Count; i++)
 				{
 					noteGenerate(FumenDataManager.Instance.mainNotes[playerID], _fumenDataManager.timings,
-						fumenInfo.easy[i], _fumenDataManager.BPM, _fumenDataManager.BEAT, 0);
+						fumenInfo.easy[i], _fumenDataManager.BPM, _fumenDataManager.BEAT, _fumenDataManager.fumenOffset,
+						0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -74,8 +75,10 @@ public class JsonReadManager : MonoBehaviour
 				//ノーマル難易度のノーツを生成
 				for (int i = 0; i < fumenInfo.normal.Count; i++)
 				{
-					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID], _fumenDataManager.moreDifficultTimings,
-						fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,1);
+					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID],
+						_fumenDataManager.moreDifficultTimings,
+						fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,
+						_fumenDataManager.fumenOffset, 1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -88,7 +91,8 @@ public class JsonReadManager : MonoBehaviour
 				for (int i = 0; i < fumenInfo.normal.Count; i++)
 				{
 					noteGenerate(FumenDataManager.Instance.mainNotes[playerID], _fumenDataManager.timings,
-						fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,0);
+						fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,
+						_fumenDataManager.fumenOffset, 0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -97,8 +101,10 @@ public class JsonReadManager : MonoBehaviour
 				//ハード難易度のノーツを生成
 				for (int i = 0; i < fumenInfo.hard.Count; i++)
 				{
-					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID], _fumenDataManager.moreDifficultTimings,
-						fumenInfo.hard[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,1);
+					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID],
+						_fumenDataManager.moreDifficultTimings,
+						fumenInfo.hard[i], _fumenDataManager.BPM, _fumenDataManager.BEAT, _fumenDataManager.fumenOffset,
+						1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -115,7 +121,8 @@ public class JsonReadManager : MonoBehaviour
 				for (int i = 0; i < fumenInfo.hard.Count; i++)
 				{
 					noteGenerate(FumenDataManager.Instance.mainNotes[playerID], _fumenDataManager.timings,
-						fumenInfo.hard[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,0);
+						fumenInfo.hard[i], _fumenDataManager.BPM, _fumenDataManager.BEAT, _fumenDataManager.fumenOffset,
+						0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -124,8 +131,10 @@ public class JsonReadManager : MonoBehaviour
 				//エクストラ難易度のノーツを生成
 				for (int i = 0; i < fumenInfo.extra.Count; i++)
 				{
-					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID], _fumenDataManager.moreDifficultTimings,
-						fumenInfo.extra[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,1);
+					noteGenerate(FumenDataManager.Instance.moreDifficultNotes[playerID],
+						_fumenDataManager.moreDifficultTimings,
+						fumenInfo.extra[i], _fumenDataManager.BPM, _fumenDataManager.BEAT,
+						_fumenDataManager.fumenOffset, 1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -156,7 +165,7 @@ public class JsonReadManager : MonoBehaviour
 	//ノーツの生成処理
 	private void noteGenerate(List<NoteObject> targetNotesList ,
 		List<FumenDataManager.NoteTimingInfomation>[,] targetTimingList,
-		NotesInfo notesInfo, float _bpm, float _beat , float _ZoffSet)
+		NotesInfo notesInfo, float _bpm, float _beat ,float _fumenOffset, float _ZoffSet)
 	{
 		//ノーツのGameObject
 		GameObject noteGameObject = null;
@@ -222,10 +231,12 @@ public class JsonReadManager : MonoBehaviour
 		//laneの長さ
 		var _laneLength = FumenDataManager.Instance.laneLength;
 
-		spawnPos = new Vector3(lane + (playerID * 20), reachFrame * _laneLength * _fumenDataManager.highSpeed[playerID], 0+_ZoffSet);
+		spawnPos = new Vector3(lane + (playerID * 20),
+			(reachFrame + _fumenOffset / 1000.0f) * _laneLength * _fumenDataManager.highSpeed[playerID], 0 + _ZoffSet);
 		
 		//ノーツ本体のスクリプトに値を格納
-		_noteObject.setNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachFrame,playerID);
+		_noteObject.SetNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, _fumenDataManager.fumenOffset,
+			reachFrame, playerID);
 		
 		//生成
 		var spawnedObject = Instantiate(noteGameObject, spawnPos, Quaternion.identity);
@@ -260,7 +271,8 @@ public class JsonReadManager : MonoBehaviour
 			var spawnZ = 0f;
 				
 			//終点ノーツの生成
-			noteGenerate(targetNotesList, targetTimingList, notesInfo.end[i], _bpm, _beat, _ZoffSet);
+			noteGenerate(targetNotesList, targetTimingList, notesInfo.end[i], _bpm, _beat,
+				_fumenDataManager.fumenOffset, _ZoffSet);
 			//longNoteの終点ノーツを追加した直後なのでもっとも後ろのIndexが終点ノーツを格納したindex
 			endNoteIndex = targetNotesList.Count - 1;
 			
@@ -269,10 +281,11 @@ public class JsonReadManager : MonoBehaviour
 				
 			//終点座標からロングノーツのラインの生成座標を計算する。
 			var spawnY =
-				(targetNotesList[endNoteIndex].reachFrame * _laneLength *
+				((targetNotesList[endNoteIndex].reachFrame + (_fumenDataManager.fumenOffset / 1000.0f)) * _laneLength *
 				 _fumenDataManager.highSpeed[playerID] + spawnPos.y) / 2;
-			
-			var extend = targetNotesList[endNoteIndex].reachFrame * _laneLength *
+
+			var extend = (targetNotesList[endNoteIndex].reachFrame + (_fumenDataManager.fumenOffset / 1000.0f)) *
+			             _laneLength *
 			             _fumenDataManager.highSpeed[playerID] - spawnPos.y;
 			
 			GameObject longLine = (GameObject) Resources.Load("NoteObjects/Prefabs/testLongNote");

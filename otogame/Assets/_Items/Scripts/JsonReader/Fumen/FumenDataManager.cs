@@ -17,6 +17,7 @@ namespace OtoFuda.Fumen
         internal List<NoteObject>[] mainNotes = new List<NoteObject>[2];
         internal List<NoteObject>[] moreEasyNotes = new List<NoteObject>[2];
         internal List<NoteObject>[] moreDifficultNotes = new List<NoteObject>[2];
+        internal int fumenOffset;
         [SerializeField] private FumenFlowManager[] _fumenFlowManager;
  
 
@@ -55,6 +56,9 @@ namespace OtoFuda.Fumen
                     highSpeed[i] = MusicSelectManager.HISPEED[i];
                     Debug.Log("Player "+i+" is Hi-Speed"+highSpeed[i]);
                 }
+
+                fumenOffset = MusicSelectManager.FUMEN_OFFSET;
+
 
             }
             

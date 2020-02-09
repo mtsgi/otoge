@@ -146,11 +146,11 @@ public class PlayerOtofudaMovement : PlayerMovement
     {
         if (_tmpNoteType == 5)
         {
-            if (inputTime - judgeTime < -BadThreshold)
+            if (inputTime + (FumenDataManager.Instance.fumenOffset) - judgeTime < -BadThreshold)
             {
                 return PlayerKeyInpuManager.Judge.None;
             }
-            
+
 /*            if (inputTime - judgeTime < -MissThreshold)
             {
                 Debug.Log("ばーか");
@@ -164,7 +164,8 @@ public class PlayerOtofudaMovement : PlayerMovement
             }*/
 
             if (_receivedGripState == PlayerGripState.GRIP &&
-                -BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
+                -BadThreshold <= inputTime + (FumenDataManager.Instance.fumenOffset) - judgeTime &&
+                inputTime - judgeTime <= BadThreshold)
             {
                 _inputManager._noteCounters[stateIndex, targetLane]++;
                 _inputManager._playerManager._players[PlayerId].noteSimpleCount++;

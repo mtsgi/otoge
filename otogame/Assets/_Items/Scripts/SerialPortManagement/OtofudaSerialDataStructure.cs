@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Leap.Unity;
 using UnityEngine;
 
 
@@ -16,9 +17,10 @@ public enum OtofudaDataStructure : byte
 
 public class OtofudaSerialDataStructure
 {
-    private byte[] colorBuffer = new byte[8];
-    private byte[] difficultyBuffer = new byte[4];
-    private byte[] hpBuffer = new byte[4];
+    //Header[通知byte(1)][shortデータ総和(2)]
+    private byte[] colorBuffer = new byte[1+2+6+1];//(10)
+    private byte[] difficultyBuffer = new byte[1+2+2+1];//(6)
+    private byte[] hpBuffer = new byte[1+2+2+1];//(6)
     public byte[] MakeColorStructure(int playerId,int r, int g, int b)
     {
         colorBuffer[0] = (byte) OtofudaDataStructure.ColorHeader;
@@ -26,27 +28,36 @@ public class OtofudaSerialDataStructure
         //player1の時は前半だけ、
         if (playerId == 0)
         {
-            colorBuffer[1] = (byte) r;
-            colorBuffer[2] = (byte) g;
-            colorBuffer[3] = (byte) b;
+            colorBuffer[3] = (byte) r;
+            colorBuffer[4] = (byte) g;
+            colorBuffer[5] = (byte) b;
         }//player2の時は後半だけのバッファを上書き
         else if (playerId == 1)
         {
-            colorBuffer[4] = (byte) r;
-            colorBuffer[5] = (byte) g;
-            colorBuffer[6] = (byte) b;
+            colorBuffer[6] = (byte) r;
+            colorBuffer[7] = (byte) g;
+            colorBuffer[8] = (byte) b;
         }
+
+        var sum = (short) 0;
+        for (int i = 3; i < 9; i++)
+        {
+            sum += (short) colorBuffer[i];
+        }
+
+        BitConverterNonAlloc.GetBytes(sum, colorBuffer, 1);
         
         //debug
-/*        var builder = new StringBuilder();
-        for (int i = 1; i < 7; i++)
+        var builder = new StringBuilder();
+        for (int i= 3; i < 9; i++)
         {
             builder.Append(colorBuffer[i]+"/");
         }
-
-        Debug.Log(builder.ToString());*/
+        Debug.Log(builder.ToString());
+/*        Debug.Log(BitConverterNonAlloc.ToInt16(colorBuffer, 1));*/
+        //
         
-        colorBuffer[7] = (byte) OtofudaDataStructure.EndByte;
+        colorBuffer[9] = (byte) OtofudaDataStructure.EndByte;
         return colorBuffer;
     }
 
@@ -56,13 +67,22 @@ public class OtofudaSerialDataStructure
 
         if (playerId == 0)
         {
-            difficultyBuffer[1] = (byte) (int) difficulty;
+            difficultyBuffer[3] = (byte) (int) difficulty;
         }
         else if (playerId == 1)
         {
-            difficultyBuffer[2] = (byte) (int) difficulty;
+            difficultyBuffer[4] = (byte) (int) difficulty;
         }
-        difficultyBuffer[3] = (byte) OtofudaDataStructure.EndByte;
+        
+        var sum = (short) 0;
+        for (int i = 3; i < 5; i++)
+        {
+            sum += difficultyBuffer[i];
+        }
+        
+        BitConverterNonAlloc.GetBytes(sum, difficultyBuffer, 1);
+        
+        difficultyBuffer[5] = (byte) OtofudaDataStructure.EndByte;
 
         return difficultyBuffer;
     }
@@ -72,12 +92,20 @@ public class OtofudaSerialDataStructure
     {
         hpBuffer[0] = (byte) OtofudaDataStructure.HpHeader;
 
-        hpBuffer[1] = (byte) player1Hp;
-        hpBuffer[2] = (byte) player2Hp;
+        hpBuffer[3] = (byte) player1Hp;
+        hpBuffer[4] = (byte) player2Hp;
 
+        
+        var sum = (short) 0;
+        for (int i = 3; i < 5; i++)
+        {
+            sum += hpBuffer[i];
+        }
+        BitConverterNonAlloc.GetBytes(sum, hpBuffer, 1);
+        
 //        Debug.Log(hpBuffer[1] + "__" + hpBuffer[2]);
 
-        hpBuffer[3] = (byte) OtofudaDataStructure.EndByte;
+        hpBuffer[5] = (byte) OtofudaDataStructure.EndByte;
 
         return hpBuffer;
     }

@@ -9276,6 +9276,7 @@ MonoBehaviour:
   _players:
   - PlayerName: player1
     playerHp: 100
+    playerMaxHp: 100
     playerHPSlider: {fileID: 1633734095}
     judgePoint: 0
     score: 0
@@ -9320,6 +9321,7 @@ MonoBehaviour:
     selectCardIndex: 0
   - PlayerName: player2
     playerHp: 100
+    playerMaxHp: 100
     playerHPSlider: {fileID: 1856879702}
     judgePoint: 0
     score: 0

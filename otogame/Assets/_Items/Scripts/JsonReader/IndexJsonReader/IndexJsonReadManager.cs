@@ -88,7 +88,7 @@ public class IndexJsonReadManager : MonoBehaviour
             
             SceneManager.LoadScene("JsonReadTestScene");*/
 
-
+            MusicSelectManager.FUMEN_OFFSET = m.offset;
             MusicSelectManager.LEVELS[playerID] =
                 (JsonReadManager.DIFFICULTY) Enum.ToObject(typeof(JsonReadManager.DIFFICULTY), selectLevelindex);
 

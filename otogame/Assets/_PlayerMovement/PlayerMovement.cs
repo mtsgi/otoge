@@ -121,19 +121,22 @@ public class PlayerMovement : MonoBehaviour
         
         var judgeResult = PlayerKeyInpuManager.Judge.None;
 
-        if (-PerfectThreshold <= inputTime - judgeTime && inputTime - judgeTime <= PerfectThreshold)
+        if (-PerfectThreshold <= inputTime + (FumenDataManager.Instance.fumenOffset) - judgeTime &&
+            inputTime - judgeTime <= PerfectThreshold)
         {
 /*
             Debug.Log("perfe");
 */
             judgeResult = PlayerKeyInpuManager.Judge.Perfect;
         }
-        else if (-GoodThreshold <= inputTime - judgeTime && inputTime - judgeTime <= GoodThreshold)
+        else if (-GoodThreshold <= inputTime + (FumenDataManager.Instance.fumenOffset) - judgeTime &&
+                 inputTime - judgeTime <= GoodThreshold)
         {
 /*            Debug.Log("good");*/
             judgeResult = PlayerKeyInpuManager.Judge.Good;
         }
-        else if (-BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
+        else if (-BadThreshold <= inputTime + (FumenDataManager.Instance.fumenOffset) - judgeTime &&
+                 inputTime - judgeTime <= BadThreshold)
         {
 /*            Debug.Log("bad");*/
             judgeResult = PlayerKeyInpuManager.Judge.Bad;

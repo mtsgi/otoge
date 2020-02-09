@@ -262,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b16f9eecae8174c9aec423e7639825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiUrl: https://otofudanet-staging.herokuapp.com/api/v1/users/
+  apiUrl: https://otofudanet.herokuapp.com/api/v1/users/
 --- !u!1 &69074801
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1327edead8c47945b6d3e035a85a55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTestMode: 1
+  isTestMode: 0
   _titleSceneUiUpdater: {fileID: 1495869070}
   playerTitleSceneInfos:
   - keys: 7a00000078000000630000007600000062000000
@@ -1883,9 +1883,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serialPortSetting:
-    baudRate: 57600
-    selectedPort: 0
-    targetPortName: No Serial Device
+    baudRate: 74880
+    selectedPort: 2
+    targetPortName: COM8
 --- !u!4 &551109628
 Transform:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.IO.Ports;
 using System.Text;
 using SerialPortUtility;
@@ -44,8 +45,31 @@ public class SerialPortTestManager : SerialPortManager
         //WriteColor
         if (Input.GetKeyUp(KeyCode.A))
         {
-            var testColor = new byte[4] {(byte) 255, (byte) 255, (byte) 0, (byte) 0};
-            _serialPortWriter.WriteSerialPort(testColor);
+            var testData = new byte[10];
+            
+            var testColor1 = new byte[3] {200, 151, 220};
+            var testColor2 = new byte[3] {90, 102, 167};
+            
+            var sum = (short)0;
+            for (int i = 0; i < 3; i++)
+            {
+                sum += (short) (testColor1[i] + testColor2[i]);
+            }
+            var sumByte = BitConverter.GetBytes(sum);
+
+            testData[0] = (byte) 220;
+            Buffer.BlockCopy(sumByte, 0, testData, 1, 2);
+            Buffer.BlockCopy(testColor1, 0, testData, 3, 3);
+            Buffer.BlockCopy(testColor2, 0, testData, 6, 3);
+            
+            testData[9] = (byte) 255;
+
+            for (int i = 0; i < testData.Length; i++)
+            {
+                Debug.Log(testData[i]);
+            }
+            
+            _serialPortWriter.WriteSerialPort(testData);
         }
         
         //WriteDifficulty

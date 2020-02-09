@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Text;
 using SerialPortUtility;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
     
     public SerialPortReader serialPortReader;
     public SerialPortWriter serialPortWriter;
+
+    private StringBuilder _builder = new StringBuilder();
+    
     private void Start()
     {
         serialStream = new SerialPort(_serialPortSetting.targetPortName, (int) _serialPortSetting.baudRate);
@@ -25,6 +29,23 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
         serialPortWriter = new SerialPortWriter(serialStream);
         
         otofudaDataMaker = new OtofudaSerialDataStructure();
+        serialPortReader.StartReadStream();
+        serialPortReader.OnStreamRead += OnGetData;
+    }
+
+    public void OnGetData(SerialPort serialPort, byte readData)
+    {
+        char readChar = (char) readData;
+//        Debug.Log(readChar);
+        if (readChar == '\n')
+        {
+            Debug.Log(_builder.ToString());
+            _builder.Clear();
+        }
+        else
+        {
+            _builder.Append(readChar);
+        }
     }
 
     private void OnEnable()

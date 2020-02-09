@@ -127,7 +127,8 @@ public class PlayerFlickMovement : PlayerMovement
         //チュウニみたいなガバ判定にしています
         if (_tmpNoteType == 3)
         {
-            if (-BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
+            if (-BadThreshold <= inputTime + (FumenDataManager.Instance.fumenOffset) - judgeTime &&
+                inputTime - judgeTime <= BadThreshold)
             {
                 _inputManager._noteCounters[stateIndex, targetLane]++;
                 _inputManager._playerManager._players[PlayerId].noteSimpleCount++;
@@ -145,7 +146,8 @@ public class PlayerFlickMovement : PlayerMovement
         }
         else if (_tmpNoteType == 4)
         {
-            if (-BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
+            if (-BadThreshold <= inputTime + (FumenDataManager.Instance.fumenOffset) - judgeTime &&
+                inputTime - judgeTime <= BadThreshold)
             {
                 _inputManager._noteCounters[stateIndex, targetLane]++;
                 _inputManager._playerManager._players[PlayerId].noteSimpleCount++;
@@ -154,6 +156,7 @@ public class PlayerFlickMovement : PlayerMovement
                 {
                     return PlayerKeyInpuManager.Judge.Perfect;
                 }
+
 /*                else if (_recieveGesture == PlayerGesture.LEFT)
                 {
                     return PlayerKeyInpuManager.Judge.Bad;

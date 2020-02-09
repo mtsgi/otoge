@@ -156,7 +156,8 @@ public class PlayerKeyInpuManager : MonoBehaviour
 /*
                 Debug.Log((PlayerFumenState) (stateIndex) + ":" + _noteCounters[stateIndex, index]);
 */
-                if (targetTimings[_noteCounters[stateIndex, index]].reachTime -_audioSource.time < -judgeProfile.badThreshold)
+                if (targetTimings[_noteCounters[stateIndex, index]].reachTime+_fumenDataManager.fumenOffset - _audioSource.time +
+                    (_fumenDataManager.fumenOffset / 1000.0f) < -judgeProfile.badThreshold)
                 {
 /*                    if (_playerManager._players[playerID].FumenState == targetState)
                     {
@@ -174,7 +175,7 @@ public class PlayerKeyInpuManager : MonoBehaviour
                         {
                             _fumenDataManager.mainNotes[playerID][0].DeleteNote();
                             _fumenDataManager.mainNotes[playerID].RemoveAt(0);
-                            
+
                             _fumenDataManager.mainNotes[playerID][0].DeleteNote();
                             _fumenDataManager.mainNotes[playerID].RemoveAt(0);
                         }
@@ -182,7 +183,7 @@ public class PlayerKeyInpuManager : MonoBehaviour
                         {
                             _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
                             _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
-                            
+
                             _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
                             _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
                         }
@@ -190,16 +191,17 @@ public class PlayerKeyInpuManager : MonoBehaviour
                         if (_playerManager._players[playerID].FumenState == targetState)
                         {
                             var prevValue = _playerManager._players[playerID].playerHp;
-                            var currentValue = Mathf.Clamp(prevValue - 5, 0, _playerManager._players[playerID].playerMaxHp);
+                            var currentValue = Mathf.Clamp(prevValue - 5, 0,
+                                _playerManager._players[playerID].playerMaxHp);
                             var slider = _playerManager._players[playerID].playerHPSlider;
-                            
+
                             _playerManager._players[playerID].playerHp = currentValue;
                             slider.value = currentValue;
 
                             judgeTextAnimators[(int) Judge.Miss].Play("Judge", 0, 0.0f);
                             //Debug.LogError("Miss");
                         }
-                        
+
                         //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
                         if (targetTimings[_noteCounters[stateIndex, index]].noteType == 5)
                         {
@@ -208,7 +210,7 @@ public class PlayerKeyInpuManager : MonoBehaviour
                                 _playerManager._players[playerID].FumenState = PlayerFumenState.DEFAULT;
                             }
                         }
-                        
+
                         //2ノーツ分カウンターを進める
                         _noteCounters[stateIndex, index] += 2;
                         _playerManager._players[playerID].noteSimpleCount += 2;
@@ -218,16 +220,17 @@ public class PlayerKeyInpuManager : MonoBehaviour
                     }
                     else
                     {
-                        
+
                         //引数で渡したStateが現在のプレイヤーのステートと同じであればMissの判定をする。
                         if (_playerManager._players[playerID].FumenState == targetState)
                         {
 //                            Debug.Log("State : " + _playerManager._players[playerID].FumenState);
 
                             var prevValue = _playerManager._players[playerID].playerHp;
-                            var currentValue = Mathf.Clamp(prevValue - 5, 0, _playerManager._players[playerID].playerMaxHp);
+                            var currentValue = Mathf.Clamp(prevValue - 5, 0,
+                                _playerManager._players[playerID].playerMaxHp);
                             var slider = _playerManager._players[playerID].playerHPSlider;
-                            
+
                             _playerManager._players[playerID].playerHp = currentValue;
                             slider.value = currentValue;
 
@@ -246,7 +249,7 @@ public class PlayerKeyInpuManager : MonoBehaviour
                             _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
                             _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
                         }
-                        
+
                         //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
                         if (targetTimings[_noteCounters[stateIndex, index]].noteType == 5)
                         {
@@ -255,11 +258,11 @@ public class PlayerKeyInpuManager : MonoBehaviour
                                 _playerManager._players[playerID].FumenState = PlayerFumenState.DEFAULT;
                             }
                         }
-                        
+
                         _noteCounters[stateIndex, index]++;
                         _playerManager._players[playerID].noteSimpleCount++;
                     }
-                    
+
 
 
 /*                        //エラー回避、2レーン目のノーツ数が最大値だったらreturn

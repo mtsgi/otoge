@@ -37,6 +37,7 @@ namespace OtoFuda.Fumen
       
       private float _laneLength = 0.0f;
       public float _highSpeed = 1.0f;
+      public int noteOffset;
       
       private bool isPlayingGame;
       
@@ -64,7 +65,9 @@ namespace OtoFuda.Fumen
           
           if (isPlayingGame)
           {
-              transform.transform.position = new Vector3(defPosX, (reachFrame - _audioSource.time) * _laneLength * _highSpeed, posZ);
+              //note Offsetはミリ秒、audioSource.timeは秒
+              transform.transform.position = new Vector3(defPosX,
+                  ((reachFrame - _audioSource.time + (noteOffset/1000.0f)) * _laneLength * _highSpeed), posZ);
 
 /*              frameConnt++;
               Debug.Log(frameConnt);
@@ -75,22 +78,26 @@ namespace OtoFuda.Fumen
               }*/
           }
       }
-      
-       public void setNoteObject(int _type, int _lane, int _end, int _option, float _reach ,int _playerID)
-       {
-           noteType = _type;
-           lane = _lane;
-           endNotes = new List<NotesInfo>();
 
-           endNotesNum = _end;
+      public void SetNoteObject(int _type, int _lane, int _end, int _option, int _noteOffset, float _reach,
+          int _playerID)
+      {
+          noteType = _type;
+          lane = _lane;
+          endNotes = new List<NotesInfo>();
+
+          endNotesNum = _end;
+          noteOffset = _noteOffset;
+
+
+          option = _option;
+          reachFrame = _reach;
+          playerID = _playerID;
           
-           option = _option;
-           reachFrame = _reach;
-           playerID = _playerID;
 
-       }
+      }
 
-       public void changeFumenState()
+      public void changeFumenState()
        {
 //           Debug.Log("stateChange");
            isPlayingGame = !isPlayingGame;

@@ -10,6 +10,7 @@ public class MusicSelectManager : SingletonMonoBehaviour<MusicSelectManager>
     public static string jsonFilePath = "";
     public static float BPM = 60;
     public static float[] HISPEED = {1.0f, 1.0f};
+    public static int FUMEN_OFFSET;
     public static JsonReadManager.DIFFICULTY[] LEVELS = {JsonReadManager.DIFFICULTY.NORMAL, JsonReadManager.DIFFICULTY.NORMAL};
     public static string musicID;
     
