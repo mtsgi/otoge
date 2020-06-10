@@ -25,7 +25,7 @@
       "bpm": 120.0,
       "dispbpm": "120",
       "color": [ 155, 254, 205 ],
-      "offset": 1000,
+      "offset": 500,
       "raku": -1,
       "easy": 4,
       "normal": 8,

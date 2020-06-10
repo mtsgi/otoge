@@ -333,12 +333,12 @@ PrefabInstance:
     - target: {fileID: 4709080671791061285, guid: 26b0c8e125dcf3f43856919f1ae6caa1,
         type: 3}
       propertyPath: _serialPortSetting.selectedPort
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4709080671791061285, guid: 26b0c8e125dcf3f43856919f1ae6caa1,
         type: 3}
       propertyPath: _serialPortSetting.targetPortName
-      value: COM8
+      value: COM14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26b0c8e125dcf3f43856919f1ae6caa1, type: 3}
