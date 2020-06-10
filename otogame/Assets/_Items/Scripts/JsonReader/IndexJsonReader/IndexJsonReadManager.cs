@@ -12,6 +12,7 @@ public class IndexJsonReadManager : MonoBehaviour
     [SerializeField] private string fileName = "index";
     [SerializeField,Range(0,1)] private int playerID;
     
+    
     public int focus = 0, indexLength = 0;
     private GameObject _levelselect;
     private int selectLevelindex = 1;
@@ -29,10 +30,10 @@ public class IndexJsonReadManager : MonoBehaviour
         //ハイスピ値の初期化。ユーザー登録するならここでいろいろする
         for (int i = 0; i < 2; i++)
         {
-            MusicSelectManager.HISPEED[i] = PlayerInformationManager.Instance.hispeed[i];
+            MusicSelectManager.Instance.musicData.HISPEED[i] = PlayerInformationManager.Instance.hispeed[i];
             
             targetCanvasgameobject.Find("HiSpeedText").GetComponent<Text>().text =
-                $"HI-SPEED : {MusicSelectManager.HISPEED[playerID]:0.0}";
+                $"HI-SPEED : {MusicSelectManager.Instance.musicData.HISPEED[playerID]:0.0}";
         }
         
         _levelselect = targetCanvasgameobject.Find("LevelSelect").gameObject;
@@ -89,7 +90,7 @@ public class IndexJsonReadManager : MonoBehaviour
             SceneManager.LoadScene("JsonReadTestScene");*/
 
 
-            MusicSelectManager.LEVELS[playerID] =
+            MusicSelectManager.Instance.musicData.LEVELS[playerID] =
                 (JsonReadManager.DIFFICULTY) Enum.ToObject(typeof(JsonReadManager.DIFFICULTY), selectLevelindex);
 
             isSelectLevel = true;
@@ -135,14 +136,16 @@ public class IndexJsonReadManager : MonoBehaviour
 
         if (isLevelSelectOpen && isSelectLevel)
         {
-            MusicSelectManager.musicID = m.id;
-            MusicSelectManager.jsonFilePath = m.id + "/" + m.id + "/" + m.id;
-            MusicSelectManager.BPM = m.bpm;
+            MusicSelectManager.Instance.musicData.musicID = m.id;
+            MusicSelectManager.Instance.musicData.jsonFilePath = m.id + "/" + m.id + "/" + m.id;
+            MusicSelectManager.Instance.musicData.BPM = m.bpm;
 
             isSceneLoadStart = true;
-            Debug.Log(MusicSelectManager.jsonFilePath);
+            Debug.Log(MusicSelectManager.Instance.musicData.jsonFilePath);
 
-            SceneManager.LoadScene("OtofudaMainScene");
+/*            SceneManager.LoadScene("OtofudaMainScene");*/
+            SceneLoadManager.Instance.Load(GameSceneDefine._03_MainScene, MusicSelectManager.Instance.musicData, true);
+
         }
     }
 
@@ -181,9 +184,9 @@ public class IndexJsonReadManager : MonoBehaviour
             return;
         }
         
-        MusicSelectManager.HISPEED[playerID] = Mathf.Clamp(MusicSelectManager.HISPEED[playerID] - 0.5f, 0.5f, 10.0f);
+        MusicSelectManager.Instance.musicData.HISPEED[playerID] = Mathf.Clamp(MusicSelectManager.Instance.musicData.HISPEED[playerID] - 0.5f, 0.5f, 10.0f);
         targetCanvasgameobject.Find("HiSpeedText").GetComponent<Text>().text =
-            string.Format("HI-SPEED : {0:0.0}", MusicSelectManager.HISPEED[playerID]);
+            $"HI-SPEED : {MusicSelectManager.Instance.musicData.HISPEED[playerID]:0.0}";
 /*
         Debug.Log("HI SPEED DOWN");
 */
@@ -219,9 +222,9 @@ public class IndexJsonReadManager : MonoBehaviour
             return;
         }
 
-        MusicSelectManager.HISPEED[playerID] = Mathf.Clamp(MusicSelectManager.HISPEED[playerID] + 0.5f, 1.0f, 10.0f);
+        MusicSelectManager.Instance.musicData.HISPEED[playerID] = Mathf.Clamp(MusicSelectManager.Instance.musicData.HISPEED[playerID] + 0.5f, 1.0f, 10.0f);
         targetCanvasgameobject.Find("HiSpeedText").GetComponent<Text>().text =
-            string.Format("HI-SPEED : {0:0.0}", MusicSelectManager.HISPEED[playerID]);
+            $"HI-SPEED : {MusicSelectManager.Instance.musicData.HISPEED[playerID]:0.0}";
 /*
         Debug.Log("HI SPEED UP");
 */
@@ -242,7 +245,7 @@ public class IndexJsonReadManager : MonoBehaviour
         var _index = JsonUtility.FromJson<IndexInfo>(jsonText);
         indexLength = _index.index.Count;
 
-        GameObject music = (GameObject)Resources.Load("FumenJsons/Prefabs/Music");
+        var music = (GameObject)Resources.Load("FumenJsons/Prefabs/Music");
 
         //選択中の楽曲情報
         for( int i=-2; i<=2; i++ ) {

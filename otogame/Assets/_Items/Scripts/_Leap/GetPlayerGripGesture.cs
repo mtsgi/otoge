@@ -43,6 +43,7 @@ namespace OtoFuda.player
 		private void Update()
 		{
 			var extendFinger = 0;
+			if (targetProvider == null) return;
 			if (targetProvider.CurrentFrame.Hands.Count == 0)
 			{
 				_PlayerGripState = PlayerGripState.RELEASE;

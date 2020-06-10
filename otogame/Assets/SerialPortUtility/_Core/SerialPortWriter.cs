@@ -32,7 +32,13 @@ namespace SerialPortUtility
         
         public void WriteSerialPort(byte[] data)
         {
-            var task = Task.Run(() => { WriteTask(data, 0, data.Length); });
+            lock (_lockObject)
+            {
+                if (_serialStream.IsOpen)
+                {
+                    var task = Task.Run(() => { WriteTask(data, 0, data.Length); });
+                }
+            }
         }
         
         public void WriteSerialPort(byte[] data, int offset, int count)

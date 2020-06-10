@@ -1,19 +1,31 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MusicSelectManager : SingletonMonoBehaviour<MusicSelectManager> 
 {
-    //シーンまたがって渡したい値たち
-    public static string jsonFilePath = "";
-    public static float BPM = 60;
-    public static float[] HISPEED = {1.0f, 1.0f};
-    public static JsonReadManager.DIFFICULTY[] LEVELS = {JsonReadManager.DIFFICULTY.NORMAL, JsonReadManager.DIFFICULTY.NORMAL};
-    public static string musicID;
-    
-    
+    [Serializable]
+    public class MusicData : ISceneTransitionData
+    {
+        //シーンまたがって渡したい値たち
+        public string jsonFilePath = "puzzle/puzzle/puzzle";
+        public float BPM = 60;
+        public float[] HISPEED = {1.0f, 1.0f};
+        public JsonReadManager.DIFFICULTY[] LEVELS = {JsonReadManager.DIFFICULTY.NORMAL, JsonReadManager.DIFFICULTY.NORMAL};
+        public string musicID;
+        
+        public void TestCheckParameter()
+        {
+            Debug.Log(
+                $"MusicData Info :FilePath{jsonFilePath}/BPM{BPM}/HiSpeed{HISPEED}/Level{LEVELS[0]}/musicID{musicID}");
+        }
+    }
+
+    public MusicData musicData = new MusicData();
+
     [Serializable]
     public class KeyInputSetting
     {

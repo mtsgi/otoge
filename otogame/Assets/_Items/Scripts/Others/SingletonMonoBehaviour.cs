@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
+public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour, new()
 {
 	private static T instance;
 	public static T Instance 
@@ -12,7 +12,13 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 				instance = (T)FindObjectOfType (typeof(T));
 				if (instance == null) 
 				{
-					Debug.LogError (typeof(T) + "is nothing");
+					Debug.LogWarning(typeof(T) + "is nothing! So Create It");
+					var singleton = new GameObject
+					{
+						name = $"Singleton_{typeof(T)}"
+					};
+
+					instance = singleton.AddComponent<T>();
 				}
 			}
 			return instance;

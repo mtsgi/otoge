@@ -33,7 +33,7 @@ namespace OtoFuda.Fumen
             
         }
 
-        internal void startFumenFlow()
+        internal void StartFumenFlow()
         {
             var notes = FumenDataManager.Instance.mainNotes[playerID];
             var difNotes = FumenDataManager.Instance.moreDifficultNotes[playerID];

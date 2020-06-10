@@ -17,11 +17,24 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
 
     private StringBuilder _builder = new StringBuilder();
     
+    
     private void Start()
     {
-        serialStream = new SerialPort(_serialPortSetting.targetPortName, (int) _serialPortSetting.baudRate);
+        if (_serialPortSetting == null)
+        {
+            _serialPortSetting = new SerialPortSetting();
+        }
         
-        serialStream.Open();
+        serialStream = new SerialPort(_serialPortSetting.targetPortName, (int) _serialPortSetting.baudRate);
+        try
+        {
+            serialStream.Open();
+        }
+        catch (Exception e)
+        {
+            serialStream.Close();
+            return;
+        }
         serialStream.DiscardInBuffer();
         serialStream.DiscardOutBuffer();
             
@@ -31,6 +44,9 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
         otofudaDataMaker = new OtofudaSerialDataStructure();
         serialPortReader.StartReadStream();
         serialPortReader.OnStreamRead += OnGetData;
+        
+        DontDestroyOnLoad(this);
+
     }
 
     public void OnGetData(SerialPort serialPort, byte readData)
@@ -50,11 +66,11 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
 
     private void OnEnable()
     {
-        DontDestroyOnLoad(this);
     }
 
     private void OnDestroy()
     {
+        if (!serialStream.IsOpen) return;
         serialPortReader.StopReadStream();
         CloseSerialStream();
     }
@@ -75,13 +91,20 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
         }
         
         var data = otofudaDataMaker.MakeColorStructure(playerId, color[0], color[1], color[2]);
-        serialPortWriter.WriteSerialPort(data);
+        if (serialStream.IsOpen)
+        {
+            serialPortWriter.WriteSerialPort(data);
+        }
     }
 
     public void SendDifficultyColor(int playerId, JsonReadManager.DIFFICULTY difficulty)
     {
         var data = otofudaDataMaker.MakeDifficultyStructure(playerId, difficulty);
-        serialPortWriter.WriteSerialPort(data);
+        
+        if (serialStream.IsOpen)
+        {
+            serialPortWriter.WriteSerialPort(data);
+        }
     }
     
     public void SendPlayerHp(int[] playersHp)
@@ -89,9 +112,14 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
         if (playersHp.Length < 2)
         {
             Debug.Log("Hpの配列として与えられたデータ数が足りません");
+            return;
         }
         var data = otofudaDataMaker.MakePlayerHpStructure(playersHp[0], playersHp[1]);
-        serialPortWriter.WriteSerialPort(data);
+        if (data.Length == 0) return;
+        if (serialStream.IsOpen)
+        {
+            serialPortWriter.WriteSerialPort(data);
+        }
     }
 
 }
