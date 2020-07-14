@@ -8,7 +8,7 @@ using UnityEngine.UI;
 [Serializable]
 public class FumenSelectSceneTransitionData : ISceneTransitionData
 {
-    public MusicSelectManager.MusicData musicData;
+    public MusicData musicData;
     public PlayerInfo[] playerInfos = {new PlayerInfo(), new PlayerInfo()};
 
     public void TestCheckParameter()
@@ -29,26 +29,8 @@ public class PlayerInfo
 }
 
 
-public class MusicSelectManager : SingletonMonoBehaviour<MusicSelectManager>
+public partial class MusicSelectManager : SingletonMonoBehaviour<MusicSelectManager>
 {
-    [Serializable]
-    public class MusicData
-    {
-        //シーンまたがって渡したい値たち
-        public string jsonFilePath = "otofuda/otofuda/otofuda";
-        public float bpm = 60;
-
-        public GameDifficulty[] levels = {GameDifficulty.Hard, GameDifficulty.Normal};
-        public string musicId="otofuda";
-
-        public void TestCheckParameter()
-        {
-            Debug.Log(
-                $"MusicData Info :FilePath{jsonFilePath}/BPM{bpm}/Level{levels[0]}/musicID{musicId}");
-        }
-    }
-
-
     public MusicData musicData = new MusicData();
 
     [Serializable]

@@ -1,32 +1,62 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+
+[Serializable]
+public class FixedFpsSetting
+{
+    public bool useFixFps;
+    public int fixFps = 60;
+}
+
+[Serializable]
+public class LoggingSetting
+{
+    public bool useLogging = true;
+    public float loggingInterval = 0.5f;
+}
 
 public class FpsTester : MonoBehaviour
 {
-    public float FPS { get; private set; }
+    public float Fps { get; private set; }
 
-    static readonly float INTERVAL = 0.5f;
-    float m_prev_time;
-    int m_frame_count;
+    public FixedFpsSetting fixedFpsSetting = new FixedFpsSetting();
+    public LoggingSetting loggingSetting = new LoggingSetting();
 
-    void Start()
+    float _mPrevTime;
+    int _mFrameCount;
+
+    private void Awake()
     {
-        FPS = 60.0f;
-        m_prev_time = 0.0f;
-        m_frame_count = 0;
+        if (fixedFpsSetting.useFixFps)
+        {
+            Application.targetFrameRate = fixedFpsSetting.fixFps;
+        }
+    }
+
+    private void Start()
+    {
+        Fps = 60.0f;
+        _mPrevTime = 0.0f;
+        _mFrameCount = 0;
     }
 
     void Update()
     {
-        ++m_frame_count;
-        float diff_time = Time.realtimeSinceStartup - m_prev_time;
-        if (INTERVAL > diff_time)
+        ++_mFrameCount;
+        float diff_time = Time.realtimeSinceStartup - _mPrevTime;
+
+        if (loggingSetting.loggingInterval > diff_time)
         {
             return;
         }
 
-        FPS = ((float) m_frame_count / diff_time);
-        Debug.Log(FPS);
-        m_frame_count = 0;
-        m_prev_time = Time.realtimeSinceStartup;
+        Fps = ((float) _mFrameCount / diff_time);
+        if (loggingSetting.useLogging)
+        {
+            Debug.Log(Fps);
+        }
+
+        _mFrameCount = 0;
+        _mPrevTime = Time.realtimeSinceStartup;
     }
 }

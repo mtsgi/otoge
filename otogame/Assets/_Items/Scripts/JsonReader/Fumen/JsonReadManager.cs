@@ -27,33 +27,14 @@ public class JsonReadManager
     public GameDifficulty GameDifficulty = GameDifficulty.Normal;
 
     private FumenDataManager _fumenDataManager;
-    private MusicSelectManager.MusicData _musicData;
+    private MusicData _musicData;
 
-    public JsonReadManager(MusicSelectManager.MusicData musicData)
+    public JsonReadManager(MusicData musicData)
     {
         _musicData = musicData;
     }
-
-
-    private void Start()
-    {
-/*/*		if (!isDebug)
-		{#1#
-        if (!(SceneLoadManager.Instance.previewSceneTransitionData is MusicSelectManager.MusicData musicData))
-        {
-            musicData = new MusicSelectManager.MusicData();
-        }
-
-        fileName = musicData.jsonFilePath;
-        difficulty = musicData.LEVELS[playerID];
-        Debug.Log("player1 LEVEL is " + difficulty);
-//		}
-
-        _fumenDataManager = FumenDataManager.Instance;
-        SerializeFumenData();*/
-    }
-
-    public void Init(FumenDataManager fumenDataManager,int playerId)
+    
+    public void Init(FumenDataManager fumenDataManager, int playerId)
     {
         /*		if (!isDebug)
 		{*/
@@ -68,6 +49,7 @@ public class JsonReadManager
             GameDifficulty = _musicData.levels[playerID];
 
             Debug.Log($"MusicData Info :FilePath{_musicData.jsonFilePath}/BPM{_musicData.bpm}" +
+                      $"/beat{_musicData.beat}"+
                       $"/Level{_musicData.levels[playerID]}/musicID{_musicData.musicId}");
         }
 
@@ -112,7 +94,7 @@ public class JsonReadManager
                 for (int i = 0; i < fumenInfo.easy.Count; i++)
                 {
                     NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.timings,
-                        fumenInfo.easy[i], _fumenDataManager.BPM, _fumenDataManager.BEAT, 0);
+                        fumenInfo.easy[i], _musicData.bpm, _musicData.beat, 0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -123,7 +105,7 @@ public class JsonReadManager
                 {
                     NoteGenerate(_fumenDataManager.moreDifficultNotes[playerID],
                         _fumenDataManager.moreDifficultTimings,
-                        fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT, 1);
+                        fumenInfo.normal[i], _musicData.bpm, _musicData.beat, 1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -136,7 +118,7 @@ public class JsonReadManager
                 for (int i = 0; i < fumenInfo.normal.Count; i++)
                 {
                     NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.timings,
-                        fumenInfo.normal[i], _fumenDataManager.BPM, _fumenDataManager.BEAT, 0);
+                        fumenInfo.normal[i], _musicData.bpm, _musicData.beat, 0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -148,7 +130,7 @@ public class JsonReadManager
                 {
                     NoteGenerate(_fumenDataManager.moreDifficultNotes[playerID],
                         _fumenDataManager.moreDifficultTimings,
-                        fumenInfo.hard[i], _fumenDataManager.BPM, _fumenDataManager.BEAT, 1);
+                        fumenInfo.hard[i], _musicData.bpm, _musicData.beat, 1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -165,7 +147,7 @@ public class JsonReadManager
                 for (int i = 0; i < fumenInfo.hard.Count; i++)
                 {
                     NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.timings,
-                        fumenInfo.hard[i], _fumenDataManager.BPM, _fumenDataManager.BEAT, 0);
+                        fumenInfo.hard[i], _musicData.bpm, _musicData.beat, 0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -176,7 +158,7 @@ public class JsonReadManager
                 {
                     NoteGenerate(_fumenDataManager.moreDifficultNotes[playerID],
                         _fumenDataManager.moreDifficultTimings,
-                        fumenInfo.extra[i], _fumenDataManager.BPM, _fumenDataManager.BEAT, 1);
+                        fumenInfo.extra[i], _musicData.bpm, _musicData.beat, 1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
 */
@@ -246,13 +228,15 @@ public class JsonReadManager
         }
 
 
-        //一小節あたりの長さ(単位：フレーム)
+        //一小節あたりの長さ(秒)
         //60 秒/_bpm (拍)で 1拍 あたり何秒なのかを算出。
-        //これに60をかけて1フレームあたり何秒なのかを算出する。
-        //これにbeat(拍子数)をかけることで一小節あたりのフレーム数を計算する。
+        //これにbeat(拍子数)をかけることで一小節あたりの時間を計算する。
         var measureLength = (60 / _bpm) * _beat;
+        
+        /*Debug.Log($"{60}/{_bpm}*{_beat}");*/
 
-        //一小節あたりのフレーム数がわかれば何フレーム目で到達するノーツなのかを算出できる。
+
+        //一小節あたりの時間がわかれば何秒で到達するノーツなのかを算出できる。
         var reachFrame = measureLength * ((float) notesInfo.measure - 1) +
                          measureLength * ((float) notesInfo.position / (float) notesInfo.split);
 
@@ -262,14 +246,13 @@ public class JsonReadManager
         spawnPos = new Vector3(lane + (playerID * 20),
             reachFrame * _laneLength * _fumenDataManager._highSpeed[playerID],
             0 + _ZoffSet);
-        
-        
-        
+
+
         //生成
         var spawnedObject = Object.Instantiate(noteGameObject, spawnPos, Quaternion.identity);
 //        Debug.Log(spawnedObject.transform.position);
         spawnedObject.transform.parent = GameObject.Find("Notes").transform;
-        
+
         var _noteObject = spawnedObject.GetComponent<NoteObject>();
 
         if (_noteObject == null)
@@ -279,11 +262,10 @@ public class JsonReadManager
         }
 
 
-
         //ノーツ本体のスクリプトに値を格納
         _noteObject.SetNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachFrame, playerID,
             _fumenDataManager._highSpeed[playerID], _laneLength);
-        
+
 
 /*
 		Debug.Log(FumenDataManager.Instance.mainNotes[0].Count);
@@ -321,10 +303,10 @@ public class JsonReadManager
             //終点座標からロングノーツのラインの生成座標を計算する。
             var spawnY =
                 (targetNotesList[endNoteIndex].reachFrame * _laneLength *
-                 _fumenDataManager._highSpeed[playerID] + spawnPos.y) / 2;
+                    _fumenDataManager._highSpeed[playerID] + spawnPos.y) / 2;
 
             var extend = targetNotesList[endNoteIndex].reachFrame * _laneLength *
-                         _fumenDataManager._highSpeed[playerID] - spawnPos.y;
+                _fumenDataManager._highSpeed[playerID] - spawnPos.y;
 
             GameObject longLine = (GameObject) Resources.Load("NoteObjects/Prefabs/testLongNote");
 

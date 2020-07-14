@@ -738,10 +738,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDebug: 1
-  BPM: 240
+  debugMusicData: {fileID: 11400000, guid: 734166c609737824298ecff078316358, type: 2}
   _fumenFlowManager:
   - {fileID: 1011586042}
   - {fileID: 627289923}
+  _musicData:
+    jsonFilePath: otofuda/otofuda/otofuda
+    bpm: 60
+    beat: 4
+    levels: 0200000001000000
+    musicId: otofuda
   _highSpeed:
   - 8
   - 8
@@ -4562,49 +4568,6 @@ MonoBehaviour:
     targetAudioSource: {fileID: 894911846}
     targetAudioClip: {fileID: 8300000, guid: 81fd96df8ef3a70449eb66c1ee355466, type: 3}
   autoSetName: 1
---- !u!1 &895624206
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 895624207}
-  - component: {fileID: 895624208}
-  m_Layer: 0
-  m_Name: FPSTester
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &895624207
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895624206}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &895624208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895624206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b4798ee5582d4642b29f2c2dcd00978, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &916538382
 GameObject:
   m_ObjectHideFlags: 0
@@ -6689,6 +6652,55 @@ Transform:
   - {fileID: 1921788423}
   m_Father: {fileID: 0}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1001027151
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1001027153}
+  - component: {fileID: 1001027152}
+  m_Layer: 0
+  m_Name: FpsTester
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1001027152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001027151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b4798ee5582d4642b29f2c2dcd00978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fixedFpsSetting:
+    useFixFps: 0
+    fixFps: 60
+  loggingSetting:
+    useLogging: 0
+    loggingInterval: 5
+--- !u!4 &1001027153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001027151}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1011586041
 GameObject:
