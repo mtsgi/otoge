@@ -131,14 +131,14 @@ public class PlayerKeyInputManager : MonoBehaviour
 
         for (var i = 0; i < 5; i++)
         {
-            FumenPassChecker(_fumenDataManager.timings[playerID, i], PlayerFumenState.DEFAULT, i);
-            FumenPassChecker(_fumenDataManager.moreDifficultTimings[playerID, i], PlayerFumenState.MORE_DIFFICULT, i);
+            FumenPassCheck(_fumenDataManager.timings[playerID, i], PlayerFumenState.DEFAULT, i);
+            FumenPassCheck(_fumenDataManager.moreDifficultTimings[playerID, i], PlayerFumenState.MORE_DIFFICULT, i);
         } 
         //       Debug.Log("PassCheck");
 
     }
 
-    private void FumenPassChecker(List<FumenDataManager.NoteTimingInformation> targetTimings,
+    private void FumenPassCheck(List<FumenDataManager.NoteTimingInformation> targetTimings,
         PlayerFumenState targetState, int index)
     {
         var stateIndex = (int) targetState;

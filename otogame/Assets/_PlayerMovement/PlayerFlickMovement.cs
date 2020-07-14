@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerFlickMovement : PlayerMovement
 {
 
-    private PlayerGesture _recieveGesture;
+    private PlayerGesture _receiveGesture;
     //フリックの判定を持つために一時的に代入しておく変数
     private int _tmpNoteType;
     
@@ -22,7 +22,7 @@ public class PlayerFlickMovement : PlayerMovement
     {
         if (GetPlayerFlickGesture._playerGesture != PlayerGesture.NONE)
         {
-            _recieveGesture = GetPlayerFlickGesture._playerGesture;
+            _receiveGesture = GetPlayerFlickGesture._playerGesture;
             
             for (int i = 0; i < PlayerKeys.Length; i++)
             {
@@ -56,7 +56,7 @@ public class PlayerFlickMovement : PlayerMovement
     {
         if (_playerId == PlayerId)
         {
-            _recieveGesture = _gesture;
+            _receiveGesture = _gesture;
         }
     }
 
@@ -132,7 +132,7 @@ public class PlayerFlickMovement : PlayerMovement
                 _inputManager._noteCounters[stateIndex, targetLane]++;
                 _inputManager._playerManager._players[PlayerId].noteSimpleCount++;
 
-                if (_recieveGesture == PlayerGesture.LEFT)
+                if (_receiveGesture == PlayerGesture.LEFT)
                 {
                     return PlayerKeyInputManager.Judge.Perfect;
                 }
@@ -150,7 +150,7 @@ public class PlayerFlickMovement : PlayerMovement
                 _inputManager._noteCounters[stateIndex, targetLane]++;
                 _inputManager._playerManager._players[PlayerId].noteSimpleCount++;
 
-                if (_recieveGesture == PlayerGesture.RIGHT)
+                if (_receiveGesture == PlayerGesture.RIGHT)
                 {
                     return PlayerKeyInputManager.Judge.Perfect;
                 }
