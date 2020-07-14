@@ -114,7 +114,7 @@ namespace OtoFuda.Fumen
                 jsonReader.Init(this, i);
             }
             
-            var path = "Musics/" + _musicData.musicID;
+            var path = "Musics/" + _musicData.musicId;
             Debug.Log(path);
             var audioClip = Resources.Load(path, typeof(AudioClip)) as AudioClip;
             SoundManager.Instance.gameObject.GetComponents<AudioSource>()[0].clip = audioClip;

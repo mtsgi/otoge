@@ -65,10 +65,10 @@ public class JsonReadManager
         {
             playerID = playerId;
             fileName = _musicData.jsonFilePath;
-            GameDifficulty = _musicData.LEVELS[playerID];
+            GameDifficulty = _musicData.levels[playerID];
 
-            Debug.Log($"MusicData Info :FilePath{_musicData.jsonFilePath}/BPM{_musicData.BPM}" +
-                      $"/Level{_musicData.LEVELS[playerID]}/musicID{_musicData.musicID}");
+            Debug.Log($"MusicData Info :FilePath{_musicData.jsonFilePath}/BPM{_musicData.bpm}" +
+                      $"/Level{_musicData.levels[playerID]}/musicID{_musicData.musicId}");
         }
 
 /*        if (!(SceneLoadManager.Instance.previewSceneTransitionData is MusicSelectManager.MusicData musicData))

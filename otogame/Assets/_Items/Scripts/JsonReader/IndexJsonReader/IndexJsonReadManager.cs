@@ -91,7 +91,7 @@ public class IndexJsonReadManager
             SceneManager.LoadScene("JsonReadTestScene");*/
 
 
-            MusicSelectManager.Instance.musicData.LEVELS[_playerId] =
+            MusicSelectManager.Instance.musicData.levels[_playerId] =
                 (GameDifficulty) Enum.ToObject(typeof(GameDifficulty), selectLevelindex);
 
             isSelectLevel = true;
@@ -138,9 +138,9 @@ public class IndexJsonReadManager
 
         if (isLevelSelectOpen && isSelectLevel)
         {
-            MusicSelectManager.Instance.musicData.musicID = m.id;
+            MusicSelectManager.Instance.musicData.musicId = m.id;
             MusicSelectManager.Instance.musicData.jsonFilePath = m.id + "/" + m.id + "/" + m.id;
-            MusicSelectManager.Instance.musicData.BPM = m.bpm;
+            MusicSelectManager.Instance.musicData.bpm = m.bpm;
 
             isSceneLoadStart = true;
             Debug.Log(MusicSelectManager.Instance.musicData.jsonFilePath);
