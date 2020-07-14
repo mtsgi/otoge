@@ -61,17 +61,17 @@ public class OtofudaSerialDataStructure
         return colorBuffer;
     }
 
-    public byte[] MakeDifficultyStructure(int playerId, JsonReadManager.DIFFICULTY difficulty)
+    public byte[] MakeDifficultyStructure(int playerId, GameDifficulty gameDifficulty)
     {
         difficultyBuffer[0] = (byte) OtofudaDataStructure.DifficultyHeader;
 
         if (playerId == 0)
         {
-            difficultyBuffer[3] = (byte) (int) difficulty;
+            difficultyBuffer[3] = (byte) (int) gameDifficulty;
         }
         else if (playerId == 1)
         {
-            difficultyBuffer[4] = (byte) (int) difficulty;
+            difficultyBuffer[4] = (byte) (int) gameDifficulty;
         }
         
         var sum = (short) 0;

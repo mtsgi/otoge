@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class NoteJudger : MonoBehaviour,INoteJudge
 {
-	public virtual void KeyJudge(int targetLane, List<FumenDataManager.NoteTimingInfomation> targetTimings,
+	public virtual void KeyJudge(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings,
 		PlayerFumenState fumenState)
 	{
 		

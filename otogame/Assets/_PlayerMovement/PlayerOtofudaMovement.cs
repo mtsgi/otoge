@@ -60,7 +60,7 @@ public class PlayerOtofudaMovement : PlayerMovement
         }
     }
 
-    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInfomation> targetTimings,
+    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings,
         PlayerFumenState fumenState)
     {
         var stateIndex = (int) fumenState;
@@ -96,7 +96,7 @@ public class PlayerOtofudaMovement : PlayerMovement
         var judgeResult = InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
 
 
-        if (judgeResult != PlayerKeyInpuManager.Judge.None)
+        if (judgeResult != PlayerKeyInputManager.Judge.None)
         {
             //ここでいったん譜面の難易度を戻しておく
             _inputManager.judgeTextAnimators[(int) judgeResult].Play("Judge", 0, 0.0f);
@@ -137,18 +137,18 @@ public class PlayerOtofudaMovement : PlayerMovement
 
         
         //音札のアクティベート関数を実行
-        _inputManager._playerManager.OnUseOtoFudaCard(PlayerId, judgeResult == PlayerKeyInpuManager.Judge.Perfect);
+        _inputManager._playerManager.OnUseOtoFudaCard(PlayerId, judgeResult == PlayerKeyInputManager.Judge.Perfect);
 //        Debug.Log("Invoke!");
     }
 
 
-    public override PlayerKeyInpuManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType, int stateIndex)
+    public override PlayerKeyInputManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType, int stateIndex)
     {
         if (_tmpNoteType == 5)
         {
             if (inputTime - judgeTime < -BadThreshold)
             {
-                return PlayerKeyInpuManager.Judge.None;
+                return PlayerKeyInputManager.Judge.None;
             }
             
 /*            if (inputTime - judgeTime < -MissThreshold)
@@ -169,11 +169,11 @@ public class PlayerOtofudaMovement : PlayerMovement
                 _inputManager._noteCounters[stateIndex, targetLane]++;
                 _inputManager._playerManager._players[PlayerId].noteSimpleCount++;
 //                Debug.Log("ぱふぇ！");
-                return PlayerKeyInpuManager.Judge.Perfect;
+                return PlayerKeyInputManager.Judge.Perfect;
             }
         }
 
-        return PlayerKeyInpuManager.Judge.None;
+        return PlayerKeyInputManager.Judge.None;
         
     }
 }

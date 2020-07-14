@@ -97,7 +97,7 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
         }
     }
 
-    public void SendDifficultyColor(int playerId, JsonReadManager.DIFFICULTY difficulty)
+    public void SendDifficultyColor(int playerId, GameDifficulty difficulty)
     {
         var data = otofudaDataMaker.MakeDifficultyStructure(playerId, difficulty);
         

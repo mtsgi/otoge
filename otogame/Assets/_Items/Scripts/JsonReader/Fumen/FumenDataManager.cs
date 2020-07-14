@@ -19,15 +19,16 @@ namespace OtoFuda.Fumen
         [SerializeField] private FumenFlowManager[] _fumenFlowManager;
 
         MusicSelectManager.MusicData _musicData = new MusicSelectManager.MusicData();
+        private PlayerInfo[] _playerInfos = new PlayerInfo[2];
 
         //実寸/10で定義する
         internal float laneLength = 0.7f;
-        public float[] highSpeed = {8.0f, 8.0f};
+        public float[] _highSpeed = {8.0f, 8.0f};
 
         [Serializable]
-        public class NoteTimingInfomation
+        public class NoteTimingInformation
         {
-            public NoteTimingInfomation(int _noteType, float _reachTime)
+            public NoteTimingInformation(int _noteType, float _reachTime)
             {
                 this.noteType = _noteType;
                 this.reachTime = _reachTime;
@@ -37,30 +38,44 @@ namespace OtoFuda.Fumen
             public float reachTime;
         }
 
-        public List<NoteTimingInfomation>[,] timings = new List<NoteTimingInfomation>[2, 5];
-        public List<NoteTimingInfomation>[,] moreEasyTimings = new List<NoteTimingInfomation>[2, 5];
-        public List<NoteTimingInfomation>[,] moreDifficultTimings = new List<NoteTimingInfomation>[2, 5];
+        public List<NoteTimingInformation>[,] timings = new List<NoteTimingInformation>[2, 5];
+        public List<NoteTimingInformation>[,] moreEasyTimings = new List<NoteTimingInformation>[2, 5];
+        public List<NoteTimingInformation>[,] moreDifficultTimings = new List<NoteTimingInformation>[2, 5];
 
 
-        private void Awake()
+        private new void Awake()
         {
-            
-            if (SceneLoadManager.Instance.previewSceneTransitionData is MusicSelectManager.MusicData musicData)
+            base.Awake();
+            Debug.Log("FumenDataManagerAwake");
+
+            var fumenSelectSceneData =
+                SceneLoadManager.Instance.previewSceneTransitionData as FumenSelectSceneTransitionData;
+
+            Debug.Log($"{SceneLoadManager.Instance.testTypeName}");
+            if (fumenSelectSceneData != null)
             {
-                _musicData = musicData;
+                _musicData = fumenSelectSceneData.musicData;
+                _playerInfos = fumenSelectSceneData.playerInfos;
             }
             else
             {
                 _musicData = new MusicSelectManager.MusicData();
-
+                _playerInfos = new PlayerInfo[]{new PlayerInfo(), new PlayerInfo()};
             }
 
-            Debug.Log($"MusicDaaaaaaaaaaaaaaaaaata:{_musicData}");
-            for (int i = 0; i < PlayerManager.Instance._players.Length; i++)
+            
+            //ハイスピ周りはPlayerManagerに渡したい。
+            //というかこれMonoにしたくない
+            for (int i = 0; i < 2; i++)
             {
-                highSpeed[i] = _musicData.HISPEED[i];
-                Debug.Log("Player " + i + " is Hi-Speed" + highSpeed[i]);
+                _highSpeed[i] = _playerInfos[i].hiSpeed;
             }
+
+/*            for (int i = 0; i < PlayerManager.Instance._players.Length; i++)
+            {
+                _highSpeed[i] = PlayerManager.Instance.;
+                Debug.Log("Player " + i + " is Hi-Speed" + highSpeed[i]);
+            }*/
 
 
             //初期化
@@ -72,9 +87,9 @@ namespace OtoFuda.Fumen
 
                 for (int k = 0; k < 5; k++)
                 {
-                    timings[i, k] = new List<NoteTimingInfomation>();
-                    moreEasyTimings[i, k] = new List<NoteTimingInfomation>();
-                    moreDifficultTimings[i, k] = new List<NoteTimingInfomation>();
+                    timings[i, k] = new List<NoteTimingInformation>();
+                    moreEasyTimings[i, k] = new List<NoteTimingInformation>();
+                    moreDifficultTimings[i, k] = new List<NoteTimingInformation>();
                 }
             }
 
@@ -90,11 +105,15 @@ namespace OtoFuda.Fumen
 
         private void Start()
         {
-            
-            
 /*            SoundManager.Instance.gameObject.GetComponent<AudioSource>().clip =
                 Resources.Load("Musics/+" + IndexJsonReadManager.musicID, typeof(AudioClip)) as AudioClip;*/
 
+            for (int i = 0; i < PlayerManager.Instance._players.Length; i++)
+            {
+                var jsonReader = new JsonReadManager(_musicData);
+                jsonReader.Init(this, i);
+            }
+            
             var path = "Musics/" + _musicData.musicID;
             Debug.Log(path);
             var audioClip = Resources.Load(path, typeof(AudioClip)) as AudioClip;

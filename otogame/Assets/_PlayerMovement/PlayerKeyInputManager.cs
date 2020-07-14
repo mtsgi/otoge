@@ -5,7 +5,7 @@ using OtoFuda.Fumen;
 using OtoFuda.RythmSystem;
 using UnityEngine;
 
-public class PlayerKeyInpuManager : MonoBehaviour
+public class PlayerKeyInputManager : MonoBehaviour
 {
     public JudgeProfile judgeProfile;
     internal bool isStartMusic = false;
@@ -138,7 +138,7 @@ public class PlayerKeyInpuManager : MonoBehaviour
 
     }
 
-    private void FumenPassChecker(List<FumenDataManager.NoteTimingInfomation> targetTimings,
+    private void FumenPassChecker(List<FumenDataManager.NoteTimingInformation> targetTimings,
         PlayerFumenState targetState, int index)
     {
         var stateIndex = (int) targetState;

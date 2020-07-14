@@ -8,22 +8,23 @@ using OtoFuda.player;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+//難易度をEnumで定義
+public enum GameDifficulty
+{
+    Easy = 0,
+    Normal = 1,
+    Hard = 2
+}
+
 public class JsonReadManager
 {
-    [Range(0, 1)] [SerializeField] private int playerID;
-    [SerializeField] private string fileName;
+    private int playerID;
+    private string fileName;
 
     public bool isDebug = false;
 
-    //難易度をEnumで定義
-    public enum DIFFICULTY
-    {
-        EASY = 0,
-        NORMAL = 1,
-        HARD = 2
-    }
 
-    public DIFFICULTY difficulty = DIFFICULTY.NORMAL;
+    public GameDifficulty GameDifficulty = GameDifficulty.Normal;
 
     private FumenDataManager _fumenDataManager;
     private MusicSelectManager.MusicData _musicData;
@@ -52,21 +53,36 @@ public class JsonReadManager
         SerializeFumenData();*/
     }
 
-    public void Init()
+    public void Init(FumenDataManager fumenDataManager,int playerId)
     {
         /*		if (!isDebug)
 		{*/
-        if (!(SceneLoadManager.Instance.previewSceneTransitionData is MusicSelectManager.MusicData musicData))
+        if (_musicData == null)
         {
-            musicData = new MusicSelectManager.MusicData();
+            Debug.LogError("MusicDataが空です!!");
+        }
+        else
+        {
+            playerID = playerId;
+            fileName = _musicData.jsonFilePath;
+            GameDifficulty = _musicData.LEVELS[playerID];
+
+            Debug.Log($"MusicData Info :FilePath{_musicData.jsonFilePath}/BPM{_musicData.BPM}" +
+                      $"/Level{_musicData.LEVELS[playerID]}/musicID{_musicData.musicID}");
         }
 
-        fileName = musicData.jsonFilePath;
-        difficulty = musicData.LEVELS[playerID];
-        Debug.Log("player1 LEVEL is " + difficulty);
+/*        if (!(SceneLoadManager.Instance.previewSceneTransitionData is MusicSelectManager.MusicData musicData))
+        {
+            musicData = new MusicSelectManager.MusicData();
+            Debug.Log($"musicDa{}");
+        }*/
+
+
+        Debug.Log("player1 LEVEL is " + GameDifficulty);
 //		}
 
-        _fumenDataManager = FumenDataManager.Instance;
+//        _fumenDataManager = FumenDataManager.Instance;
+        _fumenDataManager = fumenDataManager;
         SerializeFumenData();
     }
 
@@ -86,13 +102,12 @@ public class JsonReadManager
         }
     }
 
-    private void SetNoteData(FumenInfo fumenInfo,FumenDataManager fumenDataManager)
+    private void SetNoteData(FumenInfo fumenInfo)
     {
         //難易度に応じて全てのノーツを生成し、FumenDataManagerのMainNotesの中にしまう。
-        _fumenDataManager = fumenDataManager;
-        switch (difficulty)
+        switch (GameDifficulty)
         {
-            case DIFFICULTY.EASY:
+            case GameDifficulty.Easy:
                 //イージー難易度のノーツを生成
                 for (int i = 0; i < fumenInfo.easy.Count; i++)
                 {
@@ -116,7 +131,7 @@ public class JsonReadManager
 
                 break;
 
-            case DIFFICULTY.NORMAL:
+            case GameDifficulty.Normal:
                 //ノーマル難易度のノーツを生成
                 for (int i = 0; i < fumenInfo.normal.Count; i++)
                 {
@@ -144,7 +159,7 @@ public class JsonReadManager
 
                 break;
 
-            case DIFFICULTY.HARD:
+            case GameDifficulty.Hard:
 
                 //ハード難易度のノーツを生成
                 for (int i = 0; i < fumenInfo.hard.Count; i++)
@@ -186,7 +201,7 @@ public class JsonReadManager
 
     //ノーツの生成処理
     private void NoteGenerate(List<NoteObject> targetNotesList,
-        List<FumenDataManager.NoteTimingInfomation>[,] targetTimingList,
+        List<FumenDataManager.NoteTimingInformation>[,] targetTimingList,
         NotesInfo notesInfo, float _bpm, float _beat, float _ZoffSet)
     {
         //ノーツのGameObject
@@ -230,13 +245,6 @@ public class JsonReadManager
                 break;
         }
 
-        var _noteObject = noteGameObject.GetComponent<NoteObject>();
-
-        if (_noteObject == null)
-        {
-            Debug.LogError("ノーツのオブジェクトにnoteObjectのスクリプトがアタッチされていませんでした");
-            return;
-        }
 
         //一小節あたりの長さ(単位：フレーム)
         //60 秒/_bpm (拍)で 1拍 あたり何秒なのかを算出。
@@ -251,29 +259,42 @@ public class JsonReadManager
         //laneの長さ
         var _laneLength = _fumenDataManager.laneLength;
 
-        spawnPos = new Vector3(lane + (playerID * 20), reachFrame * _laneLength * _fumenDataManager.highSpeed[playerID],
+        spawnPos = new Vector3(lane + (playerID * 20),
+            reachFrame * _laneLength * _fumenDataManager._highSpeed[playerID],
             0 + _ZoffSet);
-
-        //ノーツ本体のスクリプトに値を格納
-        _noteObject.setNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachFrame, playerID);
-
+        
+        
+        
         //生成
         var spawnedObject = Object.Instantiate(noteGameObject, spawnPos, Quaternion.identity);
+//        Debug.Log(spawnedObject.transform.position);
         spawnedObject.transform.parent = GameObject.Find("Notes").transform;
-/*
-		Debug.Log(noteGameObject.name);
-*/
+        
+        var _noteObject = spawnedObject.GetComponent<NoteObject>();
+
+        if (_noteObject == null)
+        {
+            Debug.LogError("ノーツのオブジェクトにnoteObjectのスクリプトがアタッチされていませんでした");
+            return;
+        }
+
+
+
+        //ノーツ本体のスクリプトに値を格納
+        _noteObject.SetNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachFrame, playerID,
+            _fumenDataManager._highSpeed[playerID], _laneLength);
+        
 
 /*
 		Debug.Log(FumenDataManager.Instance.mainNotes[0].Count);
 */
-        targetNotesList.Add(spawnedObject.GetComponent<NoteObject>());
+        targetNotesList.Add(_noteObject);
 
         //タイミング情報だけを格納して扱いやすくする
         if (lane > 0)
         {
             targetTimingList[playerID, lane - 1]
-                .Add(new FumenDataManager.NoteTimingInfomation(notesInfo.type, reachFrame));
+                .Add(new FumenDataManager.NoteTimingInformation(notesInfo.type, reachFrame));
         }
 
         if (notesInfo.type == 5)
@@ -300,10 +321,10 @@ public class JsonReadManager
             //終点座標からロングノーツのラインの生成座標を計算する。
             var spawnY =
                 (targetNotesList[endNoteIndex].reachFrame * _laneLength *
-                 _fumenDataManager.highSpeed[playerID] + spawnPos.y) / 2;
+                 _fumenDataManager._highSpeed[playerID] + spawnPos.y) / 2;
 
             var extend = targetNotesList[endNoteIndex].reachFrame * _laneLength *
-                         _fumenDataManager.highSpeed[playerID] - spawnPos.y;
+                         _fumenDataManager._highSpeed[playerID] - spawnPos.y;
 
             GameObject longLine = (GameObject) Resources.Load("NoteObjects/Prefabs/testLongNote");
 

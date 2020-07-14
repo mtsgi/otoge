@@ -33,7 +33,7 @@ public class CardEffectNormalStrip : OtofudaCardEffectBase
 
         
         //デッキ枚数が0、もしくは手札枚数が枚であれば処理終了
-        if (_targetPlayer.playerDeck.Count == 0 || _targetPlayer.getActiveHandCount() == 5)
+        if (_targetPlayer.playerDeck.Count == 0 || _targetPlayer.GetActiveHandCount() == 5)
         {
             return;
         }

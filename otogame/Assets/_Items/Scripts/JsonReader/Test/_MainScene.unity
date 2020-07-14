@@ -641,7 +641,7 @@ MonoBehaviour:
   _fumenFlowManager:
   - {fileID: 1011586042}
   - {fileID: 627289923}
-  highSpeed:
+  _highSpeed:
   - 8
   - 8
 --- !u!1 &111358432
@@ -1514,6 +1514,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 354525610}
+  - component: {fileID: 354525611}
+  - component: {fileID: 354525612}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -1548,6 +1550,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &354525611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354525609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a498e56bc83f3479c557ef48712d4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  judgeProfile: {fileID: 11400000, guid: 2997d62c981b01546bfc8d2b179af1f1, type: 2}
+  playerID: 0
+  playerKeys: 0000000000000000000000000000000000000000
+  judgeTextAnimators: []
+  laneLight: []
+  _playerMovement:
+  - {fileID: 354525612}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &354525612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354525609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5a75c7a896452e4ba1724affa47ba4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _judger: {fileID: 0}
 --- !u!1 &370995170
 GameObject:
   m_ObjectHideFlags: 0
@@ -6965,7 +7003,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1154217415}
-  - component: {fileID: 1154217416}
   m_Layer: 0
   m_Name: '[Player1]JsonReader'
   m_TagString: Untagged
@@ -6987,22 +7024,6 @@ Transform:
   m_Father: {fileID: 354525610}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1154217416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1154217414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1866a944f25a44b43bddaf85367ac243, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerID: 0
-  fileName: otofuda/otofuda/otofuda
-  isDebug: 0
-  difficulty: 2
 --- !u!1 &1201543538
 GameObject:
   m_ObjectHideFlags: 0
@@ -8052,7 +8073,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1391623343}
-  - component: {fileID: 1391623342}
   m_Layer: 0
   m_Name: '[Player2]JsonReader'
   m_TagString: Untagged
@@ -8060,22 +8080,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1391623342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1391623341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1866a944f25a44b43bddaf85367ac243, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerID: 1
-  fileName: otofuda/otofuda/otofuda
-  isDebug: 0
-  difficulty: 1
 --- !u!4 &1391623343
 Transform:
   m_ObjectHideFlags: 0
@@ -8372,6 +8376,7 @@ MonoBehaviour:
   - PlayerName: player1
     playerHp: 100
     playerMaxHp: 100
+    hiSpeed: 8
     playerHPSlider: {fileID: 1633734095}
     judgePoint: 0
     score: 0
@@ -8417,6 +8422,7 @@ MonoBehaviour:
   - PlayerName: player2
     playerHp: 100
     playerMaxHp: 100
+    hiSpeed: 8
     playerHPSlider: {fileID: 1856879702}
     judgePoint: 0
     score: 0

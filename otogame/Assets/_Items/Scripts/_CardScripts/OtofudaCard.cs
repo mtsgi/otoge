@@ -33,12 +33,12 @@ namespace OtoFuda.Card
         
         internal void setSprite(int _playerID, int _handIndex)
         {
-            PlayerManager.Instance._players[_playerID].setSprites(cardPicture, _handIndex);
+            PlayerManager.Instance._players[_playerID].SetSprites(cardPicture, _handIndex);
         }
         
         internal void setNone(int _playerID, int _handIndex)
         {
-            PlayerManager.Instance._players[_playerID].setSprites(PlayerManager.Instance.otofudaNone.cardPicture, _handIndex);
+            PlayerManager.Instance._players[_playerID].SetSprites(PlayerManager.Instance.otofudaNone.cardPicture, _handIndex);
         }
         
 

@@ -35,7 +35,7 @@ public class PlayerHoldMovement : PlayerMovement
         }
     }
 
-    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInfomation> targetTimings, PlayerFumenState fumenState)
+    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         base.InputFunction(targetLane, targetTimings, fumenState);
         _inputManager.laneLight[targetLane].SetActive(false);

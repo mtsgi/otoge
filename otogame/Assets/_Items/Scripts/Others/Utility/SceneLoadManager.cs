@@ -14,6 +14,8 @@ public class SceneLoadManager : SingletonMonoBehaviour<SceneLoadManager>
 {
     public ISceneTransitionData previewSceneTransitionData;
 
+    public string testTypeName ="";
+
     private new void Awake()
     {
         base.Awake();
@@ -23,17 +25,21 @@ public class SceneLoadManager : SingletonMonoBehaviour<SceneLoadManager>
     // シーンにデータを渡してからシーンを読み込む
     public void Load(GameSceneDefine gameScene, ISceneTransitionData entrySceneTransitionData, bool testFlag = false)
     {
+        testTypeName = entrySceneTransitionData.GetType().ToString();
+        previewSceneTransitionData = entrySceneTransitionData;
+        
         // SceneManager.sceneLoaded に登録するローカル関数
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-            Instance.previewSceneTransitionData = entrySceneTransitionData;
+
 
             if (testFlag)
             {
-                Instance.previewSceneTransitionData.TestCheckParameter();
+                previewSceneTransitionData.TestCheckParameter();
             }
         }
+
 
         // シーンにデータを渡すローカル関数を登録しておく
         SceneManager.sceneLoaded += OnSceneLoaded;

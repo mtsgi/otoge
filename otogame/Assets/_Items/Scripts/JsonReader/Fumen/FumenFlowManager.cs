@@ -40,12 +40,12 @@ namespace OtoFuda.Fumen
 
             for (int i = 0; i < notes.Count; i++)
             {
-                notes[i].changeFumenState();
+                notes[i].ChangeFumenState();
             }
 
             for (int i = 0; i < difNotes.Count; i++)
             {
-                difNotes[i].changeFumenState();
+                difNotes[i].ChangeFumenState();
             }
                 
             MusicManager.Instance.Startmusic(0);

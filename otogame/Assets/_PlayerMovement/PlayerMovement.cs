@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     internal int PlayerId;
     internal KeyCode[] PlayerKeys;
 
-    internal PlayerKeyInpuManager _inputManager;
+    internal PlayerKeyInputManager _inputManager;
     
     
     internal float PerfectThreshold = 0.0f;
@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     //internal float MissThreshold = 0.0f;
 
 
-    public void InitMovement(PlayerKeyInpuManager playerKeyInputManager)
+    public void InitMovement(PlayerKeyInputManager playerKeyInputManager)
     {
         _inputManager = playerKeyInputManager;
 
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     
     //入力のためのムーブメントを受け取った後のファンクション
     public virtual void InputFunction(int targetLane,
-        List<FumenDataManager.NoteTimingInfomation> targetTimings, PlayerFumenState fumenState)
+        List<FumenDataManager.NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         _inputManager.laneLight[targetLane].SetActive(true);
         var stateIndex = (int) fumenState;
@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
         //入力の精度の判定
         var judgeResult = InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
 //        Debug.Log(judgeResult);
-        if (judgeResult != PlayerKeyInpuManager.Judge.None)
+        if (judgeResult != PlayerKeyInputManager.Judge.None)
         {
             _inputManager.judgeTextAnimators[(int) judgeResult].Play("Judge", 0, 0.0f);
             
@@ -114,32 +114,32 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public virtual PlayerKeyInpuManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType,
+    public virtual PlayerKeyInputManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType,
         int stateIndex)
     {
 //        Debug.Log(inputTime - judgeTime);
         
-        var judgeResult = PlayerKeyInpuManager.Judge.None;
+        var judgeResult = PlayerKeyInputManager.Judge.None;
 
         if (-PerfectThreshold <= inputTime - judgeTime && inputTime - judgeTime <= PerfectThreshold)
         {
 /*
             Debug.Log("perfe");
 */
-            judgeResult = PlayerKeyInpuManager.Judge.Perfect;
+            judgeResult = PlayerKeyInputManager.Judge.Perfect;
         }
         else if (-GoodThreshold <= inputTime - judgeTime && inputTime - judgeTime <= GoodThreshold)
         {
 /*            Debug.Log("good");*/
-            judgeResult = PlayerKeyInpuManager.Judge.Good;
+            judgeResult = PlayerKeyInputManager.Judge.Good;
         }
         else if (-BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
         {
 /*            Debug.Log("bad");*/
-            judgeResult = PlayerKeyInpuManager.Judge.Bad;
+            judgeResult = PlayerKeyInputManager.Judge.Bad;
         }
 
-        if (judgeResult != PlayerKeyInpuManager.Judge.None)
+        if (judgeResult != PlayerKeyInputManager.Judge.None)
         {
             CheckLongStartNote(targetLane, noteType);
             _inputManager._noteCounters[stateIndex, targetLane]++;

@@ -34,12 +34,12 @@ public class PlayerTapMovement : PlayerMovement
 
     }
 
-    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInfomation> targetTimings, PlayerFumenState fumenState)
+    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         base.InputFunction(targetLane, targetTimings, fumenState);
     }
 
-    public override PlayerKeyInpuManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType, int stateIndex)
+    public override PlayerKeyInputManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType, int stateIndex)
     {
         if (noteType == 1 || noteType == 2)
         {
@@ -48,7 +48,7 @@ public class PlayerTapMovement : PlayerMovement
         }
         else
         {
-            return PlayerKeyInpuManager.Judge.None;
+            return PlayerKeyInputManager.Judge.None;
         }
     }
 }

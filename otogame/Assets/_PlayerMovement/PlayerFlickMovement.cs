@@ -61,7 +61,7 @@ public class PlayerFlickMovement : PlayerMovement
     }
 
 
-    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInfomation> targetTimings,
+    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings,
         PlayerFumenState fumenState)
     {
         var stateIndex = (int) fumenState;
@@ -97,7 +97,7 @@ public class PlayerFlickMovement : PlayerMovement
             
         var judgeResult = InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
             
-        if (judgeResult != PlayerKeyInpuManager.Judge.None)
+        if (judgeResult != PlayerKeyInputManager.Judge.None)
         {
             _inputManager.judgeTextAnimators[(int) judgeResult].Play("Judge", 0, 0.0f);
         }
@@ -122,7 +122,7 @@ public class PlayerFlickMovement : PlayerMovement
     }
 
 
-    public override PlayerKeyInpuManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType, int stateIndex)
+    public override PlayerKeyInputManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType, int stateIndex)
     {
         //チュウニみたいなガバ判定にしています
         if (_tmpNoteType == 3)
@@ -134,7 +134,7 @@ public class PlayerFlickMovement : PlayerMovement
 
                 if (_recieveGesture == PlayerGesture.LEFT)
                 {
-                    return PlayerKeyInpuManager.Judge.Perfect;
+                    return PlayerKeyInputManager.Judge.Perfect;
                 }
 
 /*                else if (_recieveGesture == PlayerGesture.RIGHT)
@@ -152,7 +152,7 @@ public class PlayerFlickMovement : PlayerMovement
 
                 if (_recieveGesture == PlayerGesture.RIGHT)
                 {
-                    return PlayerKeyInpuManager.Judge.Perfect;
+                    return PlayerKeyInputManager.Judge.Perfect;
                 }
 /*                else if (_recieveGesture == PlayerGesture.LEFT)
                 {
@@ -161,7 +161,7 @@ public class PlayerFlickMovement : PlayerMovement
             }
         }
 
-        return PlayerKeyInpuManager.Judge.None;
+        return PlayerKeyInputManager.Judge.None;
 
     }
 

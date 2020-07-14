@@ -13,22 +13,24 @@ public class TitleSceneManager : MonoBehaviour
     [SerializeField] private TitleSceneUIUpdater _titleSceneUiUpdater;
     public List<PlayerTitleSceneInfo> playerTitleSceneInfos = new List<PlayerTitleSceneInfo>();
     public TitleSceneStatus status = TitleSceneStatus.NfcInput;
-    
+
     private bool tmpRegistered = false;
     private string tmpAccessCode = "";
     private string tmpName = "お名前";
-    private float tmpHiSpeed =0.5f;
+    private float tmpHiSpeed = 0.5f;
     private string tmpQECodeURI = "";
 
 
     private string underDefaultMessage;
 
     private bool isFinishUserDataInput = false;
-    
+
+    private TitleSceneTransitionData _transitionData = new TitleSceneTransitionData();
+
     [Serializable]
     public class PlayerTitleSceneInfo
     {
-        public KeyCode[] keys= new KeyCode[5];
+        public KeyCode[] keys = new KeyCode[5];
         public bool isReady;
 
         public bool KeyCheck()
@@ -43,7 +45,7 @@ public class TitleSceneManager : MonoBehaviour
 
             return false;
         }
-        
+
         public int KeyCheckValue()
         {
             for (var index = 0; index < keys.Length; index++)
@@ -58,7 +60,21 @@ public class TitleSceneManager : MonoBehaviour
             return -1;
         }
     }
-    
+
+    [Serializable]
+    public class TitleSceneTransitionData : ISceneTransitionData
+    {
+        public PlayerInfo[] playerInfos = {new PlayerInfo(), new PlayerInfo()};
+
+        public void TestCheckParameter()
+        {
+            for (int i = 0; i < playerInfos.Length; i++)
+            {
+                Debug.Log($"Player1/name:{playerInfos[i].userName}/hiSpeed:{playerInfos[i].hiSpeed}");
+            }
+        }
+    }
+
     public enum TitleSceneStatus
     {
         StandBy,
@@ -66,12 +82,12 @@ public class TitleSceneManager : MonoBehaviour
         SelectPosition,
         WaitReady,
     }
-    
+
+
     private void Start()
     {
-        underDefaultMessage = _titleSceneUiUpdater.UnderMessageText.text; 
+        underDefaultMessage = _titleSceneUiUpdater.UnderMessageText.text;
         status = TitleSceneStatus.NfcInput;
-
     }
 
 
@@ -84,7 +100,7 @@ public class TitleSceneManager : MonoBehaviour
     private async void OnNfcCardInput(string nfcId)
     {
         //読み取っても、NfcInputじゃなかったらなんもしない
-        if(status != TitleSceneStatus.NfcInput) return;
+        if (status != TitleSceneStatus.NfcInput) return;
         if (playerTitleSceneInfos[0].isReady && playerTitleSceneInfos[1].isReady) return;
 
         status = TitleSceneStatus.NfcInput;
@@ -99,20 +115,20 @@ public class TitleSceneManager : MonoBehaviour
         {
             jsonText = await OtofudaNetAPIAccessManager.Instance.SendNfcId(nfcId);
         }
-        
+
         var getData = new OtofudaAPIJSON();
         getData = JsonUtility.FromJson<OtofudaAPIJSON>(jsonText);
 
         var isRegistered = getData.data.registered;
         var qr = getData.data.qr;
-        
+
         if (isRegistered)
         {
             var message = "登録情報を確認し、ボタンを押してください";
             var name = getData.data.name;
             var speed = (getData.data.hispeed / 2.0f).ToString();
             _titleSceneUiUpdater.nfcDataDisplayUi.InitUI(message, name, speed);
-            
+
             tmpAccessCode = getData.data.public_uid;
             tmpRegistered = getData.data.registered;
 
@@ -125,7 +141,7 @@ public class TitleSceneManager : MonoBehaviour
             var name = "未登録のユーザ";
             var speed = (getData.data.hispeed / 2.0f).ToString();
             _titleSceneUiUpdater.nfcDataDisplayUi.InitUI(message, name, speed);
-            
+
             tmpAccessCode = getData.data.public_uid;
             tmpRegistered = getData.data.registered;
 
@@ -135,11 +151,10 @@ public class TitleSceneManager : MonoBehaviour
         }
 
 
-        
         status = TitleSceneStatus.SelectPosition;
     }
-    
-    
+
+
 /*
     private void 
     
@@ -147,43 +162,47 @@ public class TitleSceneManager : MonoBehaviour
 
     public void Update()
     {
-        if(isFinishUserDataInput) return;
+        if (isFinishUserDataInput) return;
         if (playerTitleSceneInfos[0].isReady && playerTitleSceneInfos[1].isReady && status != TitleSceneStatus.StandBy)
         {
             status = TitleSceneStatus.StandBy;
+            SceneLoadManager.Instance.Load(GameSceneDefine._02_MusicSelectScene, _transitionData);
+/*
             SceneManager.LoadScene("IndexJsonReadTestScene");
+*/
             isFinishUserDataInput = true;
         }
-        
-        if(status == TitleSceneStatus.NfcInput) return;
+
+        if (status == TitleSceneStatus.NfcInput) return;
         if (status == TitleSceneStatus.SelectPosition)
         {
             for (int i = 0; i < playerTitleSceneInfos.Count; i++)
             {
                 //準備整っちゃってたらはじく
-                if(playerTitleSceneInfos[i].isReady) continue;
-                
+                if (playerTitleSceneInfos[i].isReady) continue;
+
                 if (playerTitleSceneInfos[i].KeyCheck())
                 {
                     _titleSceneUiUpdater.nfcDataDisplayUi.parentPanel.SetActive(false);
                     _titleSceneUiUpdater.UnderMessageText.text = "";
 
                     _titleSceneUiUpdater.MessageUpdatePlayerUI(i, tmpAccessCode, tmpQECodeURI, tmpRegistered);
-                    
-                    PlayerInformationManager.Instance.hispeed[i] = tmpHiSpeed;
-                    PlayerInformationManager.Instance.name[i] = tmpName;
+
+                    _transitionData.playerInfos[i].userName = tmpName;
+                    _transitionData.playerInfos[i].hiSpeed = tmpHiSpeed;
+/*                    PlayerRegisterManager.Instance.name[i] = tmpName;*/
                     status = TitleSceneStatus.WaitReady;
                     return;
                 }
             }
         }
-        
+
         if (status == TitleSceneStatus.WaitReady)
         {
             for (int i = 0; i < playerTitleSceneInfos.Count; i++)
             {
                 //準備整っちゃってたらはじく
-                if(playerTitleSceneInfos[i].isReady) continue;
+                if (playerTitleSceneInfos[i].isReady) continue;
                 var index = playerTitleSceneInfos[i].KeyCheckValue();
                 if (index != -1)
                 {
@@ -198,6 +217,5 @@ public class TitleSceneManager : MonoBehaviour
                 }
             }
         }
-
     }
 }

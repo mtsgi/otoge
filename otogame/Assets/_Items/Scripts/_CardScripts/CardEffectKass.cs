@@ -27,13 +27,13 @@ public class CardEffectKass : OtofudaCardEffectBase
         }
         
         //プレイヤーのデッキ枚数が0もしくはNone以外のカード(つまり手札枚数)が五枚であれば処理を終了
-        if (_targetPlayer.playerDeck.Count == 0 || _targetPlayer.getActiveHandCount() == 5)
+        if (_targetPlayer.playerDeck.Count == 0 || _targetPlayer.GetActiveHandCount() == 5)
         {
             return;
         }
         
         //追加でドロー
-        var targetIndex = _targetPlayer.getNoneHandIndex();
+        var targetIndex = _targetPlayer.GetNoneHandIndex();
         _targetPlayer.playerHand[targetIndex] = _targetPlayer.playerDeck[0];
         _players[playerID].playerHand[targetIndex].setSprite(playerID,targetIndex);
         _targetPlayer.playerDeck.RemoveAt(0);

@@ -1700,8 +1700,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00f23141315db4b49b700d48075985f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicData:
+    jsonFilePath: puzzle/puzzle/puzzle
+    BPM: 60
+    LEVELS: 0100000001000000
+    musicID: 
   KeyInputSettings:
-  - targetJsonReadManager: {fileID: 1679374869}
+  - targetCanvasTransform: {fileID: 1454407276}
     KeyCodes: 7a00000078000000630000007600000062000000
     frameWaveAnimController:
     - {fileID: 915237979}
@@ -1715,7 +1720,7 @@ MonoBehaviour:
     - {fileID: 1321220069}
     - {fileID: 1453510886}
     - {fileID: 1879053929}
-  - targetJsonReadManager: {fileID: 454766304}
+  - targetCanvasTransform: {fileID: 1423038939}
     KeyCodes: 7100000077000000650000007200000074000000
     frameWaveAnimController:
     - {fileID: 226492557}
@@ -3422,7 +3427,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 454766303}
-  - component: {fileID: 454766304}
   m_Layer: 0
   m_Name: indexJsonReader
   m_TagString: Untagged
@@ -3444,24 +3448,6 @@ Transform:
   m_Father: {fileID: 274665517}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &454766304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 454766302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a92bed733c38f4d9784ee564fabd68d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetCanvasgameobject: {fileID: 1423038939}
-  fileName: index
-  playerID: 1
-  focus: 2
-  indexLength: 0
-  isSelectLevel: 0
 --- !u!1 &455215355
 GameObject:
   m_ObjectHideFlags: 0
@@ -3763,12 +3749,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29dba0582babf6b4ea332b7f22c91057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Name: 
+  m_EditorClassIdentifier: 
   name:
   - 
   - 
   hispeed:
   - 0
   - 0
+  musicData:
+    jsonFilePath: puzzle/puzzle/puzzle
+    BPM: 60
+    HISPEED:
+    - 1
+    - 1
+    LEVELS: 0100000001000000
+    musicID: 
 --- !u!4 &486919342
 Transform:
   m_ObjectHideFlags: 0
@@ -4148,7 +4144,43 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 1622058116908246, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 1324827074220972, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1857557976456324, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157976688097848, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1144782000373860, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1638814585377204, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1265962273809976, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1453775247825458, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1554104970648678, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1384206318784954, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
@@ -4242,43 +4274,7 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1144782000373860, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1554104970648678, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1384206318784954, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1638814585377204, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1157976688097848, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1857557976456324, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1622058116908246, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1265962273809976, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
     - target: {fileID: 1812587779839578, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1453775247825458, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
@@ -12708,7 +12704,43 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 1622058116908246, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 1324827074220972, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1857557976456324, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1157976688097848, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1144782000373860, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1638814585377204, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1265962273809976, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1453775247825458, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1554104970648678, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1384206318784954, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
@@ -12802,43 +12834,7 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1144782000373860, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1554104970648678, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1384206318784954, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1638814585377204, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1157976688097848, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1857557976456324, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1622058116908246, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1265962273809976, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
     - target: {fileID: 1812587779839578, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
-      propertyPath: m_Layer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1453775247825458, guid: 3f158c44185c14f798aff901d78e0876, type: 3}
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
@@ -14938,7 +14934,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1679374868}
-  - component: {fileID: 1679374869}
   m_Layer: 0
   m_Name: indexJsonReader
   m_TagString: Untagged
@@ -14960,24 +14955,6 @@ Transform:
   m_Father: {fileID: 666905346}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1679374869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1679374867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a92bed733c38f4d9784ee564fabd68d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetCanvasgameobject: {fileID: 1454407276}
-  fileName: index
-  playerID: 0
-  focus: 2
-  indexLength: 0
-  isSelectLevel: 0
 --- !u!1 &1680172675
 GameObject:
   m_ObjectHideFlags: 0
