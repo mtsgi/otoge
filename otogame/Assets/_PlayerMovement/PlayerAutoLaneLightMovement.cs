@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using OtoFuda.Fumen;
 using UnityEngine;
 
-public class PlayerAutoTapMovement : PlayerMovement
+public class PlayerAutoLaneLightMovement : PlayerMovement
 {
     public override void PlayerMovementCheck()
     {
@@ -17,7 +17,7 @@ public class PlayerAutoTapMovement : PlayerMovement
     public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings,
         PlayerFumenState fumenState)
     {
-        var stateIndex = (int) fumenState;
+        /*var stateIndex = (int) fumenState;
 
         //現在の楽曲再生時間
         var inputTime = _inputManager._audioSource.time;
@@ -34,6 +34,6 @@ public class PlayerAutoTapMovement : PlayerMovement
             {
                 base.InputFunction(targetLane, targetTimings, fumenState);
             }
-        }
+        }*/
     }
 }

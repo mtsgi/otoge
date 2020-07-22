@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerTapMovement : PlayerMovement
 {
     //単純なタップの判定
+    //あとでこいつにインデックスを渡してforの回数を減らす
     public override void PlayerMovementCheck()
     {
         if (!Input.anyKeyDown) return;

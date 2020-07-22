@@ -47,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
     public virtual void InputFunction(int targetLane,
         List<FumenDataManager.NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
-        _inputManager.laneLight[targetLane].SetActive(true);
         var stateIndex = (int) fumenState;
 
         //もうリストがなくなりきってたらはじく
@@ -173,6 +172,11 @@ public class PlayerMovement : MonoBehaviour
 //            Debug.Log("<color=yellow>StartLong</color>");
             _inputManager.isLongNoteStart[_lane] = true;
         }
+    }
+    
+    public float GetDifferentAbs(float value1, float value2)
+    {
+        return Mathf.Abs(value1 - value2);
     }
 
 
