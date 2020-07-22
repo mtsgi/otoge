@@ -148,12 +148,12 @@ public class PlayerKeyInputManager : MonoBehaviour
 
     public void ComboUp()
     {
-        _comboCounter.ComboUp();
+        _comboCounter?.ComboUp();
     }
 
     public void ComboCut()
     {
-        _comboCounter.ComboCut();
+        _comboCounter?.ComboCut();
     }
 
 
