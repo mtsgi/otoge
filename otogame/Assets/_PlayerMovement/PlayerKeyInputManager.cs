@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using OtoFuda.Fumen;
 using OtoFuda.RythmSystem;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerKeyInputManager : MonoBehaviour
 {
     public JudgeProfile judgeProfile;
     internal bool isStartMusic = false;
-        
-    [Range(0,1)]
-    public int playerID;
+
+    [Range(0, 1)] public int playerID;
     public KeyCode[] playerKeys = new KeyCode[5];
 
     //判定を表示する用のテキスト
@@ -27,7 +27,7 @@ public class PlayerKeyInputManager : MonoBehaviour
         None = 4
     }
 
-    internal FumenDataManager _fumenDataManager; 
+    internal FumenDataManager _fumenDataManager;
     internal AudioSource _audioSource;
 
     internal int[,] _noteCounters;
@@ -37,30 +37,35 @@ public class PlayerKeyInputManager : MonoBehaviour
         private int[] moreDifficulNoteCount = new int[5];
         private int[] moreEasyNoteCount = new int[5];
 */
-    
+
     public GameObject[] laneLight;
-    
+
     //ロングノーツの開始をチェックしておくbool
     internal bool[] isLongNoteStart = new bool[5];
-        
+
     //カードを使うときのアクション
     //パフェだったかのがしたか
 /*
     public static Action<int,bool> OnUseOtoFudaCard; 
 */
-    
+
     //プレイヤー情報を格納
     internal PlayerManager _playerManager;
+
     //プレイヤーのタップ等の行動を格納
     public PlayerMovement[] _playerMovement;
-    
-    
+
+    //コンボカウンター用
+    private ComboCounter _comboCounter;
+    [SerializeField] private Text comboCountText;
+
+
     private void Start()
     {
         //PlayerManagerをインスタンス化
         _playerManager = PlayerManager.Instance;
         _noteCounters = _playerManager._players[playerID].noteCounters;
-        
+
         _audioSource = SoundManager.Instance.gameObject.GetComponents<AudioSource>()[0];
         _fumenDataManager = FumenDataManager.Instance;
 
@@ -72,24 +77,29 @@ public class PlayerKeyInputManager : MonoBehaviour
             judgeProfile.badThreshold = 0.6f;
         }
 
+        if (comboCountText != null)
+        {
+            _comboCounter = new ComboCounter(comboCountText);
+        }
+
         //各種ムーブメントを初期化
         foreach (var t in _playerMovement)
         {
             t.InitMovement(this);
         }
-        
+
         //レーンライトの表示をオフ
         foreach (var t in laneLight)
         {
             t.SetActive(false);
         }
-        
+
         //それぞれのロングノーツの表示をオフにする
         for (var i = 0; i < isLongNoteStart.Length; i++)
         {
             isLongNoteStart[i] = false;
         }
-        
+
         //各難易度の各レーンのノーツ情報を初期化する
         for (var i = 0; i < 3; i++)
         {
@@ -98,16 +108,14 @@ public class PlayerKeyInputManager : MonoBehaviour
                 _noteCounters[i, k] = 0;
             }
         }
-        
-
     }
-    
+
     private void OnEnable()
     {
         FumenFlowManager.OnMusicStart += OnMusicStart;
     }
-    
-    
+
+
     private void OnMusicStart(int _playerID)
     {
         if (_playerID == playerID)
@@ -133,10 +141,21 @@ public class PlayerKeyInputManager : MonoBehaviour
         {
             FumenPassCheck(_fumenDataManager.timings[playerID, i], PlayerFumenState.DEFAULT, i);
             FumenPassCheck(_fumenDataManager.moreDifficultTimings[playerID, i], PlayerFumenState.MORE_DIFFICULT, i);
-        } 
-        //       Debug.Log("PassCheck");
+        }
 
+        //       Debug.Log("PassCheck");
     }
+
+    public void ComboUp()
+    {
+        _comboCounter.ComboUp();
+    }
+
+    public void ComboCut()
+    {
+        _comboCounter.ComboCut();
+    }
+
 
     private void FumenPassCheck(List<FumenDataManager.NoteTimingInformation> targetTimings,
         PlayerFumenState targetState, int index)
@@ -145,10 +164,11 @@ public class PlayerKeyInputManager : MonoBehaviour
         //もうリストがなくなりきってたらはじく
         if ((stateIndex == 1 && _fumenDataManager.mainNotes[playerID].Count == 0) ||
             (stateIndex == 2 && _fumenDataManager.moreDifficultNotes[playerID].Count == 0))
-        { 
+        {
 //            Debug.Log("はじいたよ");
             return;
         }
+
         for (int k = 0; k < targetTimings.Count; k++)
         {
             if (_noteCounters[stateIndex, index] < targetTimings.Count)
@@ -156,7 +176,8 @@ public class PlayerKeyInputManager : MonoBehaviour
 /*
                 Debug.Log((PlayerFumenState) (stateIndex) + ":" + _noteCounters[stateIndex, index]);
 */
-                if (targetTimings[_noteCounters[stateIndex, index]].reachTime -_audioSource.time < -judgeProfile.badThreshold)
+                if (targetTimings[_noteCounters[stateIndex, index]].reachTime - _audioSource.time <
+                    -judgeProfile.badThreshold)
                 {
 /*                    if (_playerManager._players[playerID].FumenState == targetState)
                     {
@@ -174,7 +195,7 @@ public class PlayerKeyInputManager : MonoBehaviour
                         {
                             _fumenDataManager.mainNotes[playerID][0].DeleteNote();
                             _fumenDataManager.mainNotes[playerID].RemoveAt(0);
-                            
+
                             _fumenDataManager.mainNotes[playerID][0].DeleteNote();
                             _fumenDataManager.mainNotes[playerID].RemoveAt(0);
                         }
@@ -182,7 +203,7 @@ public class PlayerKeyInputManager : MonoBehaviour
                         {
                             _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
                             _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
-                            
+
                             _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
                             _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
                         }
@@ -190,16 +211,18 @@ public class PlayerKeyInputManager : MonoBehaviour
                         if (_playerManager._players[playerID].FumenState == targetState)
                         {
                             var prevValue = _playerManager._players[playerID].playerHp;
-                            var currentValue = Mathf.Clamp(prevValue - 5, 0, _playerManager._players[playerID].playerMaxHp);
+                            var currentValue = Mathf.Clamp(prevValue - 5, 0,
+                                _playerManager._players[playerID].playerMaxHp);
                             var slider = _playerManager._players[playerID].playerHPSlider;
-                            
+
                             _playerManager._players[playerID].playerHp = currentValue;
                             slider.value = currentValue;
 
+                            ComboCut();
                             judgeTextAnimators[(int) Judge.Miss].Play("Judge", 0, 0.0f);
                             //Debug.LogError("Miss");
                         }
-                        
+
                         //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
                         if (targetTimings[_noteCounters[stateIndex, index]].noteType == 5)
                         {
@@ -208,29 +231,28 @@ public class PlayerKeyInputManager : MonoBehaviour
                                 _playerManager._players[playerID].FumenState = PlayerFumenState.DEFAULT;
                             }
                         }
-                        
+
                         //2ノーツ分カウンターを進める
                         _noteCounters[stateIndex, index] += 2;
                         _playerManager._players[playerID].noteSimpleCount += 2;
 //                        Debug.Log("long");
-
-
                     }
                     else
                     {
-                        
                         //引数で渡したStateが現在のプレイヤーのステートと同じであればMissの判定をする。
                         if (_playerManager._players[playerID].FumenState == targetState)
                         {
 //                            Debug.Log("State : " + _playerManager._players[playerID].FumenState);
 
                             var prevValue = _playerManager._players[playerID].playerHp;
-                            var currentValue = Mathf.Clamp(prevValue - 5, 0, _playerManager._players[playerID].playerMaxHp);
+                            var currentValue = Mathf.Clamp(prevValue - 5, 0,
+                                _playerManager._players[playerID].playerMaxHp);
                             var slider = _playerManager._players[playerID].playerHPSlider;
-                            
+
                             _playerManager._players[playerID].playerHp = currentValue;
                             slider.value = currentValue;
 
+                            ComboCut();
                             judgeTextAnimators[(int) Judge.Miss].Play("Judge", 0, 0.0f);
                             // Debug.LogError(_playerManager._players[playerID].FumenState +"_______"+targetState);
                         }
@@ -246,7 +268,7 @@ public class PlayerKeyInputManager : MonoBehaviour
                             _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
                             _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
                         }
-                        
+
                         //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
                         if (targetTimings[_noteCounters[stateIndex, index]].noteType == 5)
                         {
@@ -255,11 +277,10 @@ public class PlayerKeyInputManager : MonoBehaviour
                                 _playerManager._players[playerID].FumenState = PlayerFumenState.DEFAULT;
                             }
                         }
-                        
+
                         _noteCounters[stateIndex, index]++;
                         _playerManager._players[playerID].noteSimpleCount++;
                     }
-                    
 
 
 /*                        //エラー回避、2レーン目のノーツ数が最大値だったらreturn
@@ -278,10 +299,5 @@ public class PlayerKeyInputManager : MonoBehaviour
                 }
             }
         }
-
     }
-
-
-
-
 }

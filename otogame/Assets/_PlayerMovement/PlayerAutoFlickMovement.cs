@@ -93,7 +93,6 @@ public class PlayerAutoFlickMovement : PlayerMovement
             StartCoroutine(FlickHandTraceWithLinearInterpolate(tracer.transform, 0.2f, flickTargetPos));
     }
 
-
     private IEnumerator FlickHandTraceWithLinearInterpolate(Transform tracerTransform, float time, Vector3? position)
     {
         var isReturn = false;
