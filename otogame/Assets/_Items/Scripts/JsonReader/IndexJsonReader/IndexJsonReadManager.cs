@@ -141,6 +141,7 @@ public class IndexJsonReadManager
             MusicSelectManager.Instance.musicData.musicId = m.id;
             MusicSelectManager.Instance.musicData.jsonFilePath = m.id + "/" + m.id + "/" + m.id;
             MusicSelectManager.Instance.musicData.bpm = m.bpm;
+            MusicSelectManager.Instance.musicData.offset = m.offset;
 
             isSceneLoadStart = true;
             Debug.Log(MusicSelectManager.Instance.musicData.jsonFilePath);
