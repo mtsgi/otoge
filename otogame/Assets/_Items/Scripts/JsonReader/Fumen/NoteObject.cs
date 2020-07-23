@@ -31,7 +31,7 @@ namespace OtoFuda.Fumen
             set { endNotesNum = value; }
         }
 
-        public int option = 0;
+        public float[] option = null;
         public float reachFrame = 0.0f;
 
         private float _laneLength;
@@ -89,7 +89,7 @@ namespace OtoFuda.Fumen
         /// <param name="playerId"></param>
         /// <param name="hiSpeed"></param>
         /// <param name="laneLength"></param>
-        public void SetNoteObject(int type, int lane, int end, int option, float reach, int playerId,
+        public void SetNoteObject(int type, int lane, int end, float[] option, float reach, int playerId,
             float hiSpeed, float laneLength)
         {
             noteType = type;

@@ -749,7 +749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d4d3ff2b6da4261a32752f2747999b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDebug: 0
+  isDebug: 1
   debugMusicData: {fileID: 11400000, guid: 734166c609737824298ecff078316358, type: 2}
   _fumenFlowManager:
   - {fileID: 1011586042}

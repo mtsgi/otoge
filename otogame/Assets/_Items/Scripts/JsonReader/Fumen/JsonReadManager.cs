@@ -75,7 +75,7 @@ public class JsonReadManager
         if (textAsset != null)
         {
             var jsonText = textAsset.text;
-            var fumen = JsonUtility.FromJson<FumenInfo>(jsonText);
+            var fumen = Utf8Json.JsonSerializer.Deserialize<FumenInfo>(jsonText);
             SetNoteData(fumen);
             Debug.Log($"Fumen {fileName} is loaded!");
         }
@@ -284,6 +284,31 @@ public class JsonReadManager
         if (notesInfo.type == 5)
         {
 //			Debug.Log("OTOFUDA NOTE " + spawnedObject.transform.position);
+        }
+
+
+        //フリックのサイズ変更
+        if (notesInfo.type == 3 || notesInfo.type == 4)
+        {
+            var ratio = 3.0f;
+
+            if (notesInfo.option.Length != 0)
+            {
+                //-1の時は3倍(デフォ)
+                if (notesInfo.option[0] == -1)
+                {
+                    ratio = 3;
+                }
+                else
+                {
+                    ratio = notesInfo.option[0];
+                }
+            }
+            
+            var renderer = spawnedObject.GetComponent<SpriteRenderer>();
+            var sliceSize = renderer.size;
+            renderer.drawMode = SpriteDrawMode.Sliced;
+            renderer.size = new Vector2(sliceSize.x * ratio, sliceSize.y);
         }
 
 

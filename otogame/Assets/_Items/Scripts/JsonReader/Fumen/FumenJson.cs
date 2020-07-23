@@ -25,7 +25,7 @@ namespace OtoFuda.Fumen
         public int lane = 0;
         public int position = 0;
         public int split = 0;
-        public int option = -1;
+        public float[] option;
         public List<NotesInfo> end = null;
     }
 
