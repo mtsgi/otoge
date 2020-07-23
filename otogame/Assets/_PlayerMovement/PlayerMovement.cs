@@ -88,7 +88,11 @@ public class PlayerMovement : MonoBehaviour
         {
             if (judgeResult == PlayerKeyInputManager.Judge.Perfect || judgeResult == PlayerKeyInputManager.Judge.Good)
             {
-                _inputManager.ComboUp();
+                //ロングの始点はコンボに加算しない
+                if (noteType != 2 && noteType != 99 )
+                {
+                    _inputManager.ComboUp();
+                }
             }
             else if (judgeResult == PlayerKeyInputManager.Judge.Bad)
             {

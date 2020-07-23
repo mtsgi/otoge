@@ -144,6 +144,7 @@ public class JsonReadManager
 
             case GameDifficulty.Hard:
 
+                Debug.Log(fumenInfo.hard.Count);
                 //ハード難易度のノーツを生成
                 for (int i = 0; i < fumenInfo.hard.Count; i++)
                 {
@@ -200,6 +201,7 @@ public class JsonReadManager
         switch (notesInfo.type)
         {
             case 0:
+                Debug.Log("Break");
                 break;
             case 1:
                 noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/NormalNote");
@@ -217,7 +219,6 @@ public class JsonReadManager
                 noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/OtofudaNote");
                 lane = 3;
                 break;
-
             case 99:
                 noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/OtherNote");
                 break;

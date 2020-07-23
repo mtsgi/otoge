@@ -1,6 +1,14 @@
 {
-    "raku": [],
-    "easy": [
+    "raku": [
+        {
+            "type": 5,
+            "measure": 8,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
         {
             "type": 5,
             "measure": 18,
@@ -15,7 +23,7 @@
             "measure": 26,
             "lane": 3,
             "position": 0,
-            "split": 8,
+            "split": 4,
             "option": [],
             "end": []
         },
@@ -24,7 +32,7 @@
             "measure": 34,
             "lane": 3,
             "position": 0,
-            "split": 8,
+            "split": 4,
             "option": [],
             "end": []
         },
@@ -33,7 +41,7 @@
             "measure": 38,
             "lane": 3,
             "position": 0,
-            "split": 8,
+            "split": 4,
             "option": [],
             "end": []
         },
@@ -42,25 +50,7 @@
             "measure": 42,
             "lane": 3,
             "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 5,
-            "measure": 59,
-            "lane": 3,
-            "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 99,
-            "measure": 87,
-            "lane": -1,
-            "position": 0,
-            "split": 1,
+            "split": 4,
             "option": [],
             "end": []
         },
@@ -70,6 +60,35 @@
             "lane": 3,
             "position": 3,
             "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 59,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 99,
+            "measure": 87,
+            "lane": -1,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        }
+    ],
+    "easy": [
+        {
+            "type": 99,
+            "measure": 87,
+            "lane": -1,
+            "position": 0,
+            "split": 1,
             "option": [],
             "end": []
         },
@@ -123,15 +142,6 @@
             "measure": 7,
             "lane": 2,
             "position": 1,
-            "split": 2,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 1,
-            "measure": 8,
-            "lane": 4,
-            "position": 0,
             "split": 2,
             "option": [],
             "end": []
@@ -842,6 +852,78 @@
                     "end": []
                 }
             ]
+        },
+        {
+            "type": 5,
+            "measure": 8,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 18,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 26,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 34,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 38,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 42,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 50,
+            "lane": 3,
+            "position": 3,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 59,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
         }
     ],
     "normal": [
@@ -1022,15 +1104,6 @@
             "measure": 7,
             "lane": 2,
             "position": 1,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 5,
-            "measure": 8,
-            "lane": 3,
-            "position": 0,
             "split": 8,
             "option": [],
             "end": []
@@ -1289,74 +1362,11 @@
             ]
         },
         {
-            "type": 5,
-            "measure": 18,
-            "lane": 3,
-            "position": 0,
-            "split": 4,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 5,
-            "measure": 26,
-            "lane": 3,
-            "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 5,
-            "measure": 34,
-            "lane": 3,
-            "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 5,
-            "measure": 38,
-            "lane": 3,
-            "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 5,
-            "measure": 42,
-            "lane": 3,
-            "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 5,
-            "measure": 59,
-            "lane": 3,
-            "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
             "type": 99,
             "measure": 87,
             "lane": -1,
             "position": 0,
             "split": 1,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 5,
-            "measure": 50,
-            "lane": 3,
-            "position": 3,
-            "split": 4,
             "option": [],
             "end": []
         },
@@ -3215,6 +3225,78 @@
             "split": 16,
             "option": [],
             "end": []
+        },
+        {
+            "type": 5,
+            "measure": 8,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 18,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 26,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 34,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 38,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 42,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 50,
+            "lane": 3,
+            "position": 3,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 59,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
         }
     ],
     "hard": [
@@ -3296,15 +3378,6 @@
             "measure": 3,
             "lane": 4,
             "position": 7,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 5,
-            "measure": 8,
-            "lane": 3,
-            "position": 0,
             "split": 8,
             "option": [],
             "end": []
@@ -3453,7 +3526,7 @@
             "lane": 2,
             "position": 4,
             "split": 8,
-            "option": [1],
+            "option": [],
             "end": []
         },
         {
@@ -4003,15 +4076,6 @@
             "end": []
         },
         {
-            "type": 5,
-            "measure": 18,
-            "lane": 3,
-            "position": 0,
-            "split": 4,
-            "option": [],
-            "end": []
-        },
-        {
             "type": 1,
             "measure": 19,
             "lane": 3,
@@ -4326,15 +4390,6 @@
                     "end": []
                 }
             ]
-        },
-        {
-            "type": 5,
-            "measure": 26,
-            "lane": 3,
-            "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
         },
         {
             "type": 1,
@@ -4791,15 +4846,6 @@
             "end": []
         },
         {
-            "type": 5,
-            "measure": 34,
-            "lane": 3,
-            "position": 0,
-            "split": 4,
-            "option": [],
-            "end": []
-        },
-        {
             "type": 1,
             "measure": 31,
             "lane": 1,
@@ -4895,15 +4941,6 @@
             "lane": 4,
             "position": 1,
             "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 5,
-            "measure": 38,
-            "lane": 3,
-            "position": 0,
-            "split": 4,
             "option": [],
             "end": []
         },
@@ -5110,15 +5147,6 @@
                     "end": []
                 }
             ]
-        },
-        {
-            "type": 5,
-            "measure": 42,
-            "lane": 3,
-            "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
         },
         {
             "type": 1,
@@ -5952,15 +5980,6 @@
             "end": []
         },
         {
-            "type": 5,
-            "measure": 59,
-            "lane": 3,
-            "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
             "type": 4,
             "measure": 61,
             "lane": 4,
@@ -6587,15 +6606,6 @@
                     "end": []
                 }
             ]
-        },
-        {
-            "type": 5,
-            "measure": 75,
-            "lane": 3,
-            "position": 0,
-            "split": 4,
-            "option": [],
-            "end": []
         },
         {
             "type": 1,
@@ -7260,15 +7270,6 @@
             "end": []
         },
         {
-            "type": 5,
-            "measure": 50,
-            "lane": 3,
-            "position": 3,
-            "split": 4,
-            "option": [],
-            "end": []
-        },
-        {
             "type": 1,
             "measure": 2,
             "lane": 3,
@@ -7565,9 +7566,16 @@
                     "end": []
                 }
             ]
-        }
-    ],
-    "extra": [
+        },
+        {
+            "type": 5,
+            "measure": 8,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
         {
             "type": 5,
             "measure": 18,
@@ -7582,7 +7590,7 @@
             "measure": 26,
             "lane": 3,
             "position": 0,
-            "split": 8,
+            "split": 4,
             "option": [],
             "end": []
         },
@@ -7591,7 +7599,7 @@
             "measure": 34,
             "lane": 3,
             "position": 0,
-            "split": 8,
+            "split": 4,
             "option": [],
             "end": []
         },
@@ -7600,7 +7608,7 @@
             "measure": 38,
             "lane": 3,
             "position": 0,
-            "split": 8,
+            "split": 4,
             "option": [],
             "end": []
         },
@@ -7609,25 +7617,7 @@
             "measure": 42,
             "lane": 3,
             "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 5,
-            "measure": 59,
-            "lane": 3,
-            "position": 0,
-            "split": 8,
-            "option": [],
-            "end": []
-        },
-        {
-            "type": 99,
-            "measure": 87,
-            "lane": -1,
-            "position": 0,
-            "split": 1,
+            "split": 4,
             "option": [],
             "end": []
         },
@@ -7637,6 +7627,26 @@
             "lane": 3,
             "position": 3,
             "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 59,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        }
+    ],
+    "extra": [
+        {
+            "type": 99,
+            "measure": 87,
+            "lane": -1,
+            "position": 0,
+            "split": 1,
             "option": [],
             "end": []
         },
@@ -14384,6 +14394,141 @@
                     "end": []
                 }
             ]
+        },
+        {
+            "type": 1,
+            "measure": 9,
+            "lane": 3,
+            "position": 0,
+            "split": 1,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 10,
+            "lane": 3,
+            "position": 0,
+            "split": 1,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 11,
+            "lane": 3,
+            "position": 0,
+            "split": 1,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 12,
+            "lane": 3,
+            "position": 0,
+            "split": 1,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 13,
+            "lane": 3,
+            "position": 0,
+            "split": 1,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 14,
+            "lane": 3,
+            "position": 0,
+            "split": 1,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 15,
+            "lane": 3,
+            "position": 0,
+            "split": 1,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 8,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 18,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 26,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 34,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 38,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 42,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 50,
+            "lane": 3,
+            "position": 3,
+            "split": 4,
+            "option": [],
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 59,
+            "lane": 3,
+            "position": 0,
+            "split": 4,
+            "option": [],
+            "end": []
         }
     ]
 }
