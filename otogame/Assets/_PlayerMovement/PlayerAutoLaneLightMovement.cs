@@ -48,7 +48,7 @@ public class PlayerAutoLaneLightMovement : PlayerMovement
 
         if (0.025f > GetDifferentAbs(inputTime, judgeTime))
         {
-            if (noteType == 1)
+            if (noteType == 1 || noteType == 3 || noteType == 4)
             {
                 //ロングの終端ノーツである場合はlaneLightを消すのみ
                 if (_inputManager.isLongNoteStart[targetLane])
@@ -59,7 +59,6 @@ public class PlayerAutoLaneLightMovement : PlayerMovement
                 {
                     TapLaneLight(targetLane);
                 }
-
             }
             else if (noteType == 2)
             {
