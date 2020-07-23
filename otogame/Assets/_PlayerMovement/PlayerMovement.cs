@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     //internal float MissThreshold = 0.0f;
 
 
-    public void InitMovement(PlayerKeyInputManager playerKeyInputManager)
+    public virtual void InitMovement(PlayerKeyInputManager playerKeyInputManager)
     {
         _inputManager = playerKeyInputManager;
 

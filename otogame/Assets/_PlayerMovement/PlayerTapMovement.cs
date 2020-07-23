@@ -44,6 +44,16 @@ public class PlayerTapMovement : PlayerMovement
     {
         if (noteType == 1 || noteType == 2)
         {
+            if (noteType == 1)
+            {
+                _inputManager.isLongNoteStart[targetLane] = false;
+            }
+                
+            if (noteType == 2)
+            {
+                _inputManager.isLongNoteStart[targetLane] = true;
+            }
+            
             //Debug.Log(base.InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex));
             return base.InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
         }

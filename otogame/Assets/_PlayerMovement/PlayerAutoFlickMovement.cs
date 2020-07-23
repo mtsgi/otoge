@@ -45,6 +45,11 @@ public class PlayerAutoFlickMovement : PlayerMovement
 
         //現在の楽曲再生時間
         var inputTime = _inputManager._audioSource.time;
+        
+        if (targetTimings.Count == _inputManager._noteCounters[stateIndex, targetLane])
+        {
+            return;
+        }
 
         //現在の次に来るはずのノーツ情報
         var nextNoteTimingInfo = targetTimings[_inputManager._noteCounters[stateIndex, targetLane]];
@@ -54,7 +59,7 @@ public class PlayerAutoFlickMovement : PlayerMovement
         var noteType = nextNoteTimingInfo.noteType;
         if (noteType == 3 || noteType == 4)
         {
-            if (0.02f > GetDifferentAbs(inputTime, judgeTime))
+            if (0.025f > GetDifferentAbs(inputTime, judgeTime))
             {
                 if (noteType == 3)
                 {

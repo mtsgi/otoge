@@ -5,29 +5,29 @@ using UnityEngine.UI;
 
 public class ComboCounter
 {
-    private Text comboText;
-    private int comboCount;
+    private readonly Text _comboText;
+    private int _comboCount;
 
     public ComboCounter(Text text)
     {
-        comboText = text;
+        _comboText = text;
     }
 
     public void ComboUp()
     {
-        comboCount += 1;
-        if (comboText != null)
+        _comboCount += 1;
+        if (_comboText != null)
         {
-            comboText.text = $"{comboCount}";
+            _comboText.text = $"{_comboCount}";
         }
     }
 
     public void ComboCut()
     {
-        comboCount = 0;
-        if (comboText != null)
+        _comboCount = 0;
+        if (_comboText != null)
         {
-            comboText.text = $"{comboCount}";
+            _comboText.text = $"{_comboCount}";
         }
     }
 }

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class PlayerKeyInputManager : MonoBehaviour
 {
+    public bool isAutoPlay = false;
     public JudgeProfile judgeProfile;
     internal bool isStartMusic = false;
 
@@ -136,6 +137,12 @@ public class PlayerKeyInputManager : MonoBehaviour
         }
 
         //        Debug.Log("Movement");
+
+        //AutoPlay中は通過したミスをカウントしない
+        if (isAutoPlay)
+        {
+            return;
+        }
 
         for (var i = 0; i < 5; i++)
         {

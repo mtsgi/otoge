@@ -2143,7 +2143,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 782870272}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &495352394
 MonoBehaviour:
@@ -3214,6 +3214,51 @@ Transform:
   m_Father: {fileID: 997389616}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &757115382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 757115383}
+  - component: {fileID: 757115384}
+  m_Layer: 0
+  m_Name: AutoLaneLightMovement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &757115383
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757115382}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 782870272}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &757115384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757115382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa1195b824751c9488d84a5ad80489e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _judger: {fileID: 0}
+  releaseTapWait: 0.03
 --- !u!1 &759840279
 GameObject:
   m_ObjectHideFlags: 0
@@ -3340,8 +3385,10 @@ Transform:
   - {fileID: 989960070}
   - {fileID: 366122663}
   - {fileID: 1230853257}
+  - {fileID: 757115383}
   - {fileID: 1093822408}
   - {fileID: 495352393}
+  - {fileID: 2089514513}
   m_Father: {fileID: 354525610}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3357,6 +3404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a498e56bc83f3479c557ef48712d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAutoPlay: 0
   judgeProfile: {fileID: 11400000, guid: 2997d62c981b01546bfc8d2b179af1f1, type: 2}
   playerID: 0
   playerKeys: 7a00000078000000630000007600000062000000
@@ -3372,9 +3420,10 @@ MonoBehaviour:
   - {fileID: 1137870312}
   - {fileID: 11514594}
   _playerMovement:
-  - {fileID: 450415952}
+  - {fileID: 757115384}
   - {fileID: 1093822409}
   - {fileID: 495352394}
+  - {fileID: 2089514514}
   comboCountText: {fileID: 211156564}
 --- !u!1 &823677209
 GameObject:
@@ -7700,7 +7749,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 782870272}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1093822409
 MonoBehaviour:
@@ -13119,6 +13168,50 @@ MonoBehaviour:
     IsRightToBeSpawned: 0
     IsEnabled: 1
     CanDuplicate: 1
+--- !u!1 &2089514512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2089514513}
+  - component: {fileID: 2089514514}
+  m_Layer: 0
+  m_Name: AutoGripMovement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2089514513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089514512}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 782870272}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2089514514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089514512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edb0330cbf0eb36498c23acd4531b4e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _judger: {fileID: 0}
 --- !u!1 &2091539487
 GameObject:
   m_ObjectHideFlags: 0
@@ -13372,6 +13465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a498e56bc83f3479c557ef48712d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAutoPlay: 0
   judgeProfile: {fileID: 11400000, guid: 2997d62c981b01546bfc8d2b179af1f1, type: 2}
   playerID: 1
   playerKeys: 7100000077000000650000007200000074000000

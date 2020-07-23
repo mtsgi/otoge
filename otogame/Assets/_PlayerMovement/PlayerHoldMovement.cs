@@ -8,7 +8,7 @@ public class PlayerHoldMovement : PlayerMovement
     //ホールドを離したときの判定
     public override void PlayerMovementCheck()
     {
-        //離したとき
+        //離したとき}}}}}*}}}}aasasaaasashas\
         for (int i = 0; i < PlayerKeys.Length; i++)
         {
             if (!Input.GetKeyUp(PlayerKeys[i])) continue;

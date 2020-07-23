@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using OtoFuda.Fumen;
 using UnityEngine;
 
-public class PlayerAutoLaneLightMovement : PlayerMovement
+public class PlayerAutoGripMovement : PlayerMovement
 {
     [SerializeField] private float releaseTapWait = 0.03f;
-    private Coroutine[] _cacheReleaseTapCoroutines;
+    private Coroutine _cacheReleaseTapCoroutine;
     private WaitForSeconds _releaseWait;
 
     public override void InitMovement(PlayerKeyInputManager playerKeyInputManager)
     {
         base.InitMovement(playerKeyInputManager);
         _releaseWait = new WaitForSeconds(releaseTapWait);
-        _cacheReleaseTapCoroutines = new Coroutine[PlayerKeys.Length];
     }
-
 
     public override void PlayerMovementCheck()
     {
@@ -31,6 +28,7 @@ public class PlayerAutoLaneLightMovement : PlayerMovement
         PlayerFumenState fumenState)
     {
         var stateIndex = (int) fumenState;
+
         //現在の楽曲再生時間
         var inputTime = _inputManager._audioSource.time;
 
@@ -43,47 +41,40 @@ public class PlayerAutoLaneLightMovement : PlayerMovement
         var nextNoteTimingInfo = targetTimings[_inputManager._noteCounters[stateIndex, targetLane]];
         var judgeTime = nextNoteTimingInfo.reachTime;
 
-        //ここでノーツの種類判定と化すればそれぞ}れのエフェクトとかの実行ができそう
+        //ここでノーツの種類判定と化すればそれぞれのエフェクトとかの実行ができそう
         var noteType = nextNoteTimingInfo.noteType;
-
-        if (0.025f > GetDifferentAbs(inputTime, judgeTime))
+        if (noteType == 5)
         {
-            if (noteType == 1)
+            if (0.025f > GetDifferentAbs(inputTime, judgeTime))
             {
-                //ロングの終端ノーツである場合はlaneLightを消すのみ
-                if (_inputManager.isLongNoteStart[targetLane])
-                {
-                    _inputManager.laneLight[targetLane].SetActive(false);
-                }
-                else
-                {
-                    TapLaneLight(targetLane);
-                }
-
-            }
-            else if (noteType == 2)
-            {
-                //ロングの始点ノーツである場合はlaneLightを表示する
-                _inputManager.laneLight[targetLane].SetActive(true);
+                GripLaneLight();
+                base.InputFunction(targetLane, targetTimings, fumenState);
             }
         }
     }
 
-    private void TapLaneLight(int lane)
+    private void GripLaneLight()
     {
-        _inputManager.laneLight[lane].SetActive(true);
-
-        if (_cacheReleaseTapCoroutines[lane] != null)
+        for (int i = 0; i < _inputManager.laneLight.Length; i++)
         {
-            StopCoroutine(_cacheReleaseTapCoroutines[lane]);
+            _inputManager.laneLight[i].SetActive(true);
         }
 
-        _cacheReleaseTapCoroutines[lane] = StartCoroutine(ReleaseTapCoroutine(lane));
+
+        if (_cacheReleaseTapCoroutine != null)
+        {
+            StopCoroutine(_cacheReleaseTapCoroutine);
+        }
+
+        _cacheReleaseTapCoroutine = StartCoroutine(ReleaseGripCoroutine());
     }
 
-    private IEnumerator ReleaseTapCoroutine(int targetLane)
+    private IEnumerator ReleaseGripCoroutine()
     {
         yield return _releaseWait;
-        _inputManager.laneLight[targetLane].SetActive(false);
+        for (int i = 0; i < _inputManager.laneLight.Length; i++)
+        {
+            _inputManager.laneLight[i].SetActive(false);
+        }
     }
 }
