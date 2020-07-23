@@ -42,6 +42,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Otofua
+    uniqueID: 1543347227
+    locked: 0
   - name: Notes
     uniqueID: 312638545
+    locked: 0
+  - name: Judge
+    uniqueID: 3932413005
     locked: 0
