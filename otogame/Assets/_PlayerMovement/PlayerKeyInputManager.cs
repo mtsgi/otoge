@@ -80,7 +80,8 @@ public class PlayerKeyInputManager : MonoBehaviour
 
         if (comboCountText != null)
         {
-            _comboCounter = new ComboCounter(comboCountText);
+            _comboCounter = new ComboCounter(comboCountText,
+                judgeProfile.comboInteractionScale, judgeProfile.comboInteractionTime);
         }
 
         //各種ムーブメントを初期化
