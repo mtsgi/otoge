@@ -48,6 +48,9 @@ TagManager:
   - name: Notes
     uniqueID: 312638545
     locked: 0
+  - name: Beam
+    uniqueID: 887586527
+    locked: 0
   - name: Judge
     uniqueID: 3932413005
     locked: 0
