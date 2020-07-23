@@ -15,5 +15,6 @@ MonoBehaviour:
   jsonFilePath: otofuda/otofuda/otofuda
   bpm: 180
   beat: 4
+  offset: 0
   levels: 0200000001000000
   musicId: otofuda

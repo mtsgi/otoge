@@ -50,7 +50,8 @@ public class JsonReadManager
 
             Debug.Log($"MusicData Info :FilePath{_musicData.jsonFilePath}/BPM{_musicData.bpm}" +
                       $"/beat{_musicData.beat}" +
-                      $"/Level{_musicData.levels[playerID]}/musicID{_musicData.musicId}");
+                      $"/Level{_musicData.levels[playerID]}/musicID{_musicData.musicId}" +
+                      $"/Offset{_musicData.offset}");
         }
 
 /*        if (!(SceneLoadManager.Instance.previewSceneTransitionData is MusicSelectManager.MusicData musicData))
@@ -238,7 +239,8 @@ public class JsonReadManager
 
         //一小節あたりの時間がわかれば何秒で到達するノーツなのかを算出できる。
         var reachFrame = measureLength * ((float) notesInfo.measure - 1) +
-                         measureLength * ((float) notesInfo.position / (float) notesInfo.split);
+                         measureLength * ((float) notesInfo.position / (float) notesInfo.split) +
+                         (_musicData.offset * 0.001f);
 
         //laneの長さ
         var _laneLength = _fumenDataManager.laneLength;
