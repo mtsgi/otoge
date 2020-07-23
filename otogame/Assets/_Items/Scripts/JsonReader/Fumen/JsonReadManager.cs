@@ -33,7 +33,7 @@ public class JsonReadManager
     {
         _musicData = musicData;
     }
-    
+
     public void Init(FumenDataManager fumenDataManager, int playerId)
     {
         /*		if (!isDebug)
@@ -49,7 +49,7 @@ public class JsonReadManager
             GameDifficulty = _musicData.levels[playerID];
 
             Debug.Log($"MusicData Info :FilePath{_musicData.jsonFilePath}/BPM{_musicData.bpm}" +
-                      $"/beat{_musicData.beat}"+
+                      $"/beat{_musicData.beat}" +
                       $"/Level{_musicData.levels[playerID]}/musicID{_musicData.musicId}");
         }
 
@@ -232,7 +232,7 @@ public class JsonReadManager
         //60 秒/_bpm (拍)で 1拍 あたり何秒なのかを算出。
         //これにbeat(拍子数)をかけることで一小節あたりの時間を計算する。
         var measureLength = (60 / _bpm) * _beat;
-        
+
         /*Debug.Log($"{60}/{_bpm}*{_beat}");*/
 
 
@@ -316,7 +316,9 @@ public class JsonReadManager
 /*
 			Debug.Log(extend);
 */
-            longLine.transform.localScale = scale;
+            longLine.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Sliced;
+            longLine.GetComponent<SpriteRenderer>().size = new Vector2(7f, 10.0f * extend);
+            /*longLine.transform.localScale = scale;*/
 
             var spawnedLongObject = Object.Instantiate(longLine, longLinePos, Quaternion.identity);
             spawnedLongObject.transform.parent = GameObject.Find("Notes/").transform;
