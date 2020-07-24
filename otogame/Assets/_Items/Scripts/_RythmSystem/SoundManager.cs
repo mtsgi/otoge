@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using NAudio.Wave;
 using shigeno_EditorUtility;
+using UniRx;
 using UniRx.Async;
 using UnityEditor;
 using UnityEngine;
@@ -57,12 +59,14 @@ namespace OtoFuda.RythmSystem
             return _soundListSettings[targetSoundIdx].targetAudioSource;
         }
 
-        public void PlayAudioFromExternal(string path)
+        public async void PlayAudioFromExternal(string path)
         {
             var t = LoadAudioFromExternal(path);
+            await t;
+            this.gameObject.GetComponents<AudioSource>()[0].clip = t.Result;
         }
 
-        private async UniTask LoadAudioFromExternal(string path)
+        private async UniTask<AudioClip> LoadAudioFromExternal(string path)
         {
             var extension = Path.GetExtension(path);
             var audioType = AudioType.WAV;
@@ -74,6 +78,7 @@ namespace OtoFuda.RythmSystem
                 case ".wav":
                     audioType = AudioType.WAV;
                     break;
+                
                 case ".mp3":
                     audioType = AudioType.MPEG;
                     break;
@@ -81,21 +86,55 @@ namespace OtoFuda.RythmSystem
                     audioType = AudioType.OGGVORBIS;
                     break;
                 default:
-                    Debug.LogError($"Extension is mismatch {extension}");
-                    return;
+                    Debug.LogError($"Extension is mismatch {extension}"); 
+                    break;
             }
 
-            var r = UnityWebRequestMultimedia.GetAudioClip(path, audioType);
-            await r.SendWebRequest(); // UnityWebRequestをawaitできる
-            var audioClip = ((DownloadHandlerAudioClip) r.downloadHandler).audioClip;
-
-            /*var r = UnityWebRequest.Get(path);
-            await r.SendWebRequest(); // UnityWebRequestをawaitできる
-            var audioClip = r.downloadHandler.data;
-            this.gameObject.GetComponents<AudioSource>()[0].clip.SetData(audioClip, audioClip.Length);*/
-
-            this.gameObject.GetComponents<AudioSource>()[0].clip = audioClip;
+            if (audioType != AudioType.MPEG)
+            {
+                var r = UnityWebRequestMultimedia.GetAudioClip(path, audioType);
+                await r.SendWebRequest(); // UnityWebRequestをawaitできる
+                return ((DownloadHandlerAudioClip) r.downloadHandler).audioClip;
+            }
+            else if (audioType == AudioType.MPEG)
+            {
+                using (var fs = new FileStream(path, FileMode.Open))
+                {
+                    return WavUtility.ToAudioClip(Mp3ToWav(fs));
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
+
+
+        private byte[] Mp3ToWav(Stream st)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (var reader =
+                    new NAudio.Wave.Mp3FileReader(st, wf => new NLayer.NAudioSupport.Mp3FrameDecompressor(wf)))
+                {
+                    if (reader.WaveFormat.Encoding == NAudio.Wave.WaveFormatEncoding.IeeeFloat)
+                    {
+                        NAudio.Wave.WaveFloatTo16Provider w32to16 = new NAudio.Wave.WaveFloatTo16Provider(reader);
+                        byte[] tmp = new byte[10000];
+                        w32to16.Read(tmp, 0, 10000);
+                        NAudio.Wave.WaveFileWriter.WriteWavFileToStream(ms, w32to16);
+                    }
+
+                    if (reader.WaveFormat.Encoding == NAudio.Wave.WaveFormatEncoding.Pcm)
+                    {
+                        NAudio.Wave.WaveFileWriter.WriteWavFileToStream(ms, reader);
+                    }
+                }
+
+                return ms.ToArray();
+            }
+        }
+
 
 
         //サウンドが登録された辞書を初期化する関数

@@ -42,9 +42,9 @@ public class AutoPlaySettingInputter : MonoBehaviour
         );
 
         fumenJsonSelectButton.onClick.AddListener(() =>
-            OpenSelectJsonDialog(jsonFilter, fumenJsonNameText, out fumenJsonName));
+            OpenSelectJsonDialog(jsonFilter, fumenJsonNameText, ref fumenJsonName));
         musicSelectButton.onClick.AddListener(() =>
-            OpenSelectJsonDialog(musicFilter, musicNameText, out musicName));
+            OpenSelectJsonDialog(musicFilter, musicNameText, ref musicName));
 
         bpmInput.onValueChanged.AddListener(_ => SetInputTextToFloat(bpmInput, ref bpm));
         beatInput.onValueChanged.AddListener(_ => SetInputTextToFloat(beatInput, ref beat));
@@ -72,10 +72,16 @@ public class AutoPlaySettingInputter : MonoBehaviour
         difficultyDropDown.value = (int) GameDifficulty.Hard;
     }
 
-    public void OpenSelectJsonDialog(ExtensionFilter[] extensions, Text text, out string fileName)
+    public void OpenSelectJsonDialog(ExtensionFilter[] extensions, Text text, ref string fileName)
     {
+        var openFolder = "";
+        if (!string.IsNullOrEmpty(fileName) && Directory.Exists(Path.GetDirectoryName(fileName)))
+        {
+            openFolder = Path.GetDirectoryName(fileName);
+        }
+
         var paths = StandaloneFileBrowser.OpenFilePanel("Select Json",
-            $"{Application.streamingAssetsPath}", extensions, false);
+            $"{openFolder}", extensions, false);
 
         if (paths.Length != 0)
         {

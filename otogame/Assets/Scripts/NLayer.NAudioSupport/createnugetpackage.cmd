@@ -1,0 +1,1 @@
+dotnet pack NLayer.NAudioSupport.csproj -c Release
