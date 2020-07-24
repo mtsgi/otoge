@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class AutoPlaySettingInputter : MonoBehaviour
 {
+    [SerializeField] private Canvas settingCanvas;
+    
     [Header("譜面Json選択")] [SerializeField] private Text fumenJsonNameText;
     [SerializeField] private Button fumenJsonSelectButton;
     private string fumenJsonName = "";
@@ -156,5 +158,15 @@ public class AutoPlaySettingInputter : MonoBehaviour
         autoPlaySetting.musicFilePath = musicName;
 
         return autoPlaySetting;
+    }
+
+    public void OnStartAutoPlay()
+    {
+        settingCanvas.enabled = false;
+    }
+
+    public void OnStopAutoPlay()
+    {
+        settingCanvas.enabled = true;
     }
 }
