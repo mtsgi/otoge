@@ -34,6 +34,8 @@ namespace OtoFuda.Fumen
 
         public void StartAutoPlay()
         {
+            autoPlaySettingInputter.SaveAutoPlaySetting();
+
             MusicManager.Instance.StopMusic(0);
 
             foreach (Transform n in notesRootTransform.transform)
@@ -59,7 +61,6 @@ namespace OtoFuda.Fumen
         {
             base.SetAutoPlayMusicData();
 
-            autoPlaySettingInputter.SaveAutoPlaySetting();
             var autoSetting = autoPlaySettingInputter.GetAutoPlaySetting();
 
             _musicData.jsonFilePath = autoSetting.jsonFilePath;

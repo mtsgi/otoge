@@ -187,10 +187,13 @@ public class AutoPlaySettingInputter : MonoBehaviour
                     var jsonText = sr.ReadToEnd();
 
                     var autoPlaySetting = Utf8Json.JsonSerializer.Deserialize<AutoPlaySetting>(jsonText);
-
+                    
                     fumenJsonName = autoPlaySetting.jsonFilePath;
+                    fumenJsonNameText.text = Path.GetFileName(fumenJsonName);
+                    
                     musicName = autoPlaySetting.musicFilePath;
-
+                    musicNameText.text = Path.GetFileName(musicName);
+                    
                     bpmInput.text = autoPlaySetting.bpm.ToString("0.0");
                     beatInput.text = autoPlaySetting.beat.ToString("0.0");
                     offsetInput.text = autoPlaySetting.offset.ToString("0");

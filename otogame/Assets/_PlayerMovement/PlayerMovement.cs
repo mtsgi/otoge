@@ -34,10 +34,16 @@ public class PlayerMovement : MonoBehaviour
         //  MissThreshold = playerKeyInputManager.judgeProfile.missThreshold;
     }
 
-    /// <summary>
-    /// プレイヤーのボタンの押下、フリック、ぎゅってするやつなどをチェックする関数
-    /// ここをメインループで回す
-    /// </summary>
+    /*プレイヤーのボタンの押下、フリック、ぎゅってするやつなどをチェックする関数
+     ここをメインループで回す
+    public virtual void PlayerMovementCheck(int index)
+    {
+    }
+    の形にして全てのmovementでforが走らないようにするとパフォーマンス改善できそう
+    かわらんか
+    */
+
+
     public virtual void PlayerMovementCheck()
     {
     }
@@ -79,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
         var inputTime = _inputManager._audioSource.time;
         var judgeTime = nextNoteTimingInfo.reachTime;
         var noteType = nextNoteTimingInfo.noteType;
-        
+
 
         //入力の精度の判定
         var judgeResult = InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
@@ -89,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
             if (judgeResult == PlayerKeyInputManager.Judge.Perfect || judgeResult == PlayerKeyInputManager.Judge.Good)
             {
                 //ロングの始点はコンボに加算しない
-                if (noteType != 2 && noteType != 99 )
+                if (noteType != 2 && noteType != 99)
                 {
                     _inputManager.ComboUp();
                 }

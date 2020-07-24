@@ -157,6 +157,14 @@ public class PlayerKeyInputManager : MonoBehaviour
         {
             _playerMovement[i].PlayerMovementCheck();
         }
+        
+        /*for (var i = 0; i < _playerMovement.Length; i++)
+        {
+            for (int k = 0; k < laneLight.Length; k++)
+            {
+                _playerMovement[i].PlayerMovementCheck(k);
+            }
+        }*/
 
         //        Debug.Log("Movement");
 
