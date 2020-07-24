@@ -25,6 +25,7 @@ namespace OtoFuda.Fumen
         public Transform notesRootTransform;
         [SerializeField] private FumenFlowManager[] _fumenFlowManager;
         [SerializeField] private PlayerKeyInputManager[] _playerKeyInputManagers;
+        public PlayerKeyInputManager[] PlayerKeyInputManagers => _playerKeyInputManagers;
         public MusicData _musicData = new MusicData();
         private PlayerInfo[] _playerInfos = new PlayerInfo[2];
 

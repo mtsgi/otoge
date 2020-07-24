@@ -33,7 +33,6 @@ public class KeyBeamController : MonoBehaviour
         if (index <= keyBeams.Count)
         {
             keyBeams[index].BeamOn();
-            Debug.Log($"On_{index}");
         }
     }
 
@@ -42,7 +41,6 @@ public class KeyBeamController : MonoBehaviour
         if (index <= keyBeams.Count)
         {
             keyBeams[index].BeamOff();
-            Debug.Log($"Off_{index}");
         }
     }
 
@@ -52,8 +50,6 @@ public class KeyBeamController : MonoBehaviour
         {
             keyBeams[i].BeamOn();
         }
-        Debug.Log($"Oll_all");
-
     }
 
     public void BeamOffAll()
@@ -62,7 +58,6 @@ public class KeyBeamController : MonoBehaviour
         {
             keyBeams[i].BeamOff();
         }
-        Debug.Log($"Off_all");
     }
 
     [ContextMenu("AutoSet")]
@@ -92,8 +87,6 @@ public class KeyBeam
 
         _offColor = _defaultColor;
         _offColor.a = 0.0f;
-        
-        Debug.Log(_defaultColor);
     }
 
 

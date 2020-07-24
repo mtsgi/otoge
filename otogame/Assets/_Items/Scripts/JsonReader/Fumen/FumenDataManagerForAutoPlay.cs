@@ -49,6 +49,11 @@ namespace OtoFuda.Fumen
 
         private void StopAutoPlay()
         {
+            //終了時にコンボリセット
+            for (int i = 0; i < PlayerKeyInputManagers.Length; i++)
+            {
+                PlayerKeyInputManagers[i].ComboCut();
+            }
             
             MusicManager.Instance.StopMusic(0);
             
