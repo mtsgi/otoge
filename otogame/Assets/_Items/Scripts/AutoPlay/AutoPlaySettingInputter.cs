@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Remoting.Contexts;
 using SFB;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 public class AutoPlaySettingInputter : MonoBehaviour
 {
     [SerializeField] private Canvas settingCanvas;
-    
+
     [Header("譜面Json選択")] [SerializeField] private Text fumenJsonNameText;
     [SerializeField] private Button fumenJsonSelectButton;
     private string fumenJsonName = "";
@@ -28,6 +29,8 @@ public class AutoPlaySettingInputter : MonoBehaviour
 
     [Header("難易度設定")] [SerializeField] private Dropdown difficultyDropDown;
     public GameDifficulty[] levels = {GameDifficulty.Hard, GameDifficulty.Normal};
+
+    private readonly string _autoPlaySettingSaveDataPath = $"{Application.streamingAssetsPath}/autoSetting.json";
 
     private void Start()
     {
@@ -58,6 +61,8 @@ public class AutoPlaySettingInputter : MonoBehaviour
         SetInputTextToFloat(bpmInput, ref bpm);
         SetInputTextToFloat(beatInput, ref beat);
         SetInputTextToInt(offsetInput, ref offset);
+        
+        LoadAutoPlaySetting();
     }
 
     private void InitializeDropDown()
@@ -144,6 +149,8 @@ public class AutoPlaySettingInputter : MonoBehaviour
         var autoPlaySetting = new AutoPlaySetting();
 
         autoPlaySetting.jsonFilePath = fumenJsonName;
+        autoPlaySetting.musicFilePath = musicName;
+
 
         autoPlaySetting.bpm = bpm;
         autoPlaySetting.beat = beat;
@@ -155,7 +162,6 @@ public class AutoPlaySettingInputter : MonoBehaviour
             Debug.Log("Get");
         }
 
-        autoPlaySetting.musicFilePath = musicName;
 
         return autoPlaySetting;
     }
@@ -168,5 +174,45 @@ public class AutoPlaySettingInputter : MonoBehaviour
     public void OnStopAutoPlay()
     {
         settingCanvas.enabled = true;
+    }
+
+    public void LoadAutoPlaySetting()
+    {
+        if (File.Exists(_autoPlaySettingSaveDataPath))
+        {
+            using (var fs = new FileStream(_autoPlaySettingSaveDataPath, FileMode.Open))
+            {
+                using (var sr = new StreamReader(fs))
+                {
+                    var jsonText = sr.ReadToEnd();
+
+                    var autoPlaySetting = Utf8Json.JsonSerializer.Deserialize<AutoPlaySetting>(jsonText);
+
+                    fumenJsonName = autoPlaySetting.jsonFilePath;
+                    musicName = autoPlaySetting.musicFilePath;
+
+                    bpmInput.text = autoPlaySetting.bpm.ToString("0.0");
+                    beatInput.text = autoPlaySetting.beat.ToString("0.0");
+                    offsetInput.text = autoPlaySetting.offset.ToString("0");
+
+                    difficultyDropDown.value = (int) autoPlaySetting.levels[0];
+                }
+            }
+        }
+    }
+
+    [ContextMenu("SaveAutoPlaySetting")]
+    private void SaveAutoPlaySetting()
+    {
+        using (var fs = new FileStream(_autoPlaySettingSaveDataPath, FileMode.OpenOrCreate))
+        {
+            using (var sw = new StreamWriter(fs))
+            {
+                var jsonText = Utf8Json.JsonSerializer.ToJsonString(GetAutoPlaySetting());
+                Debug.Log(jsonText);
+
+                sw.Write(jsonText);
+            }
+        }
     }
 }
