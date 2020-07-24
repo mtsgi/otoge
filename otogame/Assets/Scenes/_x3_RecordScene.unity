@@ -2944,7 +2944,7 @@ MonoBehaviour:
   DoubleBuffering: 0
   EnableVSync: 0
   TargetFrameRate: 60
-  HideWarnings: 0
+  HideWarnings: 1
 --- !u!20 &696068820
 Camera:
   m_ObjectHideFlags: 0
