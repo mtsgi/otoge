@@ -153,9 +153,9 @@ public class PlayerKeyInputManager : MonoBehaviour
 
         //Debug.Log(noteCounters[1, 3]);
         //プレイヤーの行動(入力)をチェックする
-        foreach (var t in _playerMovement)
+        for (var i = 0; i < _playerMovement.Length; i++)
         {
-            t.PlayerMovementCheck();
+            _playerMovement[i].PlayerMovementCheck();
         }
 
         //        Debug.Log("Movement");

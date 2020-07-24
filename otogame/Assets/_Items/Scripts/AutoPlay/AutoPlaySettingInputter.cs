@@ -202,7 +202,7 @@ public class AutoPlaySettingInputter : MonoBehaviour
     }
 
     [ContextMenu("SaveAutoPlaySetting")]
-    private void SaveAutoPlaySetting()
+    public void SaveAutoPlaySetting()
     {
         using (var fs = new FileStream(_autoPlaySettingSaveDataPath, FileMode.OpenOrCreate))
         {

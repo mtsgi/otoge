@@ -58,10 +58,8 @@ namespace OtoFuda.Fumen
         public override void SetAutoPlayMusicData()
         {
             base.SetAutoPlayMusicData();
-            //テスト
-            //SetDebugMusicData();
-            //
 
+            autoPlaySettingInputter.SaveAutoPlaySetting();
             var autoSetting = autoPlaySettingInputter.GetAutoPlaySetting();
 
             _musicData.jsonFilePath = autoSetting.jsonFilePath;
