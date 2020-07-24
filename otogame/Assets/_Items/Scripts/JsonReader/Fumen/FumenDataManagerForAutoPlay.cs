@@ -54,9 +54,9 @@ namespace OtoFuda.Fumen
             {
                 PlayerKeyInputManagers[i].ComboCut();
             }
-            
+
             MusicManager.Instance.StopMusic(0);
-            
+
             foreach (Transform n in notesRootTransform.transform)
             {
                 GameObject.Destroy(n.gameObject);
@@ -73,6 +73,8 @@ namespace OtoFuda.Fumen
 
             _musicData.bpm = autoSetting.bpm;
             _musicData.beat = autoSetting.beat;
+            _highSpeed = autoSetting.highSpeed;
+            Debug.Log(_highSpeed[0]);
             _musicData.offset = autoSetting.offset;
 
             _musicData.levels = autoSetting.levels;

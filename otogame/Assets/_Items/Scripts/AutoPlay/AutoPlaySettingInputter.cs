@@ -24,11 +24,14 @@ public class AutoPlaySettingInputter : MonoBehaviour
     [Header("拍子設定")] [SerializeField] private InputField beatInput;
     private float beat;
 
+    [Header("ハイスピ設定")] [SerializeField] private InputField highSpeedInput;
+    private float[] highSpeed = new float[] {8.0f, 8.0f};
+
     [Header("オフセット設定")] [SerializeField] private InputField offsetInput;
     private int offset;
 
     [Header("難易度設定")] [SerializeField] private Dropdown difficultyDropDown;
-    public GameDifficulty[] levels = {GameDifficulty.Hard, GameDifficulty.Normal};
+    private GameDifficulty[] levels = {GameDifficulty.Hard, GameDifficulty.Normal};
 
     private readonly string _autoPlaySettingSaveDataPath = $"{Application.streamingAssetsPath}/autoSetting.json";
 
@@ -53,6 +56,15 @@ public class AutoPlaySettingInputter : MonoBehaviour
 
         bpmInput.onValueChanged.AddListener(_ => SetInputTextToFloat(bpmInput, ref bpm));
         beatInput.onValueChanged.AddListener(_ => SetInputTextToFloat(beatInput, ref beat));
+        highSpeedInput.onValueChanged.AddListener(_ =>
+            {
+                for (int i = 0; i < highSpeed.Length; i++)
+                {
+                    SetInputTextToFloat(highSpeedInput, ref highSpeed[i]);
+                }
+            }
+        );
+
         offsetInput.onValueChanged.AddListener(_ => SetInputTextToInt(offsetInput, ref offset));
 
         InitializeDropDown();
@@ -60,8 +72,13 @@ public class AutoPlaySettingInputter : MonoBehaviour
 
         SetInputTextToFloat(bpmInput, ref bpm);
         SetInputTextToFloat(beatInput, ref beat);
+        for (int i = 0; i < highSpeed.Length; i++)
+        {
+            SetInputTextToFloat(highSpeedInput, ref highSpeed[i]);
+        }
+
         SetInputTextToInt(offsetInput, ref offset);
-        
+
         LoadAutoPlaySetting();
     }
 
@@ -105,6 +122,13 @@ public class AutoPlaySettingInputter : MonoBehaviour
     {
         if (float.TryParse(field.text, out var value))
         {
+            //0値や負の値を0.1に矯正
+            if (value <= 0)
+            {
+                value = 0.1f;
+                field.text = value.ToString("0.0");
+            }
+            Debug.Log($"{field} set {value}");
             targetFloat = value;
         }
         else
@@ -117,6 +141,12 @@ public class AutoPlaySettingInputter : MonoBehaviour
     {
         if (int.TryParse(field.text, out var value))
         {
+            //負の値が入れられたら0に戻す
+            if (value < 0)
+            {
+                value = 0;
+                field.text = value.ToString("0");
+            }
             targetFloat = value;
         }
         else
@@ -154,12 +184,12 @@ public class AutoPlaySettingInputter : MonoBehaviour
 
         autoPlaySetting.bpm = bpm;
         autoPlaySetting.beat = beat;
+        autoPlaySetting.highSpeed = highSpeed;
         autoPlaySetting.offset = offset;
 
         for (int i = 0; i < autoPlaySetting.levels.Length; i++)
         {
             autoPlaySetting.levels[i] = levels[i];
-            Debug.Log("Get");
         }
 
 
@@ -187,15 +217,16 @@ public class AutoPlaySettingInputter : MonoBehaviour
                     var jsonText = sr.ReadToEnd();
 
                     var autoPlaySetting = Utf8Json.JsonSerializer.Deserialize<AutoPlaySetting>(jsonText);
-                    
+
                     fumenJsonName = autoPlaySetting.jsonFilePath;
                     fumenJsonNameText.text = Path.GetFileName(fumenJsonName);
-                    
+
                     musicName = autoPlaySetting.musicFilePath;
                     musicNameText.text = Path.GetFileName(musicName);
-                    
+
                     bpmInput.text = autoPlaySetting.bpm.ToString("0.0");
                     beatInput.text = autoPlaySetting.beat.ToString("0.0");
+                    highSpeedInput.text = autoPlaySetting.highSpeed[0].ToString("0.0");
                     offsetInput.text = autoPlaySetting.offset.ToString("0");
 
                     difficultyDropDown.value = (int) autoPlaySetting.levels[0];

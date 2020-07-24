@@ -11,6 +11,8 @@ public class AutoPlaySetting
     
     public float bpm = 180;
     public float beat = 4.0f;
+    public float[] highSpeed = new float[] {8.0f, 8.0f};
+
     public int offset = 0;
     public GameDifficulty[] levels = {GameDifficulty.Hard, GameDifficulty.Normal};
 }
