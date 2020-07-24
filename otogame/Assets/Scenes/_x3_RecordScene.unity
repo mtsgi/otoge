@@ -2071,7 +2071,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 4.299988}
+  m_AnchoredPosition: {x: 0, y: 4.300049}
   m_SizeDelta: {x: -10, y: -703.86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &519312515
@@ -3164,7 +3164,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -60.700012}
+  m_AnchoredPosition: {x: 0, y: -60.69995}
   m_SizeDelta: {x: -10, y: -703.86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &776109559
@@ -3267,6 +3267,7 @@ MonoBehaviour:
   - {fileID: 2089514514}
   - {fileID: 1171994576}
   comboCountText: {fileID: 196625932}
+  comboInfoText: {fileID: 966096616}
   noteSimpleCount: 0
 --- !u!1 &798748385
 GameObject:
@@ -9080,7 +9081,6 @@ MonoBehaviour:
   highSpeedInput: {fileID: 1868747905}
   offsetInput: {fileID: 1447677728}
   difficultyDropDown: {fileID: 566709466}
-  levels: 0200000001000000
 --- !u!1 &1841426756
 GameObject:
   m_ObjectHideFlags: 0

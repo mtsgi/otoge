@@ -7,32 +7,49 @@ using UnityEngine.UI;
 
 public class ComboCounter
 {
-    private readonly TextMeshProUGUI _comboText;
+    private readonly TextMeshProUGUI _comboCountText;
+    private readonly TextMeshProUGUI _comboInfoText;
     private int _comboCount;
     private readonly Vector3 _defaultTextScale;
     private readonly float _interactionScale = 1.1f;
     private readonly float _interactionTime = 0.05f;
 
+    private float defaultAlpha;
 
-    public ComboCounter(TextMeshProUGUI text, float iScale, float iTime)
+    public ComboCounter(TextMeshProUGUI countText, TextMeshProUGUI infoText, float iScale, float iTime)
     {
-        _comboText = text;
+        _comboCountText = countText;
+        _comboInfoText = infoText;
+        
         _interactionScale = iScale;
         _interactionTime = iTime;
-        
+
         Debug.Log($"Scale{iScale}/Time{iTime}");
-        _defaultTextScale = _comboText.rectTransform.localScale;
+        _defaultTextScale = _comboCountText.rectTransform.localScale;
+
+        defaultAlpha = countText.alpha;
+        
+        ComboCut();
     }
 
     public void ComboUp()
     {
-        _comboCount += 1;
-        if (_comboText != null)
+        //カウント前のコンボ数が0であれば表示のTweenを行う
+        if (_comboCount == 0)
         {
-            _comboText.text = $"{_comboCount}";
             var sequence = DOTween.Sequence()
-                .Append(_comboText.rectTransform.DOScale(_defaultTextScale * _interactionScale, _interactionTime))
-                .Append(_comboText.rectTransform.DOScale(_defaultTextScale, _interactionTime))
+                .Append(_comboCountText.DOFade(defaultAlpha, _interactionTime))
+                .Append(_comboInfoText.DOFade(defaultAlpha, _interactionTime))
+                .Play(); 
+        }
+        
+        _comboCount += 1;
+        if (_comboCountText != null)
+        {
+            _comboCountText.text = $"{_comboCount}";
+            var sequence = DOTween.Sequence()
+                .Append(_comboCountText.rectTransform.DOScale(_defaultTextScale * _interactionScale, _interactionTime))
+                .Append(_comboCountText.rectTransform.DOScale(_defaultTextScale, _interactionTime))
                 .Play();
         }
     }
@@ -40,9 +57,13 @@ public class ComboCounter
     public void ComboCut()
     {
         _comboCount = 0;
-        if (_comboText != null)
+        if (_comboCountText != null)
         {
-            _comboText.text = $"{_comboCount}";
+            _comboCountText.text = $"{_comboCount}";
+            var sequence = DOTween.Sequence()
+                .Append(_comboCountText.DOFade(0.0f, _interactionTime))
+                .Append(_comboInfoText.DOFade(0.0f, _interactionTime))
+                .Play(); 
         }
     }
 }

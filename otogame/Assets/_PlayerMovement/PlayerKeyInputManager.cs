@@ -60,7 +60,7 @@ public class PlayerKeyInputManager : MonoBehaviour
     //コンボカウンター用
     private ComboCounter _comboCounter;
     [SerializeField] private TextMeshProUGUI comboCountText;
-
+    [SerializeField] private TextMeshProUGUI comboInfoText;
 
     //ノーツ情報
     public int[,] noteCounters = new int[3, 5];
@@ -85,7 +85,7 @@ public class PlayerKeyInputManager : MonoBehaviour
 
         if (comboCountText != null)
         {
-            _comboCounter = new ComboCounter(comboCountText,
+            _comboCounter = new ComboCounter(comboCountText, comboInfoText,
                 judgeProfile.comboInteractionScale, judgeProfile.comboInteractionTime);
         }
 
@@ -97,7 +97,7 @@ public class PlayerKeyInputManager : MonoBehaviour
 
         //レーンライトの表示をオフ
         keyBeamController.BeamOffAll();
-        
+
         /*foreach (var t in laneLight)
         {
             t.SetActive(false);
@@ -164,7 +164,7 @@ public class PlayerKeyInputManager : MonoBehaviour
         {
             _playerMovement[i].PlayerMovementCheck();
         }
-        
+
         /*for (var i = 0; i < _playerMovement.Length; i++)
         {
             for (int k = 0; k < laneLight.Length; k++)
