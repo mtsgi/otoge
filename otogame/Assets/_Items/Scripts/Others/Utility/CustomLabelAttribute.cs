@@ -1,6 +1,6 @@
 ﻿#if UNITY_EDITOR
-
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace shigeno_EditorUtility
@@ -14,7 +14,7 @@ namespace shigeno_EditorUtility
             this.newFieldLabel = _newLabel;
         }
     }
-
+#if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(CustomLabelAttribute))]
     public class CustomLabelDrawer : PropertyDrawer
     {
@@ -25,7 +25,5 @@ namespace shigeno_EditorUtility
             EditorGUI.PropertyField(position, property, label);
         }
     }
-
-}
-
 #endif
+}

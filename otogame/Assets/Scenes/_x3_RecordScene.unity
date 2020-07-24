@@ -480,8 +480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f18ffae42aa5014b94835673347cb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDebug: 1
-  debugMusicData: {fileID: 11400000, guid: 734166c609737824298ecff078316358, type: 2}
+  musicDataMode: 0
+  debugMusicData: {fileID: 11400000, guid: 21c23c7b27bc049429d854a1ba84ef9a, type: 2}
   notesRootTransform: {fileID: 1202330131}
   _fumenFlowManager:
   - {fileID: 1011586042}

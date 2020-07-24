@@ -58,7 +58,6 @@ namespace SerialPortUtility
 
             EditorGUI.LabelField(position, "シリアルポート");
             position.x = defaultPos.width * 0.5f;
-#if UNITY_EDITOR_WIN
             var selectedPortProperty = property.FindPropertyRelative("selectedPort");
             var names = SerialPort.GetPortNames();
             if (names.Length == 0)
@@ -76,10 +75,10 @@ namespace SerialPortUtility
 
             var targetPortNameProperty = property.FindPropertyRelative("targetPortName");
             targetPortNameProperty.stringValue = names[selectedPortProperty.intValue];
-#else
-            var targetPortNameProperty = property.FindPropertyRelative("targetPortName");
-            targetPortNameProperty.stringValue = EditorGUI.TextField(position, targetPortNameProperty.stringValue);
-#endif
+
+            /*var targetPortNameProperty = property.FindPropertyRelative("targetPortName");
+            targetPortNameProperty.stringValue = EditorGUI.TextField(position, targetPortNameProperty.stringValue);*/
+
             EditorGUI.indentLevel--;
 
         }
@@ -89,6 +88,6 @@ namespace SerialPortUtility
             if (!property.isExpanded) return EditorGUIUtility.singleLineHeight;
             return EditorGUIUtility.singleLineHeight * 3.5f;
         }
-#endif
     }
+#endif
 }

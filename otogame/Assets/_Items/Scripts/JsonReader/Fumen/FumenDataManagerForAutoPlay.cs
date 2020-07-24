@@ -11,9 +11,19 @@ namespace OtoFuda.Fumen
     {
         private new void Start()
         {
+            //元々のStartをかきけしたいのでこうしておく
             return;
         }
-
+        
+        public void Update()
+        {
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+                StartAutoPlay();
+            }
+            Check();
+        }
+        
         public void StartAutoPlay()
         {
             MusicManager.Instance.StopMusic(0);
@@ -26,13 +36,10 @@ namespace OtoFuda.Fumen
             FumenStart();
         }
 
-        public void Update()
+        public override void SetAutoPlayMusicData()
         {
-            if (Input.GetKeyUp(KeyCode.A))
-            {
-                StartAutoPlay();
-            }
-            Check();
+            base.SetAutoPlayMusicData();
+            
         }
     }
 }
