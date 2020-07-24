@@ -49,6 +49,7 @@ namespace OtoFuda.Fumen
 
         private void StopAutoPlay()
         {
+            
             MusicManager.Instance.StopMusic(0);
             
             foreach (Transform n in notesRootTransform.transform)
