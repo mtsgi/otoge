@@ -1,0 +1,288 @@
+{
+    "normal": [
+        {
+            "type": 5,
+            "measure": 1,
+            "lane": 3,
+            "position": 2,
+            "split": 4,
+            "option": -1,
+            "end":[]
+        },
+        {
+            "type": 1,
+            "measure": 5,
+            "lane": 3,
+            "position": 2,
+            "split": 4,
+            "option": -1,
+            "end":[]
+        },
+        {
+            "type": 1,
+            "measure": 8,
+            "lane": 3,
+            "position": 1,
+            "split": 8,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 9,
+            "lane": 1,
+            "position": 0,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 15,
+            "lane": 3,
+            "position": 1,
+            "split": 4,
+            "option": -1,
+            "end": []
+        }
+    ],
+    
+    "hard": [
+        {        
+            "type": 5,
+            "measure": 1,
+            "lane": 3,
+            "position": 2,
+            "split": 4,
+            "option": -1,
+            "end":[]
+        },
+        {
+            "type": 1,
+            "measure": 5,
+            "lane": 3,
+            "position": 2,
+            "split": 4,
+            "option": -1,
+            "end":[]
+        },
+        {
+            "type": 1,
+            "measure": 8,
+            "lane": 3,
+            "position": 1,
+            "split": 8,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 9,
+            "lane": 1,
+            "position": 0,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 5,
+            "measure": 15,
+            "lane": 3,
+            "position": 1,
+            "split": 4,
+            "option": -1,
+            "end": []
+        }
+    ],
+    "extra": [
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 1,
+            "position": 0,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 2,
+            "position": 1,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 3,
+            "position": 2,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 2,
+            "position": 3,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 3,
+            "position": 4,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 4,
+            "position": 5,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 3,
+            "position": 6,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 4,
+            "position": 7,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 5,
+            "position": 8,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 1,
+            "position": 8,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 2,
+            "position": 13,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 4,
+            "position": 14,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 2,
+            "position": 15,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 4,
+            "position": 16,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 2,
+            "position": 17,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 4,
+            "position": 18,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 2,
+            "position": 19,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 4,
+            "position": 20,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 2,
+            "position": 21,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 1,
+            "measure": 4,
+            "lane": 4,
+            "position": 22,
+            "split": 24,
+            "option": -1,
+            "end": []
+        },
+        {
+            "type": 99,
+            "measure": 5,
+            "lane": {},
+            "position": 0,
+            "split": 1,
+            "option": -1,
+            "end": []
+        }
+    ]
+}

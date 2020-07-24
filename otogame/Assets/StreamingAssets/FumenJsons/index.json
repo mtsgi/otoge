@@ -1,0 +1,77 @@
+﻿{
+	"index": 
+	[
+    {
+      "id": "otofuda",
+      "name": "オトフダビヨリ",
+      "artist": "idady",
+      "bpm": 180.0,
+      "dispbpm": "180",
+      "color": [ 254, 254, 205 ],
+      "offset": 1000,
+      "raku": -1,
+      "easy": 2,
+      "normal": 4,
+      "hard": 8,
+      "extra": -1,
+      "author": "マテすぎ",
+      "comment": "音札のテーマ曲です",
+      "demo": 2000
+    },
+    {
+      "id": "puzzle",
+      "name": "Puzzle",
+      "artist": "idady",
+      "bpm": 120.0,
+      "dispbpm": "120",
+      "color": [ 155, 254, 205 ],
+      "offset": 500,
+      "raku": -1,
+      "easy": 4,
+      "normal": 8,
+      "hard": 10,
+      "extra": -1,
+      "author": "\"謎の勢力M\"",
+      "comment": "",
+      "demo": 2000
+    },
+    {
+      "id": "sublimation",
+      "name": "Sublimation",
+      "artist": "idady",
+      "bpm": 165.0,
+      "dispbpm": "165",
+      "color": [ 126, 188, 224 ],
+      "offset": 1000,
+      "raku": -1,
+      "easy": 5,
+      "normal": 8,
+      "hard": 10,
+      "extra": -1,
+      "author": "？？？",
+      "comment": "ボス曲だよ",
+      "demo": 2000
+    }, 
+      {
+        "id": "sample",
+        "name": "sample",
+        "artist": "sample",
+        "bpm": 180.0,
+        "dispbpm": "180",
+        "color": [
+          230,
+          240,
+          205
+        ],
+        "offset": 1000,
+        "raku": -1,
+        "easy": 2,
+        "normal": 4,
+        "hard": 8,
+        "extra": -1,
+        "author": "sample",
+        "comment": "sample",
+        "demo": 2000
+      }
+    ]
+}
