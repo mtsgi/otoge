@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using OtoFuda.Fumen;
 using OtoFuda.RythmSystem;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,7 +58,7 @@ public class PlayerKeyInputManager : MonoBehaviour
 
     //コンボカウンター用
     private ComboCounter _comboCounter;
-    [SerializeField] private Text comboCountText;
+    [SerializeField] private TextMeshProUGUI comboCountText;
 
 
     //ノーツ情報

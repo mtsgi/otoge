@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ComboCounter
 {
-    private readonly Text _comboText;
+    private readonly TextMeshProUGUI _comboText;
     private int _comboCount;
     private readonly Vector3 _defaultTextScale;
     private readonly float _interactionScale = 1.1f;
     private readonly float _interactionTime = 0.05f;
 
 
-    public ComboCounter(Text text, float iScale, float iTime)
+    public ComboCounter(TextMeshProUGUI text, float iScale, float iTime)
     {
         _comboText = text;
         _interactionScale = iScale;
