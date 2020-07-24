@@ -57,7 +57,7 @@ namespace OtoFuda.Fumen
 
         private void Start()
         {
-            FumenStart();
+            FumenStart(musicDataMode);
         }
 
         public void Init()
@@ -79,22 +79,21 @@ namespace OtoFuda.Fumen
                 {
                     SetFumenSelectSceneMusicData(fumenSelectSceneData);
                 }
-                
+
                 //ハイスピ周りはPlayerManagerに渡したい。
                 //というかこれMonoにしたくない
                 for (int i = 0; i < _playerInfos.Length; i++)
                 {
                     _highSpeed[i] = _playerInfos[i].hiSpeed;
                 }
-                
             }
             else if (musicDataMode == MusicDataMode.AutoPlay)
             {
                 SetAutoPlayMusicData();
             }
-            
+
             _musicData.TestCheckParameter();
-            
+
 
             //初期化
             for (int i = 0; i < 2; i++)
@@ -119,7 +118,7 @@ namespace OtoFuda.Fumen
             for (int i = 0; i < PlayerManager.Instance._players.Length; i++)
             {
                 var jsonReader = new JsonReadManager(_musicData, notesRootTransform);
-                jsonReader.Init(this, i);
+                jsonReader.Init(this, i, musicDataMode);
             }
         }
 
@@ -131,6 +130,7 @@ namespace OtoFuda.Fumen
             {
                 _playerInfos[i] = new PlayerInfo();
             }
+
             Debug.Log("Test Mode");
         }
 
@@ -147,17 +147,26 @@ namespace OtoFuda.Fumen
             {
                 _playerInfos[i] = new PlayerInfo();
             }
+
             Debug.Log("Test Mode");
         }
-        
-        public void FumenStart()
+
+        public void FumenStart(MusicDataMode mode)
         {
-            var path = "Musics/" + _musicData.musicId;
-            Debug.Log(path);
-            var audioClip = Resources.Load(path, typeof(AudioClip)) as AudioClip;
-            SoundManager.Instance.gameObject.GetComponents<AudioSource>()[0].clip = audioClip;
-            if (audioClip != null) SoundManager.Instance._soundListSettings[0].soundName = audioClip.name;
-            SoundManager.Instance.initDictionary();
+            if (mode == FumenDataManager.MusicDataMode.Game || mode == FumenDataManager.MusicDataMode.Debug)
+            {
+                var path = "Musics/" + _musicData.musicId;
+                Debug.Log(path);
+                var audioClip = Resources.Load(path, typeof(AudioClip)) as AudioClip;
+                SoundManager.Instance.gameObject.GetComponents<AudioSource>()[0].clip = audioClip;
+                if (audioClip != null) SoundManager.Instance._soundListSettings[0].soundName = audioClip.name;
+                SoundManager.Instance.InitDictionary();
+            }
+            else if (mode == MusicDataMode.AutoPlay)
+            {
+                SoundManager.Instance.PlayAudioFromExternal(_musicData.musicId);
+            }
+
             StartCoroutine(FumenStartWait());
         }
 
@@ -171,11 +180,11 @@ namespace OtoFuda.Fumen
             var waitSec = (60 / _musicData.bpm);
             var waitForBlankRhythm = new WaitForSeconds(waitSec);
             yield return new WaitForSeconds(2);
-            SoundManager.Instance.playSound(1).Play();
+            SoundManager.Instance.PlaySound(1).Play();
             yield return waitForBlankRhythm;
-            SoundManager.Instance.playSound(1).Play();
+            SoundManager.Instance.PlaySound(1).Play();
             yield return waitForBlankRhythm;
-            SoundManager.Instance.playSound(1).Play();
+            SoundManager.Instance.PlaySound(1).Play();
             yield return waitForBlankRhythm;
 
             for (int i = 0; i < _fumenFlowManager.Length; i++)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Cryptography;
 using OtoFuda.Fumen;
 using MiniJSON;
@@ -13,7 +14,8 @@ public enum GameDifficulty
 {
     Easy = 0,
     Normal = 1,
-    Hard = 2
+    Hard = 2,
+    End
 }
 
 public class JsonReadManager
@@ -31,13 +33,13 @@ public class JsonReadManager
 
     private Transform _notesRootTransform;
 
-    public JsonReadManager(MusicData musicData,Transform rootTransform)
+    public JsonReadManager(MusicData musicData, Transform rootTransform)
     {
         _musicData = musicData;
         _notesRootTransform = rootTransform;
     }
 
-    public void Init(FumenDataManager fumenDataManager, int playerId)
+    public void Init(FumenDataManager fumenDataManager, int playerId, FumenDataManager.MusicDataMode mode)
     {
         /*		if (!isDebug)
 		{*/
@@ -51,10 +53,12 @@ public class JsonReadManager
             fileName = _musicData.jsonFilePath;
             GameDifficulty = _musicData.levels[playerID];
 
-            Debug.Log($"MusicData Info :FilePath{_musicData.jsonFilePath}/BPM{_musicData.bpm}" +
-                      $"/beat{_musicData.beat}" +
-                      $"/Level{_musicData.levels[playerID]}/musicID{_musicData.musicId}" +
-                      $"/Offset{_musicData.offset}");
+            Debug.Log($"MusicData Info :FilePath[{_musicData.jsonFilePath}]" +
+                      $"/BPM[{_musicData.bpm}]" +
+                      $"/beat[{_musicData.beat}]" +
+                      $"/Level[{_musicData.levels[playerID]}]" +
+                      $"/musicID[{_musicData.musicId}]" +
+                      $"/Offset[{_musicData.offset}]");
         }
 
 /*        if (!(SceneLoadManager.Instance.previewSceneTransitionData is MusicSelectManager.MusicData musicData))
@@ -69,22 +73,42 @@ public class JsonReadManager
 
 //        _fumenDataManager = FumenDataManager.Instance;
         _fumenDataManager = fumenDataManager;
-        SerializeFumenData();
+
+        var jsonPath = "";
+        if (mode == FumenDataManager.MusicDataMode.Game || mode == FumenDataManager.MusicDataMode.Debug)
+        {
+            jsonPath = Application.streamingAssetsPath + "/FumenJsons/" + fileName + ".json";
+        }
+        else if (mode == FumenDataManager.MusicDataMode.AutoPlay)
+        {
+            jsonPath = fileName;
+        }
+
+        SerializeFumenData(jsonPath);
     }
 
-    private void SerializeFumenData()
+    private void SerializeFumenData(string jsonPath)
     {
-        var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
-        if (textAsset != null)
+        if (string.IsNullOrEmpty(jsonPath))
         {
-            var jsonText = textAsset.text;
-            var fumen = Utf8Json.JsonSerializer.Deserialize<FumenInfo>(jsonText);
-            SetNoteData(fumen);
-            Debug.Log($"Fumen {fileName} is loaded!");
+            return;
         }
-        else
+
+        if (!File.Exists(jsonPath))
         {
-            Debug.LogError($"Fumen {fileName} is not found!");
+            Debug.LogError("Json Not Found");
+            return;
+        }
+
+        using (var fs = new FileStream(jsonPath, FileMode.Open))
+        {
+            using (var sr = new StreamReader(fs))
+            {
+                var jsonText = sr.ReadToEnd();
+                var fumen = Utf8Json.JsonSerializer.Deserialize<FumenInfo>(jsonText);
+                SetNoteData(fumen);
+                Debug.Log($"Fumen {fileName} is loaded!");
+            }
         }
     }
 
@@ -315,7 +339,7 @@ public class JsonReadManager
                     ratio = notesInfo.option[0];
                 }
             }
-            
+
             var renderer = spawnedObject.GetComponent<SpriteRenderer>();
             var sliceSize = renderer.size;
             renderer.drawMode = SpriteDrawMode.Sliced;

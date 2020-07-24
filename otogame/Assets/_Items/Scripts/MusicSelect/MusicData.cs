@@ -15,7 +15,7 @@ public class MusicData
 
     public void TestCheckParameter()
     {
-        Debug.Log($"MusicData Info :FilePath{jsonFilePath}/BPM{bpm}" +
-                  $"/beat{beat}/musicID{musicId}");
+        Debug.Log($"MusicData Info :FilePath[{jsonFilePath}]/BPM[{bpm}]" +
+                  $"/beat[{beat}]/musicID[{musicId}]");
     }
 }

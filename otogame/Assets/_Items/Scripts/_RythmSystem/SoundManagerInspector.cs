@@ -44,7 +44,7 @@ public class SoundManagerInspector : Editor
     //SoundListSettingの名前から再生するテスト
     private void soundTestByName(string soundName)
     {
-        _soundManager.initDictionary();
+        _soundManager.InitDictionary();
         //辞書に含まれるかどうかを調べる
         if (!_soundManager.soundListDictionary.ContainsKey(soundName))
         {
@@ -52,7 +52,7 @@ public class SoundManagerInspector : Editor
             return;
         }
 
-        var playAudioSource = _soundManager.playSound(soundName);
+        var playAudioSource = _soundManager.PlaySound(soundName);
         playAudioSource.Play();
         Debug.Log(soundName + "を再生しました");
     }
@@ -66,7 +66,7 @@ public class SoundManagerInspector : Editor
             return;
         }
 
-        var playAudioSource = _soundManager.playSound(soundIndex);
+        var playAudioSource = _soundManager.PlaySound(soundIndex);
         playAudioSource.Play();
         Debug.Log(_soundManager._soundListSettings[soundIndex].soundName + "を再生しました");
     }

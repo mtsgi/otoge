@@ -21,20 +21,20 @@ namespace OtoFuda.RythmSystem
         //サウンド名で指定する場合
         public void Startmusic(string targetSoundName)
         {
-            AudioSource source = SoundManager.Instance.playSound(targetSoundName);
+            AudioSource source = SoundManager.Instance.PlaySound(targetSoundName);
             source.Play();
         }
 
         //インデックスで指定する場合
         public void Startmusic(int targetSoundIdx)
         {
-            AudioSource source = SoundManager.Instance.playSound(targetSoundIdx);
+            AudioSource source = SoundManager.Instance.PlaySound(targetSoundIdx);
             source.Play();
         }
 
         public void StopMusic(int targetSoundIdx)
         {
-            AudioSource source = SoundManager.Instance.playSound(targetSoundIdx);
+            AudioSource source = SoundManager.Instance.PlaySound(targetSoundIdx);
             source.Stop();
             source.time = 0;
         }
