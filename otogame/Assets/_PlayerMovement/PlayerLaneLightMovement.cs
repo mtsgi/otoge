@@ -11,12 +11,14 @@ public class PlayerLaneLightMovement : PlayerMovement
         {
             if (Input.GetKeyDown(PlayerKeys[i]))
             {
-                _inputManager.laneLight[i].SetActive(true);
+                _inputManager.keyBeamController.BeamOnAt(i);
+                /*_inputManager.laneLight[i].SetActive(true);*/
             }
             
             if (Input.GetKeyUp(PlayerKeys[i]))
             {
-                _inputManager.laneLight[i].SetActive(false);
+                _inputManager.keyBeamController.BeamOffAt(i);
+                /*_inputManager.laneLight[i].SetActive(false);*/
             }
         }
     }

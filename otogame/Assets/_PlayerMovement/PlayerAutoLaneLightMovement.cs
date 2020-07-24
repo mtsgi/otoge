@@ -53,7 +53,8 @@ public class PlayerAutoLaneLightMovement : PlayerMovement
                 //ロングの終端ノーツである場合はlaneLightを消すのみ
                 if (_inputManager.isLongNoteStart[targetLane])
                 {
-                    _inputManager.laneLight[targetLane].SetActive(false);
+                    _inputManager.keyBeamController.BeamOffAt(targetLane);
+//                    _inputManager.laneLight[targetLane].SetActive(false);
                 }
                 else
                 {
@@ -63,14 +64,16 @@ public class PlayerAutoLaneLightMovement : PlayerMovement
             else if (noteType == 2)
             {
                 //ロングの始点ノーツである場合はlaneLightを表示する
-                _inputManager.laneLight[targetLane].SetActive(true);
+                _inputManager.keyBeamController.BeamOnAt(targetLane);
+                /*_inputManager.laneLight[targetLane].SetActive(true);*/
             }
         }
     }
 
     private void TapLaneLight(int lane)
     {
-        _inputManager.laneLight[lane].SetActive(true);
+        _inputManager.keyBeamController.BeamOnAt(lane);
+//        _inputManager.laneLight[lane].SetActive(true);
 
         if (_cacheReleaseTapCoroutines[lane] != null)
         {
@@ -83,6 +86,7 @@ public class PlayerAutoLaneLightMovement : PlayerMovement
     private IEnumerator ReleaseTapCoroutine(int targetLane)
     {
         yield return _releaseWait;
-        _inputManager.laneLight[targetLane].SetActive(false);
+        _inputManager.keyBeamController.BeamOffAt(targetLane);
+//        _inputManager.laneLight[targetLane].SetActive(false);
     }
 }

@@ -44,19 +44,21 @@ public class PlayerOtofudaMovement : PlayerMovement
 
         if (_receivedGripState == PlayerGripState.RELEASE)
         {
-            foreach (var t in _inputManager.laneLight)
+            _inputManager.keyBeamController.BeamOffAll();
+            /*foreach (var t in _inputManager.laneLight)
             {
                 t.SetActive(false);
 //                Debug.Log("おふった");
-            }
+            }*/
         }
         else if (_receivedGripState == PlayerGripState.GRIP)
         {
-            foreach (var t in _inputManager.laneLight)
+            _inputManager.keyBeamController.BeamOnAll();
+            /*foreach (var t in _inputManager.laneLight)
             {
                 t.SetActive(true);
              //   Debug.Log("おんった");
-            }
+            }*/
         }
     }
 

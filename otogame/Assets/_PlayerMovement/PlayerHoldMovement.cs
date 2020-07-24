@@ -13,7 +13,8 @@ public class PlayerHoldMovement : PlayerMovement
         {
             if (!Input.GetKeyUp(PlayerKeys[i])) continue;
             //ここでキービームをオフにしている
-            _inputManager.laneLight[i].SetActive(false);
+            _inputManager.keyBeamController.BeamOffAt(i);
+            /*_inputManager.laneLight[i].SetActive(false);*/
             if (!_inputManager.isLongNoteStart[i]) continue;
             
             InputFunction(i, _inputManager._fumenDataManager.timings[PlayerId, i],
@@ -38,7 +39,8 @@ public class PlayerHoldMovement : PlayerMovement
     public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         base.InputFunction(targetLane, targetTimings, fumenState);
-        _inputManager.laneLight[targetLane].SetActive(false);
+        _inputManager.keyBeamController.BeamOffAt(targetLane);
+        /*_inputManager.laneLight[targetLane].SetActive(false);*/
 
     }
 }

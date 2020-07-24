@@ -55,10 +55,11 @@ public class PlayerAutoGripMovement : PlayerMovement
 
     private void GripLaneLight()
     {
-        for (int i = 0; i < _inputManager.laneLight.Length; i++)
+        _inputManager.keyBeamController.BeamOnAll();
+        /*for (int i = 0; i < _inputManager.laneLight.Length; i++)
         {
             _inputManager.laneLight[i].SetActive(true);
-        }
+        }*/
 
 
         if (_cacheReleaseTapCoroutine != null)
@@ -72,9 +73,10 @@ public class PlayerAutoGripMovement : PlayerMovement
     private IEnumerator ReleaseGripCoroutine()
     {
         yield return _releaseWait;
-        for (int i = 0; i < _inputManager.laneLight.Length; i++)
+        _inputManager.keyBeamController.BeamOffAll();
+        /*for (int i = 0; i < _inputManager.laneLight.Length; i++)
         {
             _inputManager.laneLight[i].SetActive(false);
-        }
+        }*/
     }
 }

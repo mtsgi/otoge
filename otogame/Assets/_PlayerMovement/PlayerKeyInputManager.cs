@@ -39,7 +39,8 @@ public class PlayerKeyInputManager : MonoBehaviour
         private int[] moreEasyNoteCount = new int[5];
 */
 
-    public GameObject[] laneLight;
+    public KeyBeamController keyBeamController;
+    /*public GameObject[] laneLight;*/
 
     //ロングノーツの開始をチェックしておくbool
     internal bool[] isLongNoteStart = new bool[5];
@@ -95,10 +96,12 @@ public class PlayerKeyInputManager : MonoBehaviour
         }
 
         //レーンライトの表示をオフ
-        foreach (var t in laneLight)
+        keyBeamController.BeamOffAll();
+        
+        /*foreach (var t in laneLight)
         {
             t.SetActive(false);
-        }
+        }*/
 
         //それぞれのロングノーツのフラグをオフにする
         for (var i = 0; i < isLongNoteStart.Length; i++)
@@ -109,11 +112,14 @@ public class PlayerKeyInputManager : MonoBehaviour
 
     public void Init()
     {
+        keyBeamController.Init();
         //レーンライトの表示をオフ
-        foreach (var t in laneLight)
+        keyBeamController.BeamOffAll();
+
+        /*foreach (var t in laneLight)
         {
             t.SetActive(false);
-        }
+        }*/
 
         //それぞれのロングノーツのフラグをオフにする
         for (var i = 0; i < isLongNoteStart.Length; i++)
