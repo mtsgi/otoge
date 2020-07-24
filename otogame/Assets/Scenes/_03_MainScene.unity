@@ -751,9 +751,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDebug: 1
   debugMusicData: {fileID: 11400000, guid: 734166c609737824298ecff078316358, type: 2}
+  notesRootTransform: {fileID: 1202330131}
   _fumenFlowManager:
   - {fileID: 1011586042}
   - {fileID: 627289923}
+  _playerKeyInputManagers:
+  - {fileID: 782870273}
+  - {fileID: 2136507688}
   _musicData:
     jsonFilePath: otofuda/otofuda/otofuda
     bpm: 60
@@ -3551,7 +3555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a498e56bc83f3479c557ef48712d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAutoPlay: 0
   judgeProfile: {fileID: 11400000, guid: 2997d62c981b01546bfc8d2b179af1f1, type: 2}
   playerID: 0
   playerKeys: 7a00000078000000630000007600000062000000
@@ -3572,6 +3575,7 @@ MonoBehaviour:
   - {fileID: 495352394}
   - {fileID: 2089514514}
   comboCountText: {fileID: 211156564}
+  noteSimpleCount: 0
 --- !u!1 &823677209
 GameObject:
   m_ObjectHideFlags: 0
@@ -13623,7 +13627,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a498e56bc83f3479c557ef48712d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAutoPlay: 0
   judgeProfile: {fileID: 11400000, guid: 2997d62c981b01546bfc8d2b179af1f1, type: 2}
   playerID: 1
   playerKeys: 7100000077000000650000007200000074000000
@@ -13644,3 +13647,4 @@ MonoBehaviour:
   - {fileID: 28717502}
   - {fileID: 1333669685}
   comboCountText: {fileID: 0}
+  noteSimpleCount: 0

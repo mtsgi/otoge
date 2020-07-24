@@ -34,13 +34,13 @@ public class PlayerAutoLaneLightMovement : PlayerMovement
         //現在の楽曲再生時間
         var inputTime = _inputManager._audioSource.time;
 
-        if (targetTimings.Count == _inputManager._noteCounters[stateIndex, targetLane])
+        if (targetTimings.Count == _inputManager.noteCounters[stateIndex, targetLane])
         {
             return;
         }
 
         //現在の次に来るはずのノーツ情報
-        var nextNoteTimingInfo = targetTimings[_inputManager._noteCounters[stateIndex, targetLane]];
+        var nextNoteTimingInfo = targetTimings[_inputManager.noteCounters[stateIndex, targetLane]];
         var judgeTime = nextNoteTimingInfo.reachTime;
 
         //ここでノーツの種類判定と化すればそれぞ}れのエフェクトとかの実行ができそう

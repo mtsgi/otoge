@@ -28,6 +28,11 @@ public class HandPositionTracer : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (provider == null)
+        {
+            return;
+        }
+        
         //Debug.Log(provider.CurrentFrame.Hands[0].Fingers[1].TipPosition);
 
         if (provider.CurrentFrame.Hands.Count > 0)

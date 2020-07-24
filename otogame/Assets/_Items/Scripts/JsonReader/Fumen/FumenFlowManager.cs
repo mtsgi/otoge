@@ -48,7 +48,6 @@ namespace OtoFuda.Fumen
                 difNotes[i].ChangeFumenState();
             }
                 
-            MusicManager.Instance.Startmusic(0);
                 
             OnMusicStart?.Invoke(playerID);
         }

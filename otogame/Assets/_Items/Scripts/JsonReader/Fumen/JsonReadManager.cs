@@ -29,9 +29,12 @@ public class JsonReadManager
     private FumenDataManager _fumenDataManager;
     private MusicData _musicData;
 
-    public JsonReadManager(MusicData musicData)
+    private Transform _notesRootTransform;
+
+    public JsonReadManager(MusicData musicData,Transform rootTransform)
     {
         _musicData = musicData;
+        _notesRootTransform = rootTransform;
     }
 
     public void Init(FumenDataManager fumenDataManager, int playerId)
@@ -254,7 +257,14 @@ public class JsonReadManager
         //生成
         var spawnedObject = Object.Instantiate(noteGameObject, spawnPos, Quaternion.identity);
 //        Debug.Log(spawnedObject.transform.position);
-        spawnedObject.transform.parent = GameObject.Find("Notes").transform;
+        if (_notesRootTransform != null)
+        {
+            spawnedObject.transform.parent = _notesRootTransform;
+        }
+        else
+        {
+            spawnedObject.transform.parent = GameObject.Find("Notes").transform;
+        }
 
         var _noteObject = spawnedObject.GetComponent<NoteObject>();
 

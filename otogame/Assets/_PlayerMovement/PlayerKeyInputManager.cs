@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class PlayerKeyInputManager : MonoBehaviour
 {
-    public bool isAutoPlay = false;
     public JudgeProfile judgeProfile;
     internal bool isStartMusic = false;
 
@@ -31,7 +30,7 @@ public class PlayerKeyInputManager : MonoBehaviour
     internal FumenDataManager _fumenDataManager;
     internal AudioSource _audioSource;
 
-    internal int[,] _noteCounters;
+
     //各レーンのノーツ数を格納する配列
 /*
         private int[] noteCount = new int[5];
@@ -61,13 +60,17 @@ public class PlayerKeyInputManager : MonoBehaviour
     [SerializeField] private Text comboCountText;
 
 
+    //ノーツ情報
+    public int[,] noteCounters = new int[3, 5];
+    public int noteSimpleCount = 0;
+
     private void Start()
     {
+        _audioSource = SoundManager.Instance.gameObject.GetComponents<AudioSource>()[0];
+
         //PlayerManagerをインスタンス化
         _playerManager = PlayerManager.Instance;
-        _noteCounters = _playerManager._players[playerID].noteCounters;
 
-        _audioSource = SoundManager.Instance.gameObject.GetComponents<AudioSource>()[0];
         _fumenDataManager = FumenDataManager.Instance;
 
         if (judgeProfile == null)
@@ -96,20 +99,37 @@ public class PlayerKeyInputManager : MonoBehaviour
             t.SetActive(false);
         }
 
-        //それぞれのロングノーツの表示をオフにする
+        //それぞれのロングノーツのフラグをオフにする
+        for (var i = 0; i < isLongNoteStart.Length; i++)
+        {
+            isLongNoteStart[i] = false;
+        }
+    }
+
+    public void Init()
+    {
+        //レーンライトの表示をオフ
+        foreach (var t in laneLight)
+        {
+            t.SetActive(false);
+        }
+
+        //それぞれのロングノーツのフラグをオフにする
         for (var i = 0; i < isLongNoteStart.Length; i++)
         {
             isLongNoteStart[i] = false;
         }
 
         //各難易度の各レーンのノーツ情報を初期化する
-        for (var i = 0; i < 3; i++)
+        for (var i = 0; i < (int) PlayerFumenState.End; i++)
         {
             for (var k = 0; k < 5; k++)
             {
-                _noteCounters[i, k] = 0;
+                noteCounters[i, k] = 0;
             }
         }
+
+        noteSimpleCount = 0;
     }
 
     private void OnEnable()
@@ -131,6 +151,7 @@ public class PlayerKeyInputManager : MonoBehaviour
     {
 /*        Debug.Log(_playerManager._players[playerID].FumenState);*/
 
+        //Debug.Log(noteCounters[1, 3]);
         //プレイヤーの行動(入力)をチェックする
         foreach (var t in _playerMovement)
         {
@@ -138,12 +159,6 @@ public class PlayerKeyInputManager : MonoBehaviour
         }
 
         //        Debug.Log("Movement");
-
-        //AutoPlay中は通過したミスをカウントしない
-        if (isAutoPlay)
-        {
-            return;
-        }
 
         for (var i = 0; i < 5; i++)
         {
@@ -173,18 +188,17 @@ public class PlayerKeyInputManager : MonoBehaviour
         if ((stateIndex == 1 && _fumenDataManager.mainNotes[playerID].Count == 0) ||
             (stateIndex == 2 && _fumenDataManager.moreDifficultNotes[playerID].Count == 0))
         {
-//            Debug.Log("はじいたよ");
             return;
         }
 
         for (int k = 0; k < targetTimings.Count; k++)
         {
-            if (_noteCounters[stateIndex, index] < targetTimings.Count)
+            if (noteCounters[stateIndex, index] < targetTimings.Count)
             {
 /*
                 Debug.Log((PlayerFumenState) (stateIndex) + ":" + _noteCounters[stateIndex, index]);
 */
-                if (targetTimings[_noteCounters[stateIndex, index]].reachTime - _audioSource.time <
+                if (targetTimings[noteCounters[stateIndex, index]].reachTime - _audioSource.time <
                     -judgeProfile.badThreshold)
                 {
 /*                    if (_playerManager._players[playerID].FumenState == targetState)
@@ -196,7 +210,7 @@ public class PlayerKeyInputManager : MonoBehaviour
 
 
                     //ロングノーツの場合、始点をミスしたら終点もミス扱いにする
-                    if (targetTimings[_noteCounters[stateIndex, index]].noteType == 2)
+                    if (targetTimings[noteCounters[stateIndex, index]].noteType == 2)
                     {
                         //通過に応じてRemove
                         if (stateIndex == 1)
@@ -232,7 +246,7 @@ public class PlayerKeyInputManager : MonoBehaviour
                         }
 
                         //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
-                        if (targetTimings[_noteCounters[stateIndex, index]].noteType == 5)
+                        if (targetTimings[noteCounters[stateIndex, index]].noteType == 5)
                         {
                             if (_playerManager._players[playerID].FumenState == targetState)
                             {
@@ -241,8 +255,8 @@ public class PlayerKeyInputManager : MonoBehaviour
                         }
 
                         //2ノーツ分カウンターを進める
-                        _noteCounters[stateIndex, index] += 2;
-                        _playerManager._players[playerID].noteSimpleCount += 2;
+                        noteCounters[stateIndex, index] += 2;
+                        noteSimpleCount += 2;
 //                        Debug.Log("long");
                     }
                     else
@@ -278,7 +292,7 @@ public class PlayerKeyInputManager : MonoBehaviour
                         }
 
                         //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
-                        if (targetTimings[_noteCounters[stateIndex, index]].noteType == 5)
+                        if (targetTimings[noteCounters[stateIndex, index]].noteType == 5)
                         {
                             if (_playerManager._players[playerID].FumenState == targetState)
                             {
@@ -286,8 +300,8 @@ public class PlayerKeyInputManager : MonoBehaviour
                             }
                         }
 
-                        _noteCounters[stateIndex, index]++;
-                        _playerManager._players[playerID].noteSimpleCount++;
+                        noteCounters[stateIndex, index]++;
+                        noteSimpleCount++;
                     }
 
 

@@ -78,7 +78,7 @@ public class PlayerFlickMovement : PlayerMovement
             return;
         }
         
-        if (_inputManager._noteCounters[stateIndex, targetLane] == targetTimings.Count)
+        if (_inputManager.noteCounters[stateIndex, targetLane] == targetTimings.Count)
         {
 //            Debug.Log("かぞえきったよ");
             return;
@@ -86,7 +86,7 @@ public class PlayerFlickMovement : PlayerMovement
         
 
         //現在の次に来るはずのノーツ情報
-        var nextNoteTimingInfo = targetTimings[_inputManager._noteCounters[stateIndex, targetLane]];
+        var nextNoteTimingInfo = targetTimings[_inputManager.noteCounters[stateIndex, targetLane]];
 
         //入力された時点での楽曲の再生時間と、そのレーンのノーツの到達時間の差を見る
         var inputTime = _inputManager._audioSource.time;
@@ -129,8 +129,8 @@ public class PlayerFlickMovement : PlayerMovement
         {
             if (-BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
             {
-                _inputManager._noteCounters[stateIndex, targetLane]++;
-                _inputManager._playerManager._players[PlayerId].noteSimpleCount++;
+                _inputManager.noteCounters[stateIndex, targetLane]++;
+                _inputManager.noteSimpleCount++;
 
                 if (_receiveGesture == PlayerGesture.LEFT)
                 {
@@ -147,8 +147,8 @@ public class PlayerFlickMovement : PlayerMovement
         {
             if (-BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
             {
-                _inputManager._noteCounters[stateIndex, targetLane]++;
-                _inputManager._playerManager._players[PlayerId].noteSimpleCount++;
+                _inputManager.noteCounters[stateIndex, targetLane]++;
+                _inputManager.noteSimpleCount++;
 
                 if (_receiveGesture == PlayerGesture.RIGHT)
                 {

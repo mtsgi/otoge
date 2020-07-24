@@ -78,7 +78,7 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
 
 
         //全体で何ノーツ目かが引っ張ってこれればおk
-        var noteCount = _targetPlayer.noteSimpleCount;
+        /*var noteCount = _targetPlayer.noteSimpleCount;*/
         
         for (int i = 0; i < _noteObjects.Count; i++)
         {

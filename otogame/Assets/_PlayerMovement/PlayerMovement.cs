@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (_inputManager._noteCounters[stateIndex, targetLane] == targetTimings.Count)
+        if (_inputManager.noteCounters[stateIndex, targetLane] == targetTimings.Count)
         {
 //            Debug.Log("かぞえきったよ");
             return;
@@ -73,13 +73,13 @@ public class PlayerMovement : MonoBehaviour
         var targetLaneNoteInfos = targetTimings;*/
 
         //現在の次に来るはずのノーツ情報
-        var nextNoteTimingInfo = targetTimings[_inputManager._noteCounters[stateIndex, targetLane]];
+        var nextNoteTimingInfo = targetTimings[_inputManager.noteCounters[stateIndex, targetLane]];
 
         //入力された時点での楽曲の再生時間と、そのレーンのノーツの到達時間の差を見る
         var inputTime = _inputManager._audioSource.time;
         var judgeTime = nextNoteTimingInfo.reachTime;
         var noteType = nextNoteTimingInfo.noteType;
-
+        
 
         //入力の精度の判定
         var judgeResult = InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
@@ -149,8 +149,8 @@ public class PlayerMovement : MonoBehaviour
         if (judgeResult != PlayerKeyInputManager.Judge.None)
         {
             CheckLongStartNote(targetLane, noteType);
-            _inputManager._noteCounters[stateIndex, targetLane]++;
-            _inputManager._playerManager._players[PlayerId].noteSimpleCount++;
+            _inputManager.noteCounters[stateIndex, targetLane]++;
+            _inputManager.noteSimpleCount++;
         }
 
         return judgeResult;

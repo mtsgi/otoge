@@ -32,6 +32,13 @@ namespace OtoFuda.RythmSystem
             source.Play();
         }
 
+        public void StopMusic(int targetSoundIdx)
+        {
+            AudioSource source = SoundManager.Instance.playSound(targetSoundIdx);
+            source.Stop();
+            source.time = 0;
+        }
+
 
 
     }

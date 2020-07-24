@@ -15,8 +15,9 @@ namespace OtoFuda.Fumen
         internal List<NoteObject>[] mainNotes = new List<NoteObject>[2];
         internal List<NoteObject>[] moreEasyNotes = new List<NoteObject>[2];
         internal List<NoteObject>[] moreDifficultNotes = new List<NoteObject>[2];
+        public Transform notesRootTransform;
         [SerializeField] private FumenFlowManager[] _fumenFlowManager;
-
+        [SerializeField] private PlayerKeyInputManager[] _playerKeyInputManagers;
         public MusicData _musicData = new MusicData();
         private PlayerInfo[] _playerInfos = new PlayerInfo[2];
 
@@ -41,10 +42,19 @@ namespace OtoFuda.Fumen
         public List<NoteTimingInformation>[,] moreEasyTimings = new List<NoteTimingInformation>[2, 5];
         public List<NoteTimingInformation>[,] moreDifficultTimings = new List<NoteTimingInformation>[2, 5];
 
-
         private new void Awake()
         {
             base.Awake();
+            Init();
+        }
+
+        private void Start()
+        {
+            FumenStart();
+        }
+
+        public void Init()
+        {
             Debug.Log("FumenDataManagerAwake");
 
             var fumenSelectSceneData =
@@ -55,7 +65,12 @@ namespace OtoFuda.Fumen
             if (isDebug)
             {
                 SetDebugData();
-                _playerInfos = new PlayerInfo[] {new PlayerInfo(), new PlayerInfo()};
+                _playerInfos = new PlayerInfo[_fumenFlowManager.Length];
+                for (int i = 0; i < _playerInfos.Length; i++)
+                {
+                    _playerInfos[i] = new PlayerInfo();
+                }
+
                 Debug.Log("Test Mode");
             }
             else if (fumenSelectSceneData != null)
@@ -68,11 +83,11 @@ namespace OtoFuda.Fumen
 
             //ハイスピ周りはPlayerManagerに渡したい。
             //というかこれMonoにしたくない
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < _playerInfos.Length; i++)
             {
                 _highSpeed[i] = _playerInfos[i].hiSpeed;
             }
-            
+
 
             //初期化
             for (int i = 0; i < 2; i++)
@@ -88,17 +103,22 @@ namespace OtoFuda.Fumen
                     moreDifficultTimings[i, k] = new List<NoteTimingInformation>();
                 }
             }
-            
-        }
 
-        private void Start()
-        {
+            for (int i = 0; i < _playerKeyInputManagers.Length; i++)
+            {
+                _playerKeyInputManagers[i].Init();
+            }
+            
             for (int i = 0; i < PlayerManager.Instance._players.Length; i++)
             {
-                var jsonReader = new JsonReadManager(_musicData);
+                var jsonReader = new JsonReadManager(_musicData, notesRootTransform);
                 jsonReader.Init(this, i);
             }
+        }
+        
 
+        public void FumenStart()
+        {
             var path = "Musics/" + _musicData.musicId;
             Debug.Log(path);
             var audioClip = Resources.Load(path, typeof(AudioClip)) as AudioClip;
@@ -108,6 +128,11 @@ namespace OtoFuda.Fumen
             StartCoroutine(FumenStartWait());
         }
 
+        public void Check()
+        {
+//            Debug.Log(mainNotes[0].Count);
+        }
+        
         private IEnumerator FumenStartWait()
         {
             var waitSec = (60 / _musicData.bpm);
@@ -119,11 +144,12 @@ namespace OtoFuda.Fumen
             yield return waitForBlankRhythm;
             SoundManager.Instance.playSound(1).Play();
             yield return waitForBlankRhythm;
-
-            for (int i = 0; i < 2; i++)
+            
+            for (int i = 0; i < _fumenFlowManager.Length; i++)
             {
                 _fumenFlowManager[i].StartFumenFlow();
             }
+            MusicManager.Instance.Startmusic(0);
         }
 
         private void SetDebugData()

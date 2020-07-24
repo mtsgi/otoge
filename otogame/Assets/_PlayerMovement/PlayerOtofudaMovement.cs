@@ -76,7 +76,7 @@ public class PlayerOtofudaMovement : PlayerMovement
             return;
         }
         
-        if (_inputManager._noteCounters[stateIndex, targetLane] == targetTimings.Count)
+        if (_inputManager.noteCounters[stateIndex, targetLane] == targetTimings.Count)
         {
             return;
         }
@@ -84,7 +84,7 @@ public class PlayerOtofudaMovement : PlayerMovement
 /*        Debug.Log(_inputManager._noteCounters[stateIndex, targetLane]);
         Debug.Log(targetLane + "___" + targetTimings[_inputManager._noteCounters[stateIndex, targetLane]]);*/
         //現在の次に来るはずのノーツ情報
-        var nextNoteTimingInfo = targetTimings[_inputManager._noteCounters[stateIndex, targetLane]];
+        var nextNoteTimingInfo = targetTimings[_inputManager.noteCounters[stateIndex, targetLane]];
 
         //入力された時点での楽曲の再生時間と、そのレーンのノーツの到達時間の差を見る
         var inputTime = _inputManager._audioSource.time;
@@ -137,7 +137,7 @@ public class PlayerOtofudaMovement : PlayerMovement
 
         
         //音札のアクティベート関数を実行
-        _inputManager._playerManager.OnUseOtoFudaCard(PlayerId, judgeResult == PlayerKeyInputManager.Judge.Perfect);
+        _inputManager._playerManager.OnUseOtofudaCard(PlayerId, judgeResult == PlayerKeyInputManager.Judge.Perfect);
 //        Debug.Log("Invoke!");
     }
 
@@ -166,8 +166,8 @@ public class PlayerOtofudaMovement : PlayerMovement
             if (_receivedGripState == PlayerGripState.GRIP &&
                 -BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
             {
-                _inputManager._noteCounters[stateIndex, targetLane]++;
-                _inputManager._playerManager._players[PlayerId].noteSimpleCount++;
+                _inputManager.noteCounters[stateIndex, targetLane]++;
+                _inputManager.noteSimpleCount++;
 //                Debug.Log("ぱふぇ！");
                 return PlayerKeyInputManager.Judge.Perfect;
             }

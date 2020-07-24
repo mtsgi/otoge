@@ -14,7 +14,8 @@ public enum PlayerFumenState
 {
 	MORE_EASY = 0,
 	DEFAULT = 1,
-	MORE_DIFFICULT = 2
+	MORE_DIFFICULT = 2,
+	End,
 }
 
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
@@ -54,9 +55,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 		public ParticleSystem[] otofudaEffects;
 		
 		
-		//ノーツ情報
-		internal int[,] noteCounters = new int[3,5];
-		internal int noteSimpleCount = 0;
+
 
 
 		//選択している音札のGameObjectのインデックス
@@ -87,6 +86,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 				playerHandCardObject[i].GetComponent<SpriteRenderer>().sprite = playerHand[i].cardPicture;
 				//Debug.Log(playerHandCardObject[i].GetComponent<SpriteRenderer>().sprite.name);
 			}
+			
 		}
 		
 		internal void FocusCard(int selectStatenum)
@@ -185,19 +185,16 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 			_players[i].Init(i);
 		}
 		
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < _players.Length; i++)
 		{
 			OnPlayerFocusCardChange(i, PlayerSelectState.CENTER);
 			OnPlayerSelectCardChange(i, PlayerSelectState.CENTER);
-		}
 
-		this.ObserveEveryValueChanged(x => _players[0].playerHp)
-			.Where(x => x >= 0)
-			.Subscribe(_ => OnPlayerHpChanged(0));
-
-		this.ObserveEveryValueChanged(x => _players[1].playerHp)
-			.Where(x => x >= 0)
-			.Subscribe(_ => OnPlayerHpChanged(1));
+			var playerId = i;
+			this.ObserveEveryValueChanged(x => _players[playerId].playerHp)
+				.Where(x => x >= 0)
+				.Subscribe(_ => OnPlayerHpChanged(playerId));
+		} 
 	}
 
 	//現在の二人のHpを送信する
@@ -269,7 +266,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 	
 	
 	//カードの効果を実行待ち状態にする
-	public void OnUseOtoFudaCard(int _playerID, bool isPerfect)
+	public void OnUseOtofudaCard(int _playerID, bool isPerfect)
 	{
 //		Debug.Log(_playerID);
 		//音札ノーツを見逃してなければ効果を登録する。
