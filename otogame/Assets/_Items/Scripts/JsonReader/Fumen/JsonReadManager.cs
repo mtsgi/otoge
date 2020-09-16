@@ -322,7 +322,7 @@ public class JsonReadManager
         }
 
 
-        //フリックのサイズ変更
+        //フリックのサイズ変更・オフセット変更
         if (notesInfo.type == 3 || notesInfo.type == 4)
         {
             var ratio = 3.0f;
@@ -337,6 +337,14 @@ public class JsonReadManager
                 else
                 {
                     ratio = notesInfo.option[0];
+                    if (notesInfo.option.Length >= 3)
+                    {
+                        //オフセットを計算して座標を更新
+                        //1レーンの長さ=1.0fとしてある
+                        var flickOffset = 1.0f * ((float) notesInfo.option[1] / (float) notesInfo.option[2]);
+                        spawnPos.x += flickOffset;
+                        spawnedObject.transform.localPosition = spawnPos;
+                    }
                 }
             }
 

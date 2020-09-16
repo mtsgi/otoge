@@ -6520,7 +6520,7 @@ MonoBehaviour:
   _serialPortSetting:
     baudRate: 57600
     selectedPort: 0
-    targetPortName: COM4
+    targetPortName: COM1
 --- !u!4 &803500091
 Transform:
   m_ObjectHideFlags: 0
