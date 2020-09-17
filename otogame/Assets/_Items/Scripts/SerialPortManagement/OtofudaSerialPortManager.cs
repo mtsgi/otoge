@@ -11,20 +11,20 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
     private OtofudaSerialDataStructure otofudaDataMaker = new OtofudaSerialDataStructure();
     private SerialPort serialStream = new SerialPort();
     [SerializeField] private SerialPortSetting _serialPortSetting;
-    
+
     public SerialPortReader serialPortReader;
     public SerialPortWriter serialPortWriter;
 
     private StringBuilder _builder = new StringBuilder();
-    
-    
+
+
     private void Start()
     {
         if (_serialPortSetting == null)
         {
             _serialPortSetting = new SerialPortSetting();
         }
-        
+
         serialStream = new SerialPort(_serialPortSetting.targetPortName, (int) _serialPortSetting.baudRate);
         try
         {
@@ -35,18 +35,18 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
             serialStream.Close();
             return;
         }
+
         serialStream.DiscardInBuffer();
         serialStream.DiscardOutBuffer();
-            
+
         serialPortReader = new SerialPortReader(serialStream);
         serialPortWriter = new SerialPortWriter(serialStream);
-        
+
         otofudaDataMaker = new OtofudaSerialDataStructure();
         serialPortReader.StartReadStream();
         serialPortReader.OnStreamRead += OnGetData;
-        
-        DontDestroyOnLoad(this);
 
+        DontDestroyOnLoad(this);
     }
 
     public void OnGetData(SerialPort serialPort, byte readData)
@@ -83,13 +83,19 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
         }
     }
 
-    public void SendFumenColor(int playerId,int[] color)
+    [ContextMenu("test")]
+    public void Test()
+    {
+        SendFumenColor(0, new int[3] {255, 255, 255});
+    }
+
+    public void SendFumenColor(int playerId, int[] color)
     {
         if (color.Length < 3)
         {
             Debug.Log("Colorの配列として与えられたデータ数が足りません");
         }
-        
+
         var data = otofudaDataMaker.MakeColorStructure(playerId, color[0], color[1], color[2]);
         if (serialStream.IsOpen)
         {
@@ -100,13 +106,13 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
     public void SendDifficultyColor(int playerId, GameDifficulty difficulty)
     {
         var data = otofudaDataMaker.MakeDifficultyStructure(playerId, difficulty);
-        
+
         if (serialStream.IsOpen)
         {
             serialPortWriter.WriteSerialPort(data);
         }
     }
-    
+
     public void SendPlayerHp(int[] playersHp)
     {
         if (playersHp.Length < 2)
@@ -114,6 +120,7 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
             Debug.Log("Hpの配列として与えられたデータ数が足りません");
             return;
         }
+
         var data = otofudaDataMaker.MakePlayerHpStructure(playersHp[0], playersHp[1]);
         if (data.Length == 0) return;
         if (serialStream.IsOpen)
@@ -121,5 +128,4 @@ public class OtofudaSerialPortManager : SingletonMonoBehaviour<OtofudaSerialPort
             serialPortWriter.WriteSerialPort(data);
         }
     }
-
 }

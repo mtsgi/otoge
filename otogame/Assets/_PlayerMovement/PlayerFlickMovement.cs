@@ -99,6 +99,15 @@ public class PlayerFlickMovement : PlayerMovement
             
         if (judgeResult != PlayerKeyInputManager.Judge.None)
         {
+            if (judgeResult == PlayerKeyInputManager.Judge.Perfect || judgeResult == PlayerKeyInputManager.Judge.Good)
+            {
+                _inputManager.ComboUp();
+            }
+            else if (judgeResult == PlayerKeyInputManager.Judge.Bad)
+            {
+                _inputManager.ComboCut();
+            }
+            
             _inputManager.judgeTextAnimators[(int) judgeResult].Play("Judge", 0, 0.0f);
         }
         else
@@ -117,7 +126,6 @@ public class PlayerFlickMovement : PlayerMovement
             _inputManager._fumenDataManager.moreDifficultNotes[PlayerId][0].DeleteNote();
             _inputManager._fumenDataManager.moreDifficultNotes[PlayerId].RemoveAt(0);
         }
-        
         
     }
 

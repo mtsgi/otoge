@@ -100,6 +100,14 @@ public class PlayerOtofudaMovement : PlayerMovement
 
         if (judgeResult != PlayerKeyInputManager.Judge.None)
         {
+            if (judgeResult == PlayerKeyInputManager.Judge.Perfect || judgeResult == PlayerKeyInputManager.Judge.Good)
+            {
+                _inputManager.ComboUp();
+            }
+            else if (judgeResult == PlayerKeyInputManager.Judge.Bad)
+            {
+                _inputManager.ComboCut();
+            }
             //ここでいったん譜面の難易度を戻しておく
             _inputManager.judgeTextAnimators[(int) judgeResult].Play("Judge", 0, 0.0f);
         }

@@ -30,7 +30,7 @@ namespace OtoFuda.Fumen
         private PlayerInfo[] _playerInfos = new PlayerInfo[2];
 
         //実寸/10で定義する
-        internal float laneLength = 0.7f;
+        internal float laneLength = 0.5f;
         public float[] _highSpeed = {8.0f, 8.0f};
 
         [Serializable]

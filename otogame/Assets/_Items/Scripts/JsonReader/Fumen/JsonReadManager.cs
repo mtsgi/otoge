@@ -283,16 +283,16 @@ public class JsonReadManager
         }
 
 
-        //一小節あたりの長さ(秒)
+        //一小節あたりの(秒)
         //60 秒/_bpm (拍)で 1拍 あたり何秒なのかを算出。
         //これにbeat(拍子数)をかけることで一小節あたりの時間を計算する。
-        var measureLength = (60 / _bpm) * _beat;
+        var measureLength = (60.0f / _bpm) * _beat;
 
         /*Debug.Log($"{60}/{_bpm}*{_beat}");*/
 
 
         //一小節あたりの時間がわかれば何秒で到達するノーツなのかを算出できる。
-        var reachFrame = measureLength * ((float) notesInfo.measure - 1) +
+        var reachTime = measureLength * ((float) notesInfo.measure - 1) +
                          measureLength * ((float) notesInfo.position / (float) notesInfo.split) +
                          (_musicData.offset * 0.001f);
 
@@ -300,7 +300,7 @@ public class JsonReadManager
         var _laneLength = _fumenDataManager.laneLength;
 
         spawnPos = new Vector3(lane + (playerID * 20),
-            reachFrame * _laneLength * _fumenDataManager._highSpeed[playerID],
+            reachTime * _laneLength * _fumenDataManager._highSpeed[playerID],
             0 + _ZoffSet);
 
 
@@ -326,7 +326,7 @@ public class JsonReadManager
 
 
         //ノーツ本体のスクリプトに値を格納
-        _noteObject.SetNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachFrame, playerID,
+        _noteObject.SetNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachTime, playerID,
             _fumenDataManager._highSpeed[playerID], _laneLength);
 
 
@@ -339,7 +339,7 @@ public class JsonReadManager
         if (lane > 0)
         {
             targetTimingList[playerID, lane - 1]
-                .Add(new FumenDataManager.NoteTimingInformation(notesInfo.type, reachFrame));
+                .Add(new FumenDataManager.NoteTimingInformation(notesInfo.type, reachTime));
         }
 
         if (notesInfo.type == 5)
