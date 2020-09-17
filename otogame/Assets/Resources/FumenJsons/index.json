@@ -2,7 +2,7 @@
 	"index": 
 	[
     {
-      "id": "otofuda",
+      "song_id": "otofuda",
       "name": "オトフダビヨリ",
       "artist": "idady",
       "bpm": 180.0,
@@ -19,7 +19,7 @@
       "demo": 2000
     },
     {
-      "id": "puzzle",
+      "song_id": "puzzle",
       "name": "Puzzle",
       "artist": "idady",
       "bpm": 120.0,
@@ -36,7 +36,7 @@
       "demo": 2000
     },
     {
-      "id": "sublimation",
+      "song_id": "sublimation",
       "name": "Sublimation",
       "artist": "idady",
       "bpm": 165.0,
@@ -53,7 +53,7 @@
       "demo": 2000
     }, 
       {
-        "id": "sample",
+        "song_id": "sample",
         "name": "sample",
         "artist": "sample",
         "bpm": 180.0,
@@ -71,6 +71,27 @@
         "extra": -1,
         "author": "sample",
         "comment": "sample",
+        "demo": 2000
+      },
+      {
+        "song_id": "bpmrt",
+        "name": "bpmrt",
+        "artist": "bpmrt",
+        "bpm": 180.0,
+        "dispbpm": "9999",
+        "color": [
+          230,
+          240,
+          205
+        ],
+        "offset": 1000,
+        "raku": -1,
+        "easy": 2,
+        "normal": 4,
+        "hard": 8,
+        "extra": -1,
+        "author": "bpmrt",
+        "comment": "bpmrt",
         "demo": 2000
       }
     ]

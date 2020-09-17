@@ -2,12 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using OtoFuda.Fumen.index;
+using UniRx.Async;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class IndexJsonReadManager
 {
+    private const string GetFumenDataUri = "https://otofuda.microcms.io/api/v1/songs?limit=100";
+    private const string GetFumenDataApiKey = "91c69bf8-3df5-445f-81e7-30b54ab4a7d4";
+
     private readonly Transform _targetCanvasTransform;
     private string fileName = "index";
     private int _playerId;
@@ -26,58 +31,58 @@ public class IndexJsonReadManager
 
     private PlayerInfo _playerInfo = new PlayerInfo();
 
+    private IndexInfo _indexInfo = new IndexInfo();
+
     public IndexJsonReadManager(PlayerInfo playerInfo, int playerId, Transform targetCanvas)
     {
         _playerInfo = playerInfo;
         _playerId = playerId;
         _targetCanvasTransform = targetCanvas;
 
-        Init();
+//        Init();
     }
 
 
-    private void Init()
+    public async UniTask Init()
     {
-        Debug.Log(_playerInfo);
+        _levelselect = _targetCanvasTransform.Find("LevelSelect").gameObject;
+        _levelselect.SetActive(false);
+        var loadTask = LoadIndexJson();
+        await loadTask;
+//        Debug.Log(loadTask.Result);
+        _indexInfo = Utf8Json.JsonSerializer.Deserialize<IndexInfo>(loadTask.Result);
+        Debug.Log(_indexInfo.contents[0].song_id);
+
+        var generateTask = TextureGenerate(_indexInfo);
+        await generateTask;
+
         _targetCanvasTransform.Find("HiSpeedText").GetComponent<Text>().text =
             $"HI-SPEED : {_playerInfo.hiSpeed:0.0}";
 
-        _levelselect = _targetCanvasTransform.Find("LevelSelect").gameObject;
-        _levelselect.SetActive(false);
-        draw();
-    }
-
-
-    // Start時にjson読み込み
-    private void Start()
-    {
-    }
-
-    private void Update()
-    {
+        Draw();
     }
 
     public void ScrollUp()
     {
         if (focus == 0) focus = indexLength - 1;
         else focus -= 1;
-        draw();
+        Draw();
     }
 
     public void ScrollDown()
     {
         if (focus == indexLength - 1) focus = 0;
         else focus += 1;
-        draw();
+        Draw();
     }
 
     public void SelectMusic(int _focus)
     {
         _levelselect.SetActive(true);
-        var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
-        var jsonText = textAsset.text;
-        var _index = JsonUtility.FromJson<IndexInfo>(jsonText);
-        IndexContent m = _index.index[_focus];
+        /*var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;*/
+        /*var jsonText = textAsset.text;*/
+        /*var _index = JsonUtility.FromJson<IndexInfo>(jsonText);*/
+        IndexContent m = _indexInfo.contents[_focus];
 
         if (isLevelSelectOpen && !isSelectLevel)
         {
@@ -115,9 +120,9 @@ public class IndexJsonReadManager
         _levelselect.transform.Find("MusicAuthor").gameObject.GetComponent<Text>().text = "譜面制作：" + m.author;
 
         //// 楽曲IDからTextureのパスを取得
-        string jacketPath = "FumenJsons/" + m.id + "/" + m.id;
-        _levelselect.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture =
-            Resources.Load<Texture>(jacketPath);
+        string jacketPath = "FumenJsons/" + m.song_id + "/" + m.song_id;
+        _levelselect.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture = m.jacket.texture;
+        /*Resources.Load<Texture>(jacketPath);*/
 
         _levelselect.transform.Find("MusicComment").gameObject.GetComponent<Text>().text = m.comment;
 
@@ -128,18 +133,36 @@ public class IndexJsonReadManager
 */
     }
 
+    private async UniTask<string> LoadIndexJson()
+    {
+        //ウェブリクエストを生成
+        var request = UnityEngine.Networking.UnityWebRequest.Get(GetFumenDataUri);
+        request.SetRequestHeader("X-API-KEY", GetFumenDataApiKey);
+        //通信待ち
+        await request.SendWebRequest();
+        //エラーが発生したか
+        if (request.isHttpError || request.isNetworkError)
+        {
+            //エラー内容
+            Debug.Log(request.error);
+            return "";
+        }
+
+        return request.downloadHandler.text;
+    }
+
     public void LoadScene(int _focus)
     {
         _levelselect.SetActive(true);
-        var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
-        var jsonText = textAsset.text;
-        var _index = JsonUtility.FromJson<IndexInfo>(jsonText);
-        IndexContent m = _index.index[_focus];
+        /*var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;*/
+        /*var jsonText = textAsset.text;*/
+        /*var _index = JsonUtility.FromJson<IndexInfo>(jsonText);*/
+        IndexContent m = _indexInfo.contents[_focus];
 
         if (isLevelSelectOpen && isSelectLevel)
         {
-            MusicSelectManager.Instance.musicData.musicId = m.id;
-            MusicSelectManager.Instance.musicData.jsonFilePath = m.id + "/" + m.id + "/" + m.id;
+            MusicSelectManager.Instance.musicData.musicId = m.song_id;
+            MusicSelectManager.Instance.musicData.jsonFilePath = m.song_id + "/" + m.song_id + "/" + m.song_id;
             MusicSelectManager.Instance.musicData.bpm = m.bpm;
             MusicSelectManager.Instance.musicData.offset = m.offset;
 
@@ -234,17 +257,13 @@ public class IndexJsonReadManager
         _targetCanvasTransform.Find("HiSpeedText").GetComponent<Text>().text = $"HI-SPEED : {newHiSpeed:0.0}";
     }
 
-    internal void serializeFumendata()
+    private void Draw()
     {
-    }
-
-    [ContextMenu("曲目を生成")]
-    public void draw()
-    {
-        var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
+        /*var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
         var jsonText = textAsset.text;
-        var _index = JsonUtility.FromJson<IndexInfo>(jsonText);
-        indexLength = _index.index.Count;
+        var _index = JsonUtility.FromJson<IndexInfo>(jsonText);*/
+        var index = _indexInfo;
+        indexLength = index.contents.Count;
 
         var music = (GameObject) Resources.Load("FumenJsons/Prefabs/Music");
 
@@ -260,7 +279,7 @@ public class IndexJsonReadManager
             else if (idx == indexLength) idx = 0;
             else if (idx == indexLength + 1) idx = 1;
 
-            IndexContent m = _index.index[idx];
+            IndexContent m = index.contents[idx];
             focusing.transform.Find("MusicName").gameObject.GetComponent<Text>().text = m.name;
             focusing.transform.Find("MusicArtist").gameObject.GetComponent<Text>().text = m.artist;
 
@@ -268,64 +287,41 @@ public class IndexJsonReadManager
             focusing.transform.Find("MusicNormalNum").gameObject.GetComponent<Text>().text = m.normal.ToString();
             focusing.transform.Find("MusicHardNum").gameObject.GetComponent<Text>().text = m.hard.ToString();
 
-            focusing.transform.Find("MusicColor").GetComponent<Image>().color =
-                new Color(m.color[0] / 255, m.color[1] / 255, m.color[2] / 255, .3f);
-            //
-            if (i == 0)
+            if (m.ColorArray != null && m.ColorArray.Length == 3)
             {
-                focusing.transform.Find("MusicBPM").gameObject.GetComponent<Text>().text = "BPM " + m.dispbpm;
-                focusing.transform.Find("MusicAuthor").gameObject.GetComponent<Text>().text = "譜面制作：" + m.author;
+                focusing.transform.Find("MusicColor").GetComponent<Image>().color =
+                    new Color(m.ColorArray[0] / 255.0f, m.ColorArray[1] / 255.0f, m.ColorArray[2] / 255.0f, .3f);
+                //
+                if (i == 0)
+                {
+                    focusing.transform.Find("MusicBPM").gameObject.GetComponent<Text>().text = "BPM " + m.dispbpm;
+                    focusing.transform.Find("MusicAuthor").gameObject.GetComponent<Text>().text = "譜面制作：" + m.author;
 
-                //// 楽曲IDからTextureのパスを取得
-                string jacketPath = "FumenJsons/" + m.id + "/" + m.id;
-                focusing.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture =
-                    Resources.Load<Texture>(jacketPath);
+                    //// 楽曲IDからTextureのパスを取得
+                    string jacketPath = "FumenJsons/" + m.song_id + "/" + m.song_id;
+                    focusing.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture =
+                        m.jacket.texture;
+                    /*Resources.Load<Texture>(jacketPath);*/
 
-                OtofudaSerialPortManager.Instance.SendFumenColor(_playerId, m.color);
+                    OtofudaSerialPortManager.Instance.SendFumenColor(_playerId, m.ColorArray);
+                }
             }
         }
+    }
 
-        //foreach(IndexContent v in _index.index) {
-        //music.name = v.name;
-        //var _music = Instantiate(music,GameObject.Find("Canvas").transform.Find("MusicScroll/Viewport/Content"));
-        //_music.GetComponent<RectTransform>().localPosition += new Vector3( 0, -180 - 120 * cnt, 0 );
-        //cnt++;
-        //// ボタンの色
-        //_music.transform.Find("MusicColor").GetComponent<Image>().color = new Color(v.color[0]/255, v.color[1]/255, v.color[2]/255, .3f);
+    private async UniTask TextureGenerate(IndexInfo indexInfo)
+    {
+        var contents = indexInfo.contents;
+        for (int i = 0; i < contents.Count; i++)
+        {
+            contents[i].jacket.texture = await GetTexture(contents[i].jacket.url);
+        }
+    }
 
-        //// 楽曲情報をボタンに表示
-        //_music.transform.Find("MusicName").gameObject.GetComponent<Text>().text = v.name;
-        //_music.transform.Find("MusicArtist").gameObject.GetComponent<Text>().text = v.artist;
-        //_music.transform.Find("MusicBPM").gameObject.GetComponent<Text>().text = "BPM " + v.dispbpm;
-        //_music.transform.Find("MusicAuthor").gameObject.GetComponent<Text>().text = "譜面制作：" + v.author;
-
-        //_music.transform.Find("MusicEasyNum").gameObject.GetComponent<Text>().text = v.easy.ToString();
-        //_music.transform.Find("MusicNormalNum").gameObject.GetComponent<Text>().text = v.normal.ToString();
-        //_music.transform.Find("MusicHardNum").gameObject.GetComponent<Text>().text = v.hard.ToString();
-
-        //// 楽曲IDからTextureのパスを取得
-        //string jacketPath = "FumenJsons/" + v.id + "/" + v.id;
-        //_music.transform.Find("MusicJacket").gameObject.GetComponent<RawImage>().texture = Resources.Load<Texture>(jacketPath) ;
-
-        //// クリック時のイベントを設定
-        //_music.GetComponent<Button>().onClick.AddListener( ()=> {
-        //    Debug.Log("[楽曲選択]");
-        //    Debug.Log("楽曲を選択しました:" + v.name);
-        //} );
-        //}
-
-        //Debug.Log(_index.index.Count);
-        //Debug.Log(_index.index[0].name);
-        //Debug.Log(_index.index[0].artist);
-        //Debug.Log(_index.index[0].bpm);
-        //Debug.Log(_index.index[0].color[0]+" "+_index.index[0].color[1]+" "+_index.index[0].color[2]);
-        //Debug.Log(_index.index[0].offset);
-        //Debug.Log(_index.index[0].raku);
-        //Debug.Log(_index.index[0].easy);
-        //Debug.Log(_index.index[0].normal);
-        //Debug.Log(_index.index[0].hard);
-        //Debug.Log(_index.index[0].extra);
-        //Debug.Log(_index.index[0].author);
-        //Debug.Log(_index.index[0].comment);
+    private async UniTask<Texture> GetTexture(string uri)
+    {
+        var r = UnityWebRequestTexture.GetTexture(uri);
+        await r.SendWebRequest(); // UnityWebRequestをawaitできる
+        return DownloadHandlerTexture.GetContent(r);
     }
 }

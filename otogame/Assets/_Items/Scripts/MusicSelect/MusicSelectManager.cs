@@ -60,7 +60,7 @@ public partial class MusicSelectManager : SingletonMonoBehaviour<MusicSelectMana
         base.Awake();
     }
 
-    private void Start()
+    private async void Start()
     {
         musicData = new MusicData();
 
@@ -75,12 +75,13 @@ public partial class MusicSelectManager : SingletonMonoBehaviour<MusicSelectMana
         //MainSceneに受け渡す用のデータにPlayerInfoを渡しておく。
         //上で生成されてれば初期値が入ったやつがくる
         _fumenSelectSceneData.playerInfos = titleTransitionData.playerInfos;
-        Debug.Log(_fumenSelectSceneData.playerInfos[0].hiSpeed);
+//        Debug.Log(_fumenSelectSceneData.playerInfos[0].hiSpeed);
 
         //IndexJsonReaderを初期化
         for (int i = 0; i < titleTransitionData.playerInfos.Length; i++)
         {
             keyInputSettings[i].InitKeyInputSetting(titleTransitionData.playerInfos[i], i);
+            await keyInputSettings[i].targetJsonReadManager.Init();
         }
     }
 

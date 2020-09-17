@@ -13,8 +13,8 @@ namespace OtoFuda.Fumen
         public List<NotesInfo> normal = null;
         public List<NotesInfo> hard = null;
         public List<NotesInfo> extra = null;
+        public FumenDataInfo info = null;
     }
-
 
 
     [Serializable]
@@ -29,4 +29,11 @@ namespace OtoFuda.Fumen
         public List<NotesInfo> end = null;
     }
 
+    [Serializable]
+    public class FumenDataInfo
+    {
+        public float bpm = 180;
+        public int beat = 4;
+        public int offset = 0;
+    }
 }

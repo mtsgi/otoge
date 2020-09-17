@@ -53,7 +53,7 @@ public class OtofudaSerialDataStructure
         {
             builder.Append(colorBuffer[i]+"/");
         }
-        Debug.Log(builder.ToString());
+//        Debug.Log(builder.ToString());
 /*        Debug.Log(BitConverterNonAlloc.ToInt16(colorBuffer, 1));*/
         //
         

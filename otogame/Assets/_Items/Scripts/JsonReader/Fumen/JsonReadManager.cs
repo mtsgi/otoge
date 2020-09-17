@@ -77,7 +77,11 @@ public class JsonReadManager
         var jsonPath = "";
         if (mode == FumenDataManager.MusicDataMode.Game || mode == FumenDataManager.MusicDataMode.Debug)
         {
-            jsonPath = Application.streamingAssetsPath + "/FumenJsons/" + fileName + ".json";
+            Debug.Log(fileName);
+            /*jsonPath = Application.streamingAssetsPath + "/FumenJsons/" + fileName + ".json";
+            jsonPath = Application.streamingAssetsPath + "/FumenJsons/" + fileName + ".json";*/
+            /*jsonPath = Resources.Load<TextAsset>("FumenJsons/" + fileName).ToString();*/
+            jsonPath = "FumenJsons/" + fileName;
         }
         else if (mode == FumenDataManager.MusicDataMode.AutoPlay)
         {
@@ -94,12 +98,14 @@ public class JsonReadManager
             return;
         }
 
-        if (!File.Exists(jsonPath))
+        //いっかいオミットしておく
+        /*if (!File.Exists(jsonPath))
         {
             Debug.LogError("Json Not Found");
             return;
         }
 
+        Debug.Log(jsonPath);
         using (var fs = new FileStream(jsonPath, FileMode.Open))
         {
             using (var sr = new StreamReader(fs))
@@ -109,11 +115,31 @@ public class JsonReadManager
                 SetNoteData(fumen);
                 Debug.Log($"Fumen {fileName} is loaded!");
             }
+        }*/
+
+        var jsonText = Resources.Load<TextAsset>("FumenJsons/" + fileName).ToString();
+        if (string.IsNullOrEmpty(jsonText))
+        {
+            Debug.LogError("Json Not Found");
+            return;
         }
+
+        var fumen = Utf8Json.JsonSerializer.Deserialize<FumenInfo>(jsonText);
+        SetNoteData(fumen);
     }
 
     private void SetNoteData(FumenInfo fumenInfo)
     {
+        if (fumenInfo.info != null)
+        {
+            _musicData.bpm = fumenInfo.info.bpm;
+            _musicData.beat = fumenInfo.info.beat;
+            _musicData.offset = fumenInfo.info.offset;
+            /*
+            Debug.Log("Music Data is Updated");
+        */
+        }
+
         //難易度に応じて全てのノーツを生成し、FumenDataManagerのMainNotesの中にしまう。
         switch (GameDifficulty)
         {
