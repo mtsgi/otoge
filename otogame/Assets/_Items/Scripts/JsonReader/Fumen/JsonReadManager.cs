@@ -33,6 +33,8 @@ public class JsonReadManager
 
     private Transform _notesRootTransform;
 
+    private NotesInfo eofNote;
+
     public JsonReadManager(MusicData musicData, Transform rootTransform)
     {
         _musicData = musicData;
@@ -116,8 +118,17 @@ public class JsonReadManager
                 Debug.Log($"Fumen {fileName} is loaded!");
             }
         }*/
+        var jsonText = "";
+        using (var fs = new FileStream(jsonPath, FileMode.Open))
+        {
+            using (var sr = new StreamReader(fs))
+            {
+                jsonText = sr.ReadToEnd();
+            }
+        }
 
-        var jsonText = Resources.Load<TextAsset>("FumenJsons/" + fileName).ToString();
+        Debug.Log(jsonPath);
+//        var jsonText = Resources.Load<TextAsset>(jsonPath).ToString();
         if (string.IsNullOrEmpty(jsonText))
         {
             Debug.LogError("Json Not Found");
@@ -223,6 +234,7 @@ public class JsonReadManager
                 break;
         }
 
+
         //ノーツのリストをソートする
         _fumenDataManager.mainNotes[playerID].Sort((x, y) => x.reachFrame.CompareTo(y.reachFrame));
         _fumenDataManager.moreDifficultNotes[playerID].Sort((x, y) => x.reachFrame.CompareTo(y.reachFrame));
@@ -232,6 +244,26 @@ public class JsonReadManager
         {
             _fumenDataManager.timings[playerID, i].Sort((x, y) => x.reachTime.CompareTo(y.reachTime));
             _fumenDataManager.moreDifficultTimings[playerID, i].Sort((x, y) => x.reachTime.CompareTo(y.reachTime));
+        }
+
+        BeatLineGenerate();
+    }
+
+    private void BeatLineGenerate()
+    {
+        for (int i = 0; i < eofNote.measure; i++)
+        {
+            var beatLineInfo = new NotesInfo();
+            beatLineInfo.type = -1;
+            beatLineInfo.measure = i;
+            beatLineInfo.lane = 3;
+            beatLineInfo.position = 0;
+            beatLineInfo.split = 4;
+            beatLineInfo.option = new float[0];
+            beatLineInfo.end = new List<NotesInfo>();
+
+            NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.timings,
+                beatLineInfo, _musicData.bpm, _musicData.beat, 0);
         }
     }
 
@@ -256,6 +288,9 @@ public class JsonReadManager
             case 0:
                 Debug.Log("Break");
                 break;
+            case -1:
+                noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/BeatLine");
+                break;
             case 1:
                 noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/NormalNote");
                 break;
@@ -272,13 +307,20 @@ public class JsonReadManager
                 noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/OtofudaNote");
                 lane = 3;
                 break;
+            case 95:
+                Debug.LogError($" {notesInfo.type} 生成");
+                return;
+                noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/BeatLine");
+                lane = 3;
+                break;
             case 99:
                 noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/OtherNote");
+                noteGameObject.gameObject.name = "EndNote";
                 break;
             //エラーが怖いのでなんもないときはとりあえずOtherを立ててエラーログを吐く
             default:
-                noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/OtherNote");
-                Debug.LogError("ノーツ生成時にエラーが発生しました。");
+                Debug.LogError($"ノーツ生成時にエラーが発生しました。 {notesInfo.type}");
+                return;
                 break;
         }
 
@@ -293,8 +335,8 @@ public class JsonReadManager
 
         //一小節あたりの時間がわかれば何秒で到達するノーツなのかを算出できる。
         var reachTime = measureLength * ((float) notesInfo.measure - 1) +
-                         measureLength * ((float) notesInfo.position / (float) notesInfo.split) +
-                         (_musicData.offset * 0.001f);
+                        measureLength * ((float) notesInfo.position / (float) notesInfo.split) +
+                        (_musicData.offset * 0.001f);
 
         //laneの長さ
         var _laneLength = _fumenDataManager.laneLength;
@@ -329,11 +371,17 @@ public class JsonReadManager
         _noteObject.SetNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachTime, playerID,
             _fumenDataManager._highSpeed[playerID], _laneLength);
 
-
-/*
-		Debug.Log(FumenDataManager.Instance.mainNotes[0].Count);
-*/
         targetNotesList.Add(_noteObject);
+
+
+        if (notesInfo.type == -1)
+        {
+            var renderer = spawnedObject.GetComponent<SpriteRenderer>();
+            var sliceSize = renderer.size;
+            renderer.drawMode = SpriteDrawMode.Sliced;
+            renderer.size = new Vector2(sliceSize.x * 5, sliceSize.y);
+        }
+
 
         //タイミング情報だけを格納して扱いやすくする
         if (lane > 0)
@@ -420,10 +468,16 @@ public class JsonReadManager
             spawnedLongObject.transform.parent = GameObject.Find("Notes/").transform;
             spawnedLongObject.transform.parent = targetNotesList[endNoteIndex].gameObject.transform;
         }
+
+        //EOFノーツを外部に格納する。
+        if (notesInfo.type == 99)
+        {
+            eofNote = notesInfo;
+        }
     }
 
 
-    [ContextMenu("test")]
+    /*[ContextMenu("test")]
     private void test()
     {
         var textAsset = Resources.Load("FumenJsons/" + fileName) as TextAsset;
@@ -431,5 +485,5 @@ public class JsonReadManager
 
         var fumenRaku = JsonUtility.FromJson<FumenInfo>(jsonText);
         Debug.Log(fumenRaku.easy[0].end[0].type); //114514
-    }
+    }*/
 }

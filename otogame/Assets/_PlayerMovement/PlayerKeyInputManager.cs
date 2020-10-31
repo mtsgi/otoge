@@ -223,100 +223,108 @@ public class PlayerKeyInputManager : MonoBehaviour
                         //Debug.LogError("Miss" + (int) Judge.Miss);
                     }*/
 
-
-                    //ロングノーツの場合、始点をミスしたら終点もミス扱いにする
-                    if (targetTimings[noteCounters[stateIndex, index]].noteType == 2)
+                    if (targetTimings[noteCounters[stateIndex, index]].noteType == 1 ||
+                        targetTimings[noteCounters[stateIndex, index]].noteType == 2 ||
+                        targetTimings[noteCounters[stateIndex, index]].noteType == 3 ||
+                        targetTimings[noteCounters[stateIndex, index]].noteType == 4 ||
+                        targetTimings[noteCounters[stateIndex, index]].noteType == 5)
                     {
-                        //通過に応じてRemove
-                        if (stateIndex == 1)
+                        
+                        //ロングノーツの場合、始点をミスしたら終点もミス扱いにする
+                        if (targetTimings[noteCounters[stateIndex, index]].noteType == 2)
                         {
-                            _fumenDataManager.mainNotes[playerID][0].DeleteNote();
-                            _fumenDataManager.mainNotes[playerID].RemoveAt(0);
+                            //通過に応じてRemove
+                            if (stateIndex == 1)
+                            {
+                                _fumenDataManager.mainNotes[playerID][0].DeleteNote();
+                                _fumenDataManager.mainNotes[playerID].RemoveAt(0);
 
-                            _fumenDataManager.mainNotes[playerID][0].DeleteNote();
-                            _fumenDataManager.mainNotes[playerID].RemoveAt(0);
-                        }
-                        else if (stateIndex == 2)
-                        {
-                            _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
-                            _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                                _fumenDataManager.mainNotes[playerID][0].DeleteNote();
+                                _fumenDataManager.mainNotes[playerID].RemoveAt(0);
+                            }
+                            else if (stateIndex == 2)
+                            {
+                                _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
+                                _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
 
-                            _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
-                            _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
-                        }
+                                _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
+                                _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                            }
 
-                        if (_playerManager._players[playerID].FumenState == targetState)
-                        {
-                            var prevValue = _playerManager._players[playerID].playerHp;
-                            var currentValue = Mathf.Clamp(prevValue - 5, 0,
-                                _playerManager._players[playerID].playerMaxHp);
-                            var slider = _playerManager._players[playerID].playerHPSlider;
-
-                            _playerManager._players[playerID].playerHp = currentValue;
-                            slider.value = currentValue;
-
-                            ComboCut();
-                            judgeTextAnimators[(int) Judge.Miss].Play("Judge", 0, 0.0f);
-                            //Debug.LogError("Miss");
-                        }
-
-                        //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
-                        if (targetTimings[noteCounters[stateIndex, index]].noteType == 5)
-                        {
                             if (_playerManager._players[playerID].FumenState == targetState)
                             {
-                                _playerManager._players[playerID].FumenState = PlayerFumenState.DEFAULT;
-                            }
-                        }
+                                var prevValue = _playerManager._players[playerID].playerHp;
+                                var currentValue = Mathf.Clamp(prevValue - 5, 0,
+                                    _playerManager._players[playerID].playerMaxHp);
+                                var slider = _playerManager._players[playerID].playerHPSlider;
 
-                        //2ノーツ分カウンターを進める
-                        noteCounters[stateIndex, index] += 2;
-                        noteSimpleCount += 2;
+                                _playerManager._players[playerID].playerHp = currentValue;
+                                slider.value = currentValue;
+
+                                ComboCut();
+                                judgeTextAnimators[(int) Judge.Miss].Play("Judge", 0, 0.0f);
+                                //Debug.LogError("Miss");
+                            }
+
+                            //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
+                            if (targetTimings[noteCounters[stateIndex, index]].noteType == 5)
+                            {
+                                if (_playerManager._players[playerID].FumenState == targetState)
+                                {
+                                    _playerManager._players[playerID].FumenState = PlayerFumenState.DEFAULT;
+                                }
+                            }
+
+                            //todo ロングの終点 = 
+                            //2ノーツ分カウンターを進める
+                            noteCounters[stateIndex, index] += 2;
+                            noteSimpleCount += 2;
 //                        Debug.Log("long");
-                    }
-                    else
-                    {
-                        //引数で渡したStateが現在のプレイヤーのステートと同じであればMissの判定をする。
-                        if (_playerManager._players[playerID].FumenState == targetState)
+                        }
+                        else
                         {
+                            //引数で渡したStateが現在のプレイヤーのステートと同じであればMissの判定をする。
+                            if (_playerManager._players[playerID].FumenState == targetState)
+                            {
 //                            Debug.Log("State : " + _playerManager._players[playerID].FumenState);
 
-                            var prevValue = _playerManager._players[playerID].playerHp;
-                            var currentValue = Mathf.Clamp(prevValue - 5, 0,
-                                _playerManager._players[playerID].playerMaxHp);
-                            var slider = _playerManager._players[playerID].playerHPSlider;
+                                var prevValue = _playerManager._players[playerID].playerHp;
+                                var currentValue = Mathf.Clamp(prevValue - 5, 0,
+                                    _playerManager._players[playerID].playerMaxHp);
+                                var slider = _playerManager._players[playerID].playerHPSlider;
 
-                            _playerManager._players[playerID].playerHp = currentValue;
-                            slider.value = currentValue;
+                                _playerManager._players[playerID].playerHp = currentValue;
+                                slider.value = currentValue;
 
-                            ComboCut();
-                            judgeTextAnimators[(int) Judge.Miss].Play("Judge", 0, 0.0f);
-                            // Debug.LogError(_playerManager._players[playerID].FumenState +"_______"+targetState);
-                        }
-
-                        //通過に応じてRemove
-                        if (stateIndex == 1)
-                        {
-                            _fumenDataManager.mainNotes[playerID][0].DeleteNote();
-                            _fumenDataManager.mainNotes[playerID].RemoveAt(0);
-                        }
-                        else if (stateIndex == 2)
-                        {
-                            _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
-                            _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
-                        }
-
-                        //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
-                        if (targetTimings[noteCounters[stateIndex, index]].noteType == 5)
-                        {
-                            if (_playerManager._players[playerID].FumenState == targetState)
-                            {
-                                _playerManager._players[playerID].FumenState = PlayerFumenState.DEFAULT;
+                                ComboCut();
+                                judgeTextAnimators[(int) Judge.Miss].Play("Judge", 0, 0.0f);
+                                // Debug.LogError(_playerManager._players[playerID].FumenState +"_______"+targetState);
                             }
-                        }
 
-                        noteCounters[stateIndex, index]++;
-                        noteSimpleCount++;
+                            //通過に応じてRemove
+                            if (stateIndex == 1)
+                            {
+                                _fumenDataManager.mainNotes[playerID][0].DeleteNote();
+                                _fumenDataManager.mainNotes[playerID].RemoveAt(0);
+                            }
+                            else if (stateIndex == 2)
+                            {
+                                _fumenDataManager.moreDifficultNotes[playerID][0].DeleteNote();
+                                _fumenDataManager.moreDifficultNotes[playerID].RemoveAt(0);
+                            }
+
+                            //音札ノーツをスルーしたとき、譜面のステートをデフォに戻す
+                            if (targetTimings[noteCounters[stateIndex, index]].noteType == 5)
+                            {
+                                if (_playerManager._players[playerID].FumenState == targetState)
+                                {
+                                    _playerManager._players[playerID].FumenState = PlayerFumenState.DEFAULT;
+                                }
+                            }
+
+                            noteCounters[stateIndex, index]++;
+                            noteSimpleCount++;
+                        }
                     }
 
 

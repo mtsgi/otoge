@@ -669,7 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d4d3ff2b6da4261a32752f2747999b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicDataMode: 1
+  musicDataMode: 0
   debugMusicData: {fileID: 11400000, guid: 21c23c7b27bc049429d854a1ba84ef9a, type: 2}
   notesRootTransform: {fileID: 1202330131}
   _fumenFlowManager:
@@ -683,7 +683,7 @@ MonoBehaviour:
     bpm: 60
     beat: 4
     offset: 0
-    levels: 0200000001000000
+    levels: 0000000001000000
     musicId: otofuda
   _highSpeed:
   - 8

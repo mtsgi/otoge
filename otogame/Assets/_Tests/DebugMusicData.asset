@@ -16,5 +16,5 @@ MonoBehaviour:
   bpm: 180
   beat: 4
   offset: 0
-  levels: 0200000001000000
+  levels: 0000000001000000
   musicId: otofuda

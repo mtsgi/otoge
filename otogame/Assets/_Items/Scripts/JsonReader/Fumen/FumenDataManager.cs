@@ -22,6 +22,8 @@ namespace OtoFuda.Fumen
         internal List<NoteObject>[] mainNotes = new List<NoteObject>[2];
         internal List<NoteObject>[] moreEasyNotes = new List<NoteObject>[2];
         internal List<NoteObject>[] moreDifficultNotes = new List<NoteObject>[2];
+        internal List<NoteObject>[] beatLineNotes = new List<NoteObject>[2];
+
         public Transform notesRootTransform;
         [SerializeField] private FumenFlowManager[] _fumenFlowManager;
         [SerializeField] private PlayerKeyInputManager[] _playerKeyInputManagers;
