@@ -13,39 +13,41 @@ public class PlayerOtofudaMovement : PlayerMovement
 */
 
     private PlayerGripState _receivedGripState;
+
     //フリックの判定を持つために一時的に代入しておく変数
     private int _tmpNoteType;
-    
+
     private void OnEnable()
     {
         GetPlayerGripGesture.OnGetPlayerGripGesture += OnGetPlayerGripGesture;
     }
 
-    
-    public override void PlayerMovementCheck()
+
+    public override void PlayerMovementCheck(float inputMovementTime, List<NoteTimingInformation>[] timings)
     {
         //Debug.Log("てーすと:"+_receivedGripState);
         if (_getPlayerGripGesture._PlayerGripState != PlayerGripState.RELEASE)
         {
             _receivedGripState = _getPlayerGripGesture._PlayerGripState;
-            
-            InputFunction(2, _inputManager._fumenDataManager.timings[PlayerId, 2],
-                _inputManager._playerManager._players[PlayerId].FumenState);
+
+            InputFunction(inputMovementTime, 2, timings[2],
+                _keyInputManager.PlayerManager._players[PlayerId].FumenState);
+            /*InputFunction(2, _keyInputManager._fumenDataManager.defaultTimings[PlayerId, 2],
+                _keyInputManager._playerManager._players[PlayerId].FumenState);*/
         }
-        
     }
 
 
-    private void OnGetPlayerGripGesture(int _playerId, PlayerGripState _gripState)
+    private void OnGetPlayerGripGesture(int playerId, PlayerGripState gripState)
     {
-        if (_playerId != PlayerId) return;
-        
-        _receivedGripState = _gripState;
+        if (playerId != PlayerId) return;
+
+        _receivedGripState = gripState;
 
         if (_receivedGripState == PlayerGripState.RELEASE)
         {
-            _inputManager.keyBeamController.BeamOffAll();
-            /*foreach (var t in _inputManager.laneLight)
+            _keyInputManager.keyBeamController.BeamOffAll();
+            /*foreach (var t in _keyInputManager.laneLight)
             {
                 t.SetActive(false);
 //                Debug.Log("おふった");
@@ -53,8 +55,8 @@ public class PlayerOtofudaMovement : PlayerMovement
         }
         else if (_receivedGripState == PlayerGripState.GRIP)
         {
-            _inputManager.keyBeamController.BeamOnAll();
-            /*foreach (var t in _inputManager.laneLight)
+            _keyInputManager.keyBeamController.BeamOnAll();
+            /*foreach (var t in _keyInputManager.laneLight)
             {
                 t.SetActive(true);
              //   Debug.Log("おんった");
@@ -62,128 +64,77 @@ public class PlayerOtofudaMovement : PlayerMovement
         }
     }
 
-    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings,
-        PlayerFumenState fumenState)
+    protected override void InputFunction(float inputMovementTime, int targetLane,
+        List<NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         var stateIndex = (int) fumenState;
-        //もうリストがなくなりきってたらはじく
-        if ((stateIndex == 1 && _inputManager._fumenDataManager.mainNotes[PlayerId].Count == 0) ||
-            (stateIndex == 2 && _inputManager._fumenDataManager.moreDifficultNotes[PlayerId].Count == 0))
+        if (_cacheNoteCounters[stateIndex, targetLane] == targetTimings.Count)
         {
             return;
         }
 
-        if (!_inputManager.isStartMusic)
-        {
-            return;
-        }
-        
-        if (_inputManager.noteCounters[stateIndex, targetLane] == targetTimings.Count)
-        {
-            return;
-        }
-        
-/*        Debug.Log(_inputManager._noteCounters[stateIndex, targetLane]);
-        Debug.Log(targetLane + "___" + targetTimings[_inputManager._noteCounters[stateIndex, targetLane]]);*/
         //現在の次に来るはずのノーツ情報
-        var nextNoteTimingInfo = targetTimings[_inputManager.noteCounters[stateIndex, targetLane]];
+        var nextNoteTimingInfo = targetTimings[_cacheNoteCounters[stateIndex, targetLane]];
 
         //入力された時点での楽曲の再生時間と、そのレーンのノーツの到達時間の差を見る
-        var inputTime = _inputManager._audioSource.time;
-        var judgeTime = nextNoteTimingInfo.reachTime;
-        var noteType = nextNoteTimingInfo.noteType;
+        var inputTime = inputMovementTime;
+        var judgeTime = nextNoteTimingInfo._reachTime;
+        var noteType = nextNoteTimingInfo._noteType;
 
-        _tmpNoteType = nextNoteTimingInfo.noteType;
-            
-        var judgeResult = InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
-
-
-        if (judgeResult != PlayerKeyInputManager.Judge.None)
+        
+        if (nextNoteTimingInfo._noteEntity.IsActive == false)
         {
-            if (judgeResult == PlayerKeyInputManager.Judge.Perfect || judgeResult == PlayerKeyInputManager.Judge.Good)
-            {
-                _inputManager.ComboUp();
-            }
-            else if (judgeResult == PlayerKeyInputManager.Judge.Bad)
-            {
-                _inputManager.ComboCut();
-            }
-            //ここでいったん譜面の難易度を戻しておく
-            _inputManager.judgeTextAnimators[(int) judgeResult].Play("Judge", 0, 0.0f);
-        }
-        else
-        {
-            //判定がNoneだったばあい、そのノーツは処理していないのでretする
             return;
         }
+        //入力の精度の判定
+        var judgeResult = InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
 
-//        Debug.Log("残りノーツ数: "+_inputManager._noteCounters[stateIndex, targetLane]);
+        _tmpNoteType = nextNoteTimingInfo._noteType;
 
 
-        //Debug.Log(_inputManager._fumenDataManager.mainNotes[PlayerId][0].noteType);
-        if (_inputManager._fumenDataManager.mainNotes[PlayerId].Count != 0)
+        //        Debug.Log(judgeResult);
+        if (judgeResult != Judge.None)
         {
-            _inputManager._fumenDataManager.mainNotes[PlayerId][0].DeleteNote();
-            _inputManager._fumenDataManager.mainNotes[PlayerId].RemoveAt(0);
+            if (judgeResult == Judge.Perfect ||
+                judgeResult == Judge.Good)
+            {
+                _keyInputManager.ComboUp(judgeResult);
+            }
+            else if (judgeResult == Judge.Bad)
+            {
+                _keyInputManager.ComboCut(Judge.Bad);
+            }
+
+            //判定後
+            //NoteObjectをディアクティベートする。
+            nextNoteTimingInfo._noteEntity.Deactivate(judgeResult);
+
+            //音札のアクティベート関数を実行
+            _keyInputManager.PlayerManager.OnUseOtofudaCard(PlayerId, judgeResult == Judge.Perfect);
         }
-
-
-        //Debug.Log(_inputManager._fumenDataManager.moreDifficultNotes[PlayerId][0].noteType);
-        if (_inputManager._fumenDataManager.moreDifficultNotes[PlayerId].Count != 0 )
-        {
-            _inputManager._fumenDataManager.moreDifficultNotes[PlayerId][0].DeleteNote();
-            _inputManager._fumenDataManager.moreDifficultNotes[PlayerId].RemoveAt(0);
-        }
-        
-/*        if (stateIndex == 1)
-        {
-            _inputManager._fumenDataManager.mainNotes[PlayerId].RemoveAt(0);
-
-        }
-        else if (stateIndex == 2)
-        {
-        }*/
-        
-
-        
-        //音札のアクティベート関数を実行
-        _inputManager._playerManager.OnUseOtofudaCard(PlayerId, judgeResult == PlayerKeyInputManager.Judge.Perfect);
-//        Debug.Log("Invoke!");
     }
 
 
-    public override PlayerKeyInputManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType, int stateIndex)
+    public override Judge InputJudge(float inputTime, float judgeTime, int targetLane,
+        int noteType, int stateIndex)
     {
         if (_tmpNoteType == 5)
         {
             if (inputTime - judgeTime < -BadThreshold)
             {
-                return PlayerKeyInputManager.Judge.None;
+                return Judge.None;
             }
-            
-/*            if (inputTime - judgeTime < -MissThreshold)
-            {
-                Debug.Log("ばーか");
-
-                return PlayerKeyInpuManager.Judge.Miss;
-            }
-
-            if (inputTime - judgeTime > BadThreshold)
-            {
-                return PlayerKeyInpuManager.Judge.None;
-            }*/
 
             if (_receivedGripState == PlayerGripState.GRIP &&
                 -BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
             {
-                _inputManager.noteCounters[stateIndex, targetLane]++;
-                _inputManager.noteSimpleCount++;
-//                Debug.Log("ぱふぇ！");
-                return PlayerKeyInputManager.Judge.Perfect;
+                /*
+                _noteCounters[stateIndex, targetLane]++;
+                */
+                return Judge.Perfect;
             }
         }
 
-        return PlayerKeyInputManager.Judge.None;
-        
+        return Judge.None;
     }
 }

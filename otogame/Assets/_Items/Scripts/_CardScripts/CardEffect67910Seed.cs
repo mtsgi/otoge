@@ -49,8 +49,8 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
         
 
 
-        var _noteObjects = FumenDataManager.Instance.mainNotes[playerID];
-        var _moreDifObjects = FumenDataManager.Instance.moreDifficultNotes[playerID];
+        /*var _noteObjects = FumenDataManager.Instance.mainNotes[playerID];
+        var _moreDifObjects = FumenDataManager.Instance.moreDifficultNotes[playerID];*/
         
         getBetweenNotes();
         
@@ -70,8 +70,8 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
         //Debug.Log("<color=red>EFFECT!</color>");
         var notteObjectList = new List<NoteObject>();
         //対象が自分になってるのであとでなおそう
-        var _noteObjects = FumenDataManager.Instance.mainNotes[playerID];
-        var _moreDifficultNoteObjects = FumenDataManager.Instance.moreDifficultNotes[playerID];
+        /*var _noteObjects = FumenDataManager.Instance.mainNotes[playerID];
+        var _moreDifficultNoteObjects = FumenDataManager.Instance.moreDifficultNotes[playerID];*/
         
 /*        Debug.Log(_noteObjects.Count);
         Debug.Log(_moreDifficultNoteObjects.Count);*/
@@ -80,6 +80,7 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
         //全体で何ノーツ目かが引っ張ってこれればおk
         /*var noteCount = _targetPlayer.noteSimpleCount;*/
         
+        /*
         for (int i = 0; i < _noteObjects.Count; i++)
         {
             //現在のノーツから次の音札ノーツまでのTransformを操作してユーザーから見えなくする。
@@ -101,6 +102,7 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
                 break;
             }
         }
+        */
         
         _targetPlayer.FumenState = PlayerFumenState.MORE_DIFFICULT;
         

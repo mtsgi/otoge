@@ -10,67 +10,65 @@ public class PlayerMovement : MonoBehaviour
     internal int PlayerId;
     internal KeyCode[] PlayerKeys;
 
-    internal PlayerKeyInputManager _inputManager;
+    protected float PerfectThreshold = 0.0f;
+    protected float GoodThreshold = 0.0f;
 
-
-    internal float PerfectThreshold = 0.0f;
-    internal float GoodThreshold = 0.0f;
-
-    internal float BadThreshold = 0.0f;
+    protected float BadThreshold = 0.0f;
     //internal float MissThreshold = 0.0f;
 
+    protected int[,] _cacheNoteCounters;
 
-    public virtual void InitMovement(PlayerKeyInputManager playerKeyInputManager)
+    protected PlayerKeyInputManager _keyInputManager;
+    private JudgeProfile _judgeProfile;
+
+    public virtual void InitMovement(PlayerKeyInputManager keyInputManager)
     {
-        _inputManager = playerKeyInputManager;
-
-        PlayerId = playerKeyInputManager.playerID;
-        PlayerKeys = playerKeyInputManager.playerKeys;
-
-        //判定の閾値をProfileから引っ張ってくる
-        PerfectThreshold = playerKeyInputManager.judgeProfile.perfectThreshold;
-        GoodThreshold = playerKeyInputManager.judgeProfile.goodThreshold;
-        BadThreshold = playerKeyInputManager.judgeProfile.badThreshold;
+        _keyInputManager = keyInputManager;
+        SetMovementValues();
         //  MissThreshold = playerKeyInputManager.judgeProfile.missThreshold;
     }
 
-    /*プレイヤーのボタンの押下、フリック、ぎゅってするやつなどをチェックする関数
-     ここをメインループで回す
-    public virtual void PlayerMovementCheck(int index)
+    private void SetMovementValues()
     {
+        PlayerId = _keyInputManager.playerID;
+        PlayerKeys = _keyInputManager.playerKeys;
+
+        _cacheNoteCounters = _keyInputManager.CacheNoteCounters;
+
+        //判定の閾値をProfileから引っ張ってくる
+        _judgeProfile = _keyInputManager.JudgeProfile;
+
+        PerfectThreshold = _judgeProfile.perfectThreshold;
+        GoodThreshold = _judgeProfile.goodThreshold;
+        BadThreshold = _judgeProfile.badThreshold;
     }
-    の形にして全てのmovementでforが走らないようにするとパフォーマンス改善できそう
-    かわらんか
-    */
 
 
-    public virtual void PlayerMovementCheck()
+    public virtual void PlayerMovementCheck(float inputMovementTime, List<NoteTimingInformation>[] timings)
     {
     }
 
     //入力のためのムーブメントを受け取った後のファンクション
-    public virtual void InputFunction(int targetLane,
-        List<FumenDataManager.NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
+    protected virtual void InputFunction(float inputMovementTime, int targetLane,
+        List<NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
+        // fumenState
+        //MORE_EASY = 0,
+        //DEFAULT = 1,
+        //MORE_DIFFICULT = 2,
+        //End,
         var stateIndex = (int) fumenState;
 
-        //もうリストがなくなりきってたらはじく
-        if ((stateIndex == 1 && _inputManager._fumenDataManager.mainNotes[PlayerId].Count == 0) ||
-            (stateIndex == 2 && _inputManager._fumenDataManager.moreDifficultNotes[PlayerId].Count == 0))
+        //todo _inputManager.noteCounters自体はInitでInputManagerから渡してあげてよくない？？？？？
+        if (_cacheNoteCounters[stateIndex, targetLane] == targetTimings.Count)
         {
-//            Debug.Log("ないよ");
+            Debug.Log($"lane {targetLane} は かぞえきったよ");
             return;
         }
 
-        if (!_inputManager.isStartMusic)
+        if (_cacheNoteCounters[stateIndex, targetLane] == targetTimings.Count)
         {
-//            Debug.Log("はじまってないよ");
-            return;
-        }
-
-        if (_inputManager.noteCounters[stateIndex, targetLane] == targetTimings.Count)
-        {
-//            Debug.Log("かぞえきったよ");
+            Debug.Log($"lane {targetLane} は かぞえきったよ");
             return;
         }
 
@@ -79,85 +77,86 @@ public class PlayerMovement : MonoBehaviour
         var targetLaneNoteInfos = targetTimings;*/
 
         //現在の次に来るはずのノーツ情報
-        var nextNoteTimingInfo = targetTimings[_inputManager.noteCounters[stateIndex, targetLane]];
+        var nextNoteTimingInfo = targetTimings[_cacheNoteCounters[stateIndex, targetLane]];
 
         //入力された時点での楽曲の再生時間と、そのレーンのノーツの到達時間の差を見る
-        var inputTime = _inputManager._audioSource.time;
-        var judgeTime = nextNoteTimingInfo.reachTime;
-        var noteType = nextNoteTimingInfo.noteType;
+        var inputTime = inputMovementTime;
+        var judgeTime = nextNoteTimingInfo._reachTime;
+        var noteType = nextNoteTimingInfo._noteType;
 
+
+        /*Debug.Log(
+            $"next timing =>index:{_cacheNoteCounters[stateIndex, targetLane]},reachTime{nextNoteTimingInfo._reachTime},type:{nextNoteTimingInfo._noteEntity.noteType}");*/
+
+        if (nextNoteTimingInfo._noteEntity.IsActive == false)
+        {
+            return;
+        }
 
         //入力の精度の判定
         var judgeResult = InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
+
 //        Debug.Log(judgeResult);
-        if (judgeResult != PlayerKeyInputManager.Judge.None)
+        if (judgeResult != Judge.None)
         {
-            if (judgeResult == PlayerKeyInputManager.Judge.Perfect || judgeResult == PlayerKeyInputManager.Judge.Good)
+            if (judgeResult == Judge.Perfect ||
+                judgeResult == Judge.Good)
             {
                 //ロングの始点はコンボに加算しない
                 if (noteType != 2 && noteType != 99)
                 {
-                    _inputManager.ComboUp();
+                    _keyInputManager.ComboUp(judgeResult);
                 }
+
+                /*_keyInputManager.ComboUp(judgeResult);*/
             }
-            else if (judgeResult == PlayerKeyInputManager.Judge.Bad)
+            else if (judgeResult == Judge.Bad)
             {
-                _inputManager.ComboCut();
+                _keyInputManager.ComboCut(Judge.Bad);
             }
 
-            _inputManager.judgeTextAnimators[(int) judgeResult].Play("Judge", 0, 0.0f);
-
-            if (stateIndex == 1)
-            {
-                _inputManager._fumenDataManager.mainNotes[PlayerId][0].DeleteNote();
-                _inputManager._fumenDataManager.mainNotes[PlayerId].RemoveAt(0);
-            }
-            else if (stateIndex == 2)
-            {
-                _inputManager._fumenDataManager.moreDifficultNotes[PlayerId][0].DeleteNote();
-                _inputManager._fumenDataManager.moreDifficultNotes[PlayerId].RemoveAt(0);
-            }
+            //判定後
+            //NoteObjectをディアクティベートする。
+            nextNoteTimingInfo._noteEntity.Deactivate(judgeResult);
         }
         else
         {
-            //判定がNoneだったばあい、そのノーツは処理していないのでretする
-//            Debug.Log("すきっぷ");
+//            Debug.Log("None!");
+        }
+
+        if (judgeResult != Judge.None)
+        {
+            CheckLongStartNote(targetLane, noteType);
+            /* _noteCounters[stateIndex, targetLane]++; */
         }
     }
 
 
-    public virtual PlayerKeyInputManager.Judge InputJudge(float inputTime, float judgeTime, int targetLane,
-        int noteType,
-        int stateIndex)
+    public virtual Judge InputJudge(float inputTime, float judgeTime, int targetLane,
+        int noteType, int stateIndex)
     {
-//        Debug.Log(inputTime - judgeTime);
-
-        var judgeResult = PlayerKeyInputManager.Judge.None;
+        var judgeResult = Judge.None;
 
         if (-PerfectThreshold <= inputTime - judgeTime && inputTime - judgeTime <= PerfectThreshold)
         {
-/*
             Debug.Log("perfe");
-*/
-            judgeResult = PlayerKeyInputManager.Judge.Perfect;
+            judgeResult = Judge.Perfect;
         }
         else if (-GoodThreshold <= inputTime - judgeTime && inputTime - judgeTime <= GoodThreshold)
         {
-/*            Debug.Log("good");*/
-            judgeResult = PlayerKeyInputManager.Judge.Good;
+            Debug.Log("good");
+            judgeResult = Judge.Good;
         }
         else if (-BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
         {
-/*            Debug.Log("bad");*/
-            judgeResult = PlayerKeyInputManager.Judge.Bad;
+            Debug.Log("bad");
+            judgeResult = Judge.Bad;
+        }
+        else
+        {
+            Debug.Log("None");
         }
 
-        if (judgeResult != PlayerKeyInputManager.Judge.None)
-        {
-            CheckLongStartNote(targetLane, noteType);
-            _inputManager.noteCounters[stateIndex, targetLane]++;
-            _inputManager.noteSimpleCount++;
-        }
 
         return judgeResult;
     }
@@ -169,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
     //・ミス時は現在譜面typeがそのノーツの譜面typeと一致していたらmiss表示
     //    _inputManager._noteCounters[stateIndex, targetLane]++;は続行
 
-    private void CheckLongStartNote(int _lane, int _type)
+    private void CheckLongStartNote(int lane, int type)
     {
         //isHaveChildNoteみたいな変数をノーツ生成時に持たせてあげることができれば、下フリックの直後に
         //ロングノーツを配置することもできるようになりそう。
@@ -180,11 +179,11 @@ public class PlayerMovement : MonoBehaviour
             
         }*/
 
-
-        if (_type == 2)
+        //todo これ微妙すぎん？
+        if (type == 2)
         {
 //            Debug.Log("<color=yellow>StartLong</color>");
-            _inputManager.isLongNoteStart[_lane] = true;
+            _keyInputManager.isLongNoteStart[lane] = true;
         }
     }
 

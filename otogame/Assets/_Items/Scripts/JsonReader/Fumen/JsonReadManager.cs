@@ -152,17 +152,17 @@ public class JsonReadManager
         }
 
         //難易度に応じて全てのノーツを生成し、FumenDataManagerのMainNotesの中にしまう。
-        switch (GameDifficulty)
+        /*switch (GameDifficulty)
         {
             case GameDifficulty.Easy:
                 //イージー難易度のノーツを生成
                 for (int i = 0; i < fumenInfo.easy.Count; i++)
                 {
-                    NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.timings,
+                    NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.defaultTimings,
                         fumenInfo.easy[i], _musicData.bpm, _musicData.beat, 0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
-*/
+#1#
                 }
 
                 //ノーマル難易度のノーツを生成
@@ -173,7 +173,7 @@ public class JsonReadManager
                         fumenInfo.normal[i], _musicData.bpm, _musicData.beat, 1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
-*/
+#1#
                 }
 
                 break;
@@ -182,11 +182,11 @@ public class JsonReadManager
                 //ノーマル難易度のノーツを生成
                 for (int i = 0; i < fumenInfo.normal.Count; i++)
                 {
-                    NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.timings,
+                    NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.defaultTimings,
                         fumenInfo.normal[i], _musicData.bpm, _musicData.beat, 0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
-*/
+#1#
                 }
 
 //				Debug.Log(fumenInfo.normal.Count);
@@ -198,11 +198,11 @@ public class JsonReadManager
                         fumenInfo.hard[i], _musicData.bpm, _musicData.beat, 1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
-*/
+#1#
                 }
 /*
 				Debug.Log(fumenInfo.hard.Count);
-*/
+#1#
 
                 break;
 
@@ -212,11 +212,11 @@ public class JsonReadManager
                 //ハード難易度のノーツを生成
                 for (int i = 0; i < fumenInfo.hard.Count; i++)
                 {
-                    NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.timings,
+                    NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.defaultTimings,
                         fumenInfo.hard[i], _musicData.bpm, _musicData.beat, 0);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
-*/
+#1#
                 }
 
                 //エクストラ難易度のノーツを生成
@@ -227,7 +227,7 @@ public class JsonReadManager
                         fumenInfo.extra[i], _musicData.bpm, _musicData.beat, 1);
 /*
 					_fumenDataManager.mainNotes.Add(_note);
-*/
+#1#
                 }
 
 
@@ -242,14 +242,14 @@ public class JsonReadManager
 
         for (int i = 0; i < 5; i++)
         {
-            _fumenDataManager.timings[playerID, i].Sort((x, y) => x.reachTime.CompareTo(y.reachTime));
-            _fumenDataManager.moreDifficultTimings[playerID, i].Sort((x, y) => x.reachTime.CompareTo(y.reachTime));
-        }
+            _fumenDataManager.defaultTimings[playerID, i].Sort((x, y) => x._reachTime.CompareTo(y._reachTime));
+            _fumenDataManager.moreDifficultTimings[playerID, i].Sort((x, y) => x._reachTime.CompareTo(y._reachTime));
+        }*/
 
-        BeatLineGenerate();
+        //BeatLineGenerate();
     }
 
-    private void BeatLineGenerate()
+    /*private void BeatLineGenerate()
     {
         for (int i = 0; i < eofNote.measure; i++)
         {
@@ -262,15 +262,15 @@ public class JsonReadManager
             beatLineInfo.option = new float[0];
             beatLineInfo.end = new List<NotesInfo>();
 
-            NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.timings,
+            NoteGenerate(_fumenDataManager.mainNotes[playerID], _fumenDataManager.defaultTimings,
                 beatLineInfo, _musicData.bpm, _musicData.beat, 0);
         }
-    }
+    }*/
 
 
     //ノーツの生成処理
     private void NoteGenerate(List<NoteObject> targetNotesList,
-        List<FumenDataManager.NoteTimingInformation>[,] targetTimingList,
+        List<NoteTimingInformation>[,] targetTimingList,
         NotesInfo notesInfo, float _bpm, float _beat, float _ZoffSet)
     {
         //ノーツのGameObject
@@ -369,7 +369,7 @@ public class JsonReadManager
 
         //ノーツ本体のスクリプトに値を格納
         _noteObject.SetNoteObject(notesInfo.type, lane, endNoteIndex, notesInfo.option, reachTime, playerID,
-            _fumenDataManager._highSpeed[playerID], _laneLength);
+            _fumenDataManager._highSpeed[playerID], _laneLength, notesInfo.measure);
 
         targetNotesList.Add(_noteObject);
 
@@ -387,7 +387,7 @@ public class JsonReadManager
         if (lane > 0)
         {
             targetTimingList[playerID, lane - 1]
-                .Add(new FumenDataManager.NoteTimingInformation(notesInfo.type, reachTime));
+                .Add(new NoteTimingInformation(_noteObject, notesInfo.type, reachTime));
         }
 
         if (notesInfo.type == 5)

@@ -6,21 +6,22 @@ using UnityEngine;
 public class PlayerHoldMovement : PlayerMovement
 {
     //ホールドを離したときの判定
-    public override void PlayerMovementCheck()
+    public override void PlayerMovementCheck(float inputMovementTime, List<NoteTimingInformation>[] timings)
     {
-        //離したとき}}}}}*}}}}aasasaaasashas\
+        //離したとき
         for (int i = 0; i < PlayerKeys.Length; i++)
         {
             if (!Input.GetKeyUp(PlayerKeys[i])) continue;
             //ここでキービームをオフにしている
-            _inputManager.keyBeamController.BeamOffAt(i);
+            _keyInputManager.keyBeamController.BeamOffAt(i);
             /*_inputManager.laneLight[i].SetActive(false);*/
-            if (!_inputManager.isLongNoteStart[i]) continue;
-            
-            InputFunction(i, _inputManager._fumenDataManager.timings[PlayerId, i],
-                _inputManager._playerManager._players[PlayerId].FumenState); 
+            /*if (!_keyInputManager.isLongNoteStart[i]) continue;*/
 
-/*                        //裏で流しておく現在とは違う難易度の譜面については判定処理をスルーする。
+            InputFunction(inputMovementTime, i, timings[i],
+                _keyInputManager.PlayerManager._players[PlayerId].FumenState);
+
+/*
+                        //裏で流しておく現在とは違う難易度の譜面については判定処理をスルーする。
                         switch (_playerManager._players[playerID].FumenState)
                         {
                             case PlayerFumenState.DEFAULT:
@@ -32,15 +33,22 @@ public class PlayerHoldMovement : PlayerMovement
                                 break;
                             default:
                                 break;
-                        }*/
+                        }
+*/
         }
     }
 
-    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
+    protected override void InputFunction(float inputMovementTime, int targetLane,
+        List<NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
-        base.InputFunction(targetLane, targetTimings, fumenState);
-        _inputManager.keyBeamController.BeamOffAt(targetLane);
-        /*_inputManager.laneLight[targetLane].SetActive(false);*/
+        /*Debug.Log("CheckHold");*/
+        base.InputFunction(inputMovementTime, targetLane, targetTimings, fumenState);
+        _keyInputManager.keyBeamController.BeamOffAt(targetLane);
+    }
 
+    public override Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType, int stateIndex)
+    {
+        /*Debug.Log($"Hold {inputTime - judgeTime}");*/
+        return base.InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
     }
 }

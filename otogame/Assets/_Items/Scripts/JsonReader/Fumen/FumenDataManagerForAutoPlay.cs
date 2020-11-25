@@ -11,13 +11,19 @@ namespace OtoFuda.Fumen
     {
         [SerializeField] private AutoPlaySettingInputter autoPlaySettingInputter;
 
+        private new void Awake()
+        {
+            return;
+        }
+
         private new void Start()
         {
+            base.Start();
             //元々のStartをかきけしたいのでこうしておく
             return;
         }
 
-        public void Update()
+        public new void Update()
         {
             if (Input.GetKeyUp(KeyCode.Space))
             {
@@ -30,6 +36,8 @@ namespace OtoFuda.Fumen
                 StopAutoPlay();
                 autoPlaySettingInputter.OnStopAutoPlay();
             }
+
+            base.Update();
         }
 
         public void StartAutoPlay()
@@ -52,7 +60,7 @@ namespace OtoFuda.Fumen
             //終了時にコンボリセット
             for (int i = 0; i < PlayerKeyInputManagers.Length; i++)
             {
-                PlayerKeyInputManagers[i].ComboCut();
+                PlayerKeyInputManagers[i].ComboCut(Judge.None);
             }
 
             MusicManager.Instance.StopMusic(0);

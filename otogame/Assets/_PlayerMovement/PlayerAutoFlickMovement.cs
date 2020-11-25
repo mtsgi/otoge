@@ -11,7 +11,7 @@ public class PlayerAutoFlickMovement : PlayerMovement
     private Vector3 _defaultPos;
     private Vector3 _flickPosR;
     private Vector3 _flickPosL;
-    
+
     private Coroutine _flickSimulateCoroutine;
 
     private void Start()
@@ -21,7 +21,6 @@ public class PlayerAutoFlickMovement : PlayerMovement
 
         _flickPosR.x += 0.5f;
         _flickPosL.x -= 0.5f;
-        
     }
 
     private void Update()
@@ -29,34 +28,34 @@ public class PlayerAutoFlickMovement : PlayerMovement
         Test();
     }
 
-    public override void PlayerMovementCheck()
+    public override void PlayerMovementCheck(float inputMovementTime, List<NoteTimingInformation>[] timings)
     {
         for (var i = 0; i < PlayerKeys.Length; i++)
         {
-            InputFunction(i, _inputManager._fumenDataManager.timings[PlayerId, i],
-                _inputManager._playerManager._players[PlayerId].FumenState);
+            InputFunction(inputMovementTime, i, timings[i],
+                _keyInputManager.PlayerManager._players[PlayerId].FumenState);
         }
     }
 
-    public override void InputFunction(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings,
-        PlayerFumenState fumenState)
+    protected override void InputFunction(float inputMovementTime, int targetLane,
+        List<NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         var stateIndex = (int) fumenState;
 
         //現在の楽曲再生時間
-        var inputTime = _inputManager._audioSource.time;
-        
-        if (targetTimings.Count == _inputManager.noteCounters[stateIndex, targetLane])
+        var inputTime = inputMovementTime;
+
+        if (targetTimings.Count == _cacheNoteCounters[stateIndex, targetLane])
         {
             return;
         }
 
         //現在の次に来るはずのノーツ情報
-        var nextNoteTimingInfo = targetTimings[_inputManager.noteCounters[stateIndex, targetLane]];
-        var judgeTime = nextNoteTimingInfo.reachTime;
+        var nextNoteTimingInfo = targetTimings[_cacheNoteCounters[stateIndex, targetLane]];
+        var judgeTime = nextNoteTimingInfo._reachTime;
 
         //ここでノーツの種類判定と化すればそれぞれのエフェクトとかの実行ができそう
-        var noteType = nextNoteTimingInfo.noteType;
+        var noteType = nextNoteTimingInfo._noteType;
         if (noteType == 3 || noteType == 4)
         {
             if (0.025f > GetDifferentAbs(inputTime, judgeTime))
@@ -70,7 +69,7 @@ public class PlayerAutoFlickMovement : PlayerMovement
                     SimulateFlick(_flickPosR);
                 }
 
-                base.InputFunction(targetLane, targetTimings, fumenState);
+                base.InputFunction(inputMovementTime, targetLane, targetTimings, fumenState);
             }
         }
     }
@@ -135,7 +134,7 @@ public class PlayerAutoFlickMovement : PlayerMovement
                     break;
                 }
             }
-            
+
             yield return null;
         }
     }

@@ -5,6 +5,6 @@ using UnityEngine;
 
 interface INoteJudge
 {
-    void KeyJudge(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings,
+    void KeyJudge(int targetLane, List<NoteTimingInformation> targetTimings,
         PlayerFumenState fumenState);
 }

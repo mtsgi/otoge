@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class TapJudger : NoteJudger
 {
-    public override void KeyJudge(int targetLane, List<FumenDataManager.NoteTimingInformation> targetTimings,
+    public override void KeyJudge(int targetLane, List<NoteTimingInformation> targetTimings,
         PlayerFumenState fumenState)
     {
         base.KeyJudge(targetLane, targetTimings, fumenState);
-        
     }
 }
