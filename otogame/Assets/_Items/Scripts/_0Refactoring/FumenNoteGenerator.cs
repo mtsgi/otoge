@@ -33,6 +33,7 @@ public class FumenNoteGenerator
         */
         }
 
+        var tmpBpm = _musicData.bpm;
         var tmpBeat = _musicData.beat;
 
         //todo あくまで行うのは生成まで。気を利かせて譜面変更時のノーツまで生成してあげる必要はない
@@ -46,7 +47,7 @@ public class FumenNoteGenerator
                     if (fumenInfo.easy[i].type != 95)
                     {
                         NoteGenerate(result, playerID, hiSpeed, fumenInfo.easy[i],
-                            _musicData.bpm, ref tmpBeat, zOffset);
+                            ref tmpBpm, ref tmpBeat, zOffset);
                     }
                 }
 
@@ -59,7 +60,7 @@ public class FumenNoteGenerator
                     if (fumenInfo.normal[i].type != 95)
                     {
                         NoteGenerate(result, playerID, hiSpeed, fumenInfo.normal[i],
-                            _musicData.bpm, ref tmpBeat, zOffset);
+                            ref tmpBpm, ref tmpBeat, zOffset);
                     }
                 }
 
@@ -73,7 +74,7 @@ public class FumenNoteGenerator
                     if (fumenInfo.hard[i].type != 95)
                     {
                         NoteGenerate(result, playerID, hiSpeed, fumenInfo.hard[i],
-                            _musicData.bpm, ref tmpBeat, zOffset);
+                            ref tmpBpm, ref tmpBeat, zOffset);
                     }
                 }
 
@@ -100,6 +101,10 @@ public class FumenNoteGenerator
                 notesInfo = fumenInfo.hard;
                 break;
         }
+
+        var tmpBpm = _musicData.bpm;
+        var bpmChangeCount = 0;
+        var type98Notes = notesInfo.Where(x => x.type == 98).ToArray();
 
         var tmpBeat = _musicData.beat;
         var beatChangeCount = 0;
@@ -132,6 +137,17 @@ public class FumenNoteGenerator
                     }
 
 
+                    if (bpmChangeCount != type98Notes.Length)
+                    {
+                        //現在の小節数よりも次type97Noteの小節数が大きければ
+                        if (i <= type98Notes[bpmChangeCount].measure)
+                        {
+                            tmpBpm = (int) type98Notes[bpmChangeCount].option[0];
+                            bpmChangeCount++;
+                        }
+                    }
+
+
                     var beatLineInfo = new NotesInfo();
                     beatLineInfo.type = -1;
                     beatLineInfo.measure = i;
@@ -142,7 +158,7 @@ public class FumenNoteGenerator
                     beatLineInfo.end = new List<NotesInfo>();
 
                     NoteGenerate(result, playerID, hiSpeed, beatLineInfo,
-                        _musicData.bpm, ref tmpBeat, zOffSet);
+                        ref tmpBpm, ref tmpBeat, zOffSet);
                 }
             }
 
@@ -153,7 +169,7 @@ public class FumenNoteGenerator
             for (int i = 0; i < type95Notes.Length; i++)
             {
                 NoteGenerate(result, playerID, hiSpeed, type95Notes[i],
-                    _musicData.bpm, ref tmpBeat, zOffSet);
+                    ref tmpBpm, ref tmpBeat, zOffSet);
             }
 
             return result;
@@ -178,7 +194,7 @@ public class FumenNoteGenerator
     /// <param name="zOffSet"></param>
     private NoteObject NoteGenerate(
         List<NoteObject> noteObjectsList, int playerId, float hiSpeed, NotesInfo notesInfo,
-        float bpm, ref float beat, float zOffSet)
+        ref float bpm, ref float beat, float zOffSet)
     {
         //ノーツのGameObject
         GameObject noteGameObject = null;
@@ -218,6 +234,9 @@ public class FumenNoteGenerator
                 break;
             case 97:
                 beat = (int) notesInfo.option[0];
+                return null;
+            case 98:
+                bpm = (int) notesInfo.option[0];
                 return null;
             case 99:
                 noteGameObject = (GameObject) Resources.Load("NoteObjects/Prefabs/OtherNote");
@@ -346,13 +365,10 @@ public class FumenNoteGenerator
 
         #endregion
 
-
         #region 特殊小節線の生成
 
         if (notesInfo.type == 95)
         {
-            Debug.Log("Type95検出");
-
             //-1の場合は何もしない
             if (notesInfo.option.Length != 0 && (int) notesInfo.option[0] != -1)
             {
@@ -375,6 +391,7 @@ public class FumenNoteGenerator
 
         #endregion
 
+        #region 終点ノーツ生成
 
         //endノーツが含まれていた場合、さらに生成してmainNotesの中につっこむ
         if (notesInfo.end != null)
@@ -388,7 +405,7 @@ public class FumenNoteGenerator
 
                     //終点ノーツの生成
                     var childNote = NoteGenerate(noteObjectsList,
-                        playerId, hiSpeed, notesInfo.end[i], bpm, ref beat, zOffSet);
+                        playerId, hiSpeed, notesInfo.end[i], ref bpm, ref beat, zOffSet);
 
                     noteObject.childNote.Add(childNote);
 
@@ -412,6 +429,8 @@ public class FumenNoteGenerator
                 }
             }
         }
+
+        #endregion
 
 
         if (noteObject != null)
