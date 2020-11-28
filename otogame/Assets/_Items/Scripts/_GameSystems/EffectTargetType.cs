@@ -1,13 +1,10 @@
 namespace OtoFuda.Player
 {
-
-	public enum EffectTargetType
-	{
-		MYSELF,
-		OPPONENT,
-		ALL,
-		RANDOM,
-
-	}
-
+    public enum EffectTargetType
+    {
+        Myself,
+        Opponent,
+        All,
+        Random,
+    }
 }

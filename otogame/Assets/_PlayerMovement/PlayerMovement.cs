@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //入力のためのムーブメントを受け取った後のファンクション
-    protected virtual void InputFunction(float inputMovementTime, int targetLane,
+    protected virtual bool InputFunction(float inputMovementTime, int targetLane,
         List<NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         // fumenState
@@ -63,13 +63,13 @@ public class PlayerMovement : MonoBehaviour
         if (_cacheNoteCounters[stateIndex, targetLane] == targetTimings.Count)
         {
             Debug.Log($"lane {targetLane} は かぞえきったよ");
-            return;
+            return false;
         }
 
         if (_cacheNoteCounters[stateIndex, targetLane] == targetTimings.Count)
         {
             Debug.Log($"lane {targetLane} は かぞえきったよ");
-            return;
+            return false;
         }
 
 /*        //押下したキーに対応するレーンに流れるすべてのノーツ情報。
@@ -90,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (nextNoteTimingInfo._noteEntity.IsActive == false)
         {
-            return;
+            return false;
         }
 
         //入力の精度の判定
@@ -129,6 +129,8 @@ public class PlayerMovement : MonoBehaviour
             CheckLongStartNote(targetLane, noteType);
             /* _noteCounters[stateIndex, targetLane]++; */
         }
+
+        return true;
     }
 
 
@@ -139,22 +141,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (-PerfectThreshold <= inputTime - judgeTime && inputTime - judgeTime <= PerfectThreshold)
         {
-            Debug.Log("perfe");
+            /*Debug.Log("perfe");*/
             judgeResult = Judge.Perfect;
         }
         else if (-GoodThreshold <= inputTime - judgeTime && inputTime - judgeTime <= GoodThreshold)
         {
-            Debug.Log("good");
+            /*Debug.Log("good");*/
             judgeResult = Judge.Good;
         }
         else if (-BadThreshold <= inputTime - judgeTime && inputTime - judgeTime <= BadThreshold)
         {
-            Debug.Log("bad");
+            /*Debug.Log("bad");*/
             judgeResult = Judge.Bad;
         }
         else
         {
-            Debug.Log("None");
+            /*Debug.Log("None");*/
         }
 
 

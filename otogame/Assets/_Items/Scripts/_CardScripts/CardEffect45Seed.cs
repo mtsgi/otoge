@@ -7,12 +7,13 @@ public class CardEffect45Seed : OtofudaCardEffectBase
 {
     //札を捨てた時、このターン相手の札効果を無効化し、短冊以外の役札をデッキからランダムに1枚引いてくる。
     //(この札の効果は無効化されないまた既に発動している効果は無効化できない) 
-    private OtofudaCard drawCard;
-    public override void handEffect()
+    private OtofudaCardScriptableObject _drawCardScriptableObject;
+    public override void HandEffect()
     {
         //最初のワンドロー処理
-        base.handEffect();
+        base.HandEffect();
         
+        /*
         //いったん使用した手札の情報をNoneの音札に置き換える
         _targetPlayer.playerHand[handIndex] = PlayerManager.Instance.otofudaNone;
         
@@ -27,7 +28,7 @@ public class CardEffect45Seed : OtofudaCardEffectBase
         else
         {
             _players[playerID].playerHand[handIndex].setNone(playerID, handIndex);
-        }*/
+        }#1#
 
         
         //デッキ枚数が0、もしくは手札枚数が枚であれば処理終了
@@ -38,7 +39,7 @@ public class CardEffect45Seed : OtofudaCardEffectBase
 
         var randIndex = 0;
         var deckCount = _targetPlayer.playerDeck.Count;
-        var copyDeck = new List<OtofudaCard>();
+        var copyDeck = new List<OtofudaCardScriptableObject>();
         
         var stripList = new List<int>();
         Debug.Log("deck Count is "+ deckCount);
@@ -46,7 +47,7 @@ public class CardEffect45Seed : OtofudaCardEffectBase
         //デッキ内のStripの数を数える
         for (int i = 0; i < deckCount; i++)
         {
-            if (_targetPlayer.playerDeck[i]._pointType == OtofudaPointType.STRIP)
+            if (_targetPlayer.playerDeck[i].pointType == OtofudaPointType.STRIP)
             {
                 stripList.Add(i);
                // Debug.Log("STRIP is "+i);
@@ -69,7 +70,7 @@ public class CardEffect45Seed : OtofudaCardEffectBase
             
             _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[randIndex];
             _targetPlayer.playerDeck.RemoveAt(randIndex);
-        }
+        }*/
 
 /*
         _targetPlayer.isBarrier = true;

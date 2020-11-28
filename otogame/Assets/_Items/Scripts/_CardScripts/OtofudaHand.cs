@@ -21,7 +21,7 @@ namespace OtoFuda.Card
 		{
 			//それぞれ初期化。
 			_playerManager = PlayerManager.Instance;
-			_players = _playerManager._players;
+			_players = _playerManager.players;
 
 			_effectDictionary = OtofudaHandEffectManager.Instance.effectDictionary;
 			
@@ -29,7 +29,7 @@ namespace OtoFuda.Card
 		}
 		
 		//手札の効果を発動する。
-		private void handEffectActivate(int playerNum)
+		/*private void HandEffectActivate(int playerNum)
 		{
 			//手札のエフェクトにチェックをかけて手札効果のタイプを取得。
 			var effectType = cheker.handCheck(_players[playerNum].playerHand);
@@ -55,8 +55,8 @@ namespace OtoFuda.Card
 		[ContextMenu("test")]
 		private void test()
 		{
-			handEffectActivate(0);
-		}
+			HandEffectActivate(0);
+		}*/
 		
 	}
 	

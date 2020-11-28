@@ -18,7 +18,7 @@ public class PlayerHoldMovement : PlayerMovement
             /*if (!_keyInputManager.isLongNoteStart[i]) continue;*/
 
             InputFunction(inputMovementTime, i, timings[i],
-                _keyInputManager.PlayerManager._players[PlayerId].FumenState);
+                _keyInputManager.PlayerManager.players[PlayerId].FumenState);
 
 /*
                         //裏で流しておく現在とは違う難易度の譜面については判定処理をスルーする。
@@ -38,12 +38,17 @@ public class PlayerHoldMovement : PlayerMovement
         }
     }
 
-    protected override void InputFunction(float inputMovementTime, int targetLane,
+    protected override bool InputFunction(float inputMovementTime, int targetLane,
         List<NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         /*Debug.Log("CheckHold");*/
-        base.InputFunction(inputMovementTime, targetLane, targetTimings, fumenState);
-        _keyInputManager.keyBeamController.BeamOffAt(targetLane);
+        var valid = base.InputFunction(inputMovementTime, targetLane, targetTimings, fumenState);
+        if (valid)
+        {
+            _keyInputManager.keyBeamController.BeamOffAt(targetLane);
+        }
+
+        return valid;
     }
 
     public override Judge InputJudge(float inputTime, float judgeTime, int targetLane, int noteType, int stateIndex)

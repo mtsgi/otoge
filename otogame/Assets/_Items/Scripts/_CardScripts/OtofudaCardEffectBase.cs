@@ -7,51 +7,54 @@ namespace OtoFuda.Card
 {
     public class OtofudaCardEffectBase : MonoBehaviour
     {
-        private OtofudaHandEffectType _handEffectCheck(OtofudaCard[] otofudaCards)
+        private OtofudaHandEffectType _handEffectCheck(OtofudaCardScriptableObject[] otofudaCards)
         {
             return 0;
         }
-        
-        public PlayerManager.Player[] _players;
 
-        internal PlayerManager.Player _targetPlayer;
+        protected PlayerManager.Player[] _players;
+
+        protected PlayerManager.Player _targetPlayer;
+        protected int _handIndex = -1;
+        protected OtofudaDeckController _deckController;
+
         internal int playerID;
-        internal int handIndex;
-        
-        
+
+
         public EffectTargetType _targetType;
 
-        internal void applyHandEffect(int usedPlayerNumber ,int _handIndex)
+        internal void ApplyHandEffect(int playerIndex, int handIndex,
+            OtofudaDeckController deck)
         {
-            _players = PlayerManager.Instance._players;
-            playerID = usedPlayerNumber;
+            _deckController = deck;
+            _handIndex = handIndex;
+            
+            _players = PlayerManager.Instance.players;
 
-            //特殊効果を実行。
-            if (_targetType == EffectTargetType.MYSELF)
+            //効果対象の種類によってTargetPlayerを変更する
+            if (_targetType == EffectTargetType.Myself)
             {
-                _targetPlayer = _players[usedPlayerNumber];
+                _targetPlayer = _players[playerIndex];
             }
-            //特殊効果を実行。
-            else if (_targetType == EffectTargetType.OPPONENT)
+            else if (_targetType == EffectTargetType.Opponent)
             {
                 //効果を発動してない方のPlayerのインデックスを引っ張ってくる。
                 for (int i = 0; i < _players.Length; i++)
                 {
-                    if (i != usedPlayerNumber)
+                    if (i != playerIndex)
                     {
                         _targetPlayer = _players[i];
                     }
                 }
             }
 
-            handIndex = _handIndex;
-            handEffect();
+            HandEffect();
         }
 
         //こっちを継承して効果を作成する。
         //applyHandEffectがHandEffectCheckerから実行される。
         //_targetPlayerに対して何か操作をしてあげれば良い
-        public virtual void handEffect()
+        public virtual void HandEffect()
         {
 /*            //いったん使用した手札の情報をNoneの音札に置き換える
             _targetPlayer.playerHand[handIndex] = PlayerManager.Instance.otofudaNone;
@@ -62,15 +65,6 @@ namespace OtoFuda.Card
                 _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[0];
                 _targetPlayer.playerDeck.RemoveAt(0);
             }*/
-            
-            
         }
-
-
     }
-
-
-
-
 }
-

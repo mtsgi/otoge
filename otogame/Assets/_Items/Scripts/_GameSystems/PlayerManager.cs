@@ -10,12 +10,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-// todo なんで全部大文字？
 public enum PlayerFumenState
 {
-    MORE_EASY = 0,
-    DEFAULT = 1,
-    MORE_DIFFICULT = 2,
+    MoreEasy = 0,
+    Default = 1,
+    MoreDifficult = 2,
     DefaultBeatLine = 3,
     MoreDifficultBeatLine = 4,
     MoreEasyBeatLine = 5,
@@ -25,12 +24,12 @@ public enum PlayerFumenState
 public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 {
     internal bool[] playerEffectStandby = new bool[2];
-    private OtofudaCard[] otofudaCards = new OtofudaCard[2];
+    /*private OtofudaCardObject[] otofudaCards = new OtofudaCardObject[2];*/
 
     private int[] playerHpBuffer = new int[2] {100, 100};
     private bool isRunningCoroutine;
 
-    public OtofudaCard otofudaNone;
+    public OtofudaCardScriptableObject otofudaNone;
 
 
     [Serializable]
@@ -44,19 +43,21 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         public int judgePoint;
         public int score;
 
-        public PlayerFumenState FumenState = PlayerFumenState.DEFAULT;
+        public PlayerFumenState FumenState = PlayerFumenState.Default;
 
         public GameObject focusObject;
 
-        //手札
+        public OtofudaDeckController deckController;
+
+        /*//手札
         public OtofudaCard[] playerHand;
 
         //デッキ
         public List<OtofudaCard> playerDeck = new List<OtofudaCard>();
 
         //手札のカードの実体
-        public GameObject[] playerHandCardObject = new GameObject[5];
-        internal Sprite[] handSprites = new Sprite[5];
+        public OtofudaCardObject[] playerHandCardObject = new OtofudaCardObject[5];
+        internal Sprite[] handSprites = new Sprite[5];*/
 
         public ParticleSystem[] otofudaEffects;
 
@@ -79,16 +80,13 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         {
 /*			PlayerName = PlayerInformationManager.Instance.name[playerIndex];*/
             /*PlayerName =*/
-            defRendererColor = playerHandCardObject[3].GetComponent<SpriteRenderer>().color;
+            defRendererColor = deckController.defaultColor;
+            deckController.Init(playerIndex);
+
             focusY = focusObject.transform.position.y;
             focusZ = focusObject.transform.position.z;
             _selectColor = Instance.selectColor;
             playerHPSlider.maxValue = playerMaxHp;
-            for (int i = 0; i < 5; i++)
-            {
-                playerHandCardObject[i].GetComponent<SpriteRenderer>().sprite = playerHand[i].cardPicture;
-                //Debug.Log(playerHandCardObject[i].GetComponent<SpriteRenderer>().sprite.name);
-            }
         }
 
         internal void FocusCard(int selectStatenum)
@@ -96,11 +94,12 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
             //focusとselectが同じだった場合は色の変更はしない(てｓｔ用)
             if (focusHandCardObjectIndex != selectCardIndex)
             {
-                playerHandCardObject[focusHandCardObjectIndex].GetComponent<SpriteRenderer>().color = defRendererColor;
+                deckController.otofudaHandObjects[focusHandCardObjectIndex].GetComponent<SpriteRenderer>().color =
+                    defRendererColor;
             }
 
             focusHandCardObjectIndex = (int) selectStatenum;
-            var nextFocusPosition = playerHandCardObject[selectStatenum].transform.position;
+            var nextFocusPosition = deckController.otofudaHandObjects[selectStatenum].transform.position;
             nextFocusPosition.y = focusY;
             nextFocusPosition.z = focusZ;
 
@@ -111,17 +110,23 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 
         internal void SelectCard()
         {
-            playerHandCardObject[selectCardIndex].GetComponent<SpriteRenderer>().color = defRendererColor;
-            playerHandCardObject[focusHandCardObjectIndex].GetComponent<SpriteRenderer>().color = _selectColor;
+            deckController.otofudaHandObjects[selectCardIndex].GetComponent<SpriteRenderer>().color = defRendererColor;
+            deckController.otofudaHandObjects[focusHandCardObjectIndex].GetComponent<SpriteRenderer>().color =
+                _selectColor;
             selectCardIndex = focusHandCardObjectIndex;
         }
 
 
         //現在選択しているカードを取得
-        internal OtofudaCard GetSelectCard()
+        /*internal OtofudaCardObject GetSelectCard()
         {
             activateIndex = selectCardIndex;
-            return playerHand[selectCardIndex];
+            return deckController.otofudaHandObjects[selectCardIndex];
+        }*/
+
+        public void UseSelectedCard()
+        {
+            deckController.UseCard(selectCardIndex);
         }
 
 
@@ -129,13 +134,13 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         internal int GetActiveHandCount()
         {
             var retCount = 0;
-            for (int i = 0; i < 5; i++)
+            /*for (int i = 0; i < 5; i++)
             {
                 if (playerHand[i].cardName == "None")
                 {
                     retCount++;
                 }
-            }
+            }*/
 
             return retCount;
         }
@@ -145,20 +150,14 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
         {
             for (int i = 0; i < 5; i++)
             {
-                if (playerHand[i].cardName == "None")
+                /*if (playerHand[i].cardName == "None")
                 {
                     return i;
-                }
+                }*/
             }
 
             Debug.LogError("ERROR! 手札枚数がおかしなことになっています");
             return -1;
-        }
-
-        internal void SetSprites(Sprite setSprite, int targethandIndex)
-        {
-            playerHandCardObject[targethandIndex].GetComponent<SpriteRenderer>().sprite = setSprite;
-            otofudaEffects[targethandIndex].Play();
         }
 
 
@@ -171,10 +170,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 
     public Color selectColor;
 
-    [SerializeField] [Multiline(3)]
-    private string _description = "プレイヤーの情報を登録しておくところ。\n開発中はここ直でいじれるようにしておくけど\n長さを2以上にしても意味ないです";
-
-    public Player[] _players = new Player[]
+    public Player[] players = new Player[]
     {
         new Player() {PlayerName = "player1", judgePoint = 0, score = 0},
         new Player() {PlayerName = "player2", judgePoint = 0, score = 0},
@@ -182,18 +178,18 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 
     private void Start()
     {
-        for (int i = 0; i < _players.Length; i++)
+        for (int i = 0; i < players.Length; i++)
         {
-            _players[i].Init(i);
+            players[i].Init(i);
         }
 
-        for (int i = 0; i < _players.Length; i++)
+        for (int i = 0; i < players.Length; i++)
         {
             OnPlayerFocusCardChange(i, PlayerSelectState.CENTER);
             OnPlayerSelectCardChange(i, PlayerSelectState.CENTER);
 
             var playerId = i;
-            this.ObserveEveryValueChanged(x => _players[playerId].playerHp)
+            this.ObserveEveryValueChanged(x => players[playerId].playerHp)
                 .Where(x => x >= 0)
                 .Subscribe(_ => OnPlayerHpChanged(playerId));
         }
@@ -202,7 +198,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
     //現在の二人のHpを送信する
     private void OnPlayerHpChanged(int playerId)
     {
-        playerHpBuffer[playerId] = _players[playerId].playerHp;
+        playerHpBuffer[playerId] = players[playerId].playerHp;
 //		Debug.Log(_players[playerId].playerHp);
         OtofudaSerialPortManager.Instance.SendPlayerHp(playerHpBuffer);
     }
@@ -248,7 +244,7 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 		_players[_playerID].selectHandCardObjectIndex = (int) _selectState;
 		targetPlayer.playerHandCardObject[(int)_selectState].GetComponent<Renderer>().material.color = Color.red;*/
 
-        _players[_playerID].FocusCard((int) _selectState);
+        players[_playerID].FocusCard((int) _selectState);
 //		Debug.Log("focusCard is "+ _selectState);
     }
 
@@ -260,30 +256,33 @@ public class PlayerManager : SingletonMonoBehaviour<PlayerManager>
 		_players[_playerID].selectHandCardObjectIndex = (int) _selectState;
 		targetPlayer.playerHandCardObject[(int)_selectState].GetComponent<Renderer>().material.color = Color.red;*/
 
-        _players[_playerID].SelectCard();
+        players[_playerID].SelectCard();
     }
 
 
     //カードの効果を実行待ち状態にする
-    public void OnUseOtofudaCard(int _playerID, bool isPerfect)
+    public void OnUseOtofudaCard(int playerID, bool isPerfect)
     {
-//		Debug.Log(_playerID);
+        players[playerID].UseSelectedCard();
+
+/*//        Debug.Log($"{playerID} use 音札 ; {_players[playerID].GetSelectCard()}");
+
         //音札ノーツを見逃してなければ効果を登録する。
         if (isPerfect)
         {
-            otofudaCards[_playerID] = _players[_playerID].GetSelectCard();
-            otofudaCards[_playerID].effectActivate(_playerID, _players[_playerID].activateIndex);
+            otofudaCards[playerID] = players[playerID].GetSelectCard();
+            otofudaCards[playerID].EffectActivate(playerID, players[playerID].activateIndex);
 
-            Debug.Log(_players[_playerID].GetSelectCard());
+            Debug.Log(players[playerID].GetSelectCard());
         }
         else
         {
 //			Debug.Log("OTOFUDA MISS");
-            otofudaCards[_playerID] = otofudaNone;
+            otofudaCards[playerID] = otofudaNone;
 //			Debug.Log("NONE");
         }
 
         //Debug.Log(otofudaCards[_playerID]);
-        playerEffectStandby[_playerID] = true;
+        playerEffectStandby[playerID] = true;*/
     }
 }

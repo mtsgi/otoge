@@ -18,7 +18,7 @@ namespace OtoFuda.Card
                 return;
             }
             //Player情報を引っ張ってくる。
-            _players = PlayerManager.Instance._players;
+            _players = PlayerManager.Instance.players;
             
             
         }
@@ -28,12 +28,12 @@ namespace OtoFuda.Card
         internal void applyHandEffect(int usedPlayerNumber)
         {
             //特殊効果を実行。
-            if (_targetType == EffectTargetType.MYSELF)
+            if (_targetType == EffectTargetType.Myself)
             {
                 _targetPlayer = _players[usedPlayerNumber];
             }
             //特殊効果を実行。
-            else if (_targetType == EffectTargetType.OPPONENT)
+            else if (_targetType == EffectTargetType.Opponent)
             {
                 //効果を発動してない方のPlayerのインデックスを引っ張ってくる。
                 for (int i = 0; i < _players.Length; i++)

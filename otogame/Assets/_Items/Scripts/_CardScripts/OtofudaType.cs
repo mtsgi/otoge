@@ -10,7 +10,7 @@ namespace OtoFuda.Card
     /// <summary>
     /// 音札の属性
     /// </summary>
-    enum OtofudaFlowerType
+    public enum OtofudaFlowerType
     {
         NONE = -1,
         MATSU,
@@ -30,7 +30,7 @@ namespace OtoFuda.Card
     /// <summary>
     /// 音札の属性情報を月で表したもの
     /// </summary>
-    enum OtofudaMonthType
+    public enum OtofudaMonthType
     {
         NONE = -1,
         January,
@@ -51,7 +51,7 @@ namespace OtoFuda.Card
     /// 音札の強度
     /// 数値はコスト…とか？
     /// </summary>
-    enum OtofudaPointType
+    public enum OtofudaPointType
     {
         SHINE = 20,
         SEED = 10,
@@ -62,7 +62,7 @@ namespace OtoFuda.Card
     /// <summary>
     /// 手札の役の種類
     /// </summary>
-    enum OtofudaHandEffectType
+    public enum OtofudaHandEffectType
     {
         NONE,
         TANZAKU,
@@ -81,7 +81,7 @@ namespace OtoFuda.Card
     /// <summary>
     /// 役持ちの札
     /// </summary>
-    enum OtofudaSpecialyCard
+    public enum OtofudaSpecialyCard
     {
         NONE,
         AKATAN,

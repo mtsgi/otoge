@@ -14,14 +14,14 @@ public class PlayerTapMovement : PlayerMovement
         {
             if (!Input.GetKeyDown(PlayerKeys[i])) continue;
             InputFunction(inputMovementTime, i, timings[i],
-                _keyInputManager.PlayerManager._players[PlayerId].FumenState);
+                _keyInputManager.PlayerManager.players[PlayerId].FumenState);
         }
     }
 
-    protected override void InputFunction(float inputMovementTime, int targetLane,
+    protected override bool InputFunction(float inputMovementTime, int targetLane,
         List<NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
-        base.InputFunction(inputMovementTime, targetLane, targetTimings, fumenState);
+        return base.InputFunction(inputMovementTime, targetLane, targetTimings, fumenState);
     }
 
     public override Judge InputJudge(float inputTime, float judgeTime, int targetLane,

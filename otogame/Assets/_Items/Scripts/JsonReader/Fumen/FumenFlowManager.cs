@@ -69,9 +69,9 @@ namespace OtoFuda.Fumen
                 */
 
                 //全難易度分の譜面の通過を監視する。
-                FumenPassCheck(_cacheDefaultTimings[i], PlayerFumenState.DEFAULT, i);
-                FumenPassCheck(_cacheMoreDifficultTimings[i], PlayerFumenState.MORE_DIFFICULT, i);
-                FumenPassCheck(_cacheMoreEasyTimings[i], PlayerFumenState.MORE_EASY, i);
+                FumenPassCheck(_cacheDefaultTimings[i], PlayerFumenState.Default, i);
+                FumenPassCheck(_cacheMoreDifficultTimings[i], PlayerFumenState.MoreDifficult, i);
+                FumenPassCheck(_cacheMoreEasyTimings[i], PlayerFumenState.MoreEasy, i);
 
                 //小節線の通過を監視する
                 FumenPassCheck(_beatLineTimingInformationList.DefaultTimings[i], PlayerFumenState.DefaultBeatLine, i);
@@ -158,15 +158,15 @@ namespace OtoFuda.Fumen
                 {
                     //引数で渡したStateが現在のプレイヤーのステートと同じであればMissの判定をする
                     //かつ、未だアクティブなノーツだった場合。(ロングなど、終点ノーツをもつやつ)
-                    if (PlayerManager._players[playerID].FumenState == targetState &&
+                    if (PlayerManager.players[playerID].FumenState == targetState &&
                         targetTimings[_cacheNoteCounters[stateIndex, index]]._noteEntity.IsActive)
                     {
-                        var prevValue = PlayerManager._players[playerID].playerHp;
+                        var prevValue = PlayerManager.players[playerID].playerHp;
                         var currentValue = Mathf.Clamp(prevValue - 5, 0,
-                            PlayerManager._players[playerID].playerMaxHp);
-                        var slider = PlayerManager._players[playerID].playerHPSlider;
+                            PlayerManager.players[playerID].playerMaxHp);
+                        var slider = PlayerManager.players[playerID].playerHPSlider;
 
-                        PlayerManager._players[playerID].playerHp = currentValue;
+                        PlayerManager.players[playerID].playerHp = currentValue;
                         slider.value = currentValue;
 
                         //ミスしたノーツをDeactivateする。この中で終点ノーツもDeactivateされる
@@ -178,9 +178,9 @@ namespace OtoFuda.Fumen
                         //アクティブな音札ノーツをスルーしたとき、譜面をデフォルトに戻す
                         if (targetTimings[_cacheNoteCounters[stateIndex, index]]._noteType == 5)
                         {
-                            if (PlayerManager._players[playerID].FumenState == targetState)
+                            if (PlayerManager.players[playerID].FumenState == targetState)
                             {
-                                PlayerManager._players[playerID].FumenState = PlayerFumenState.DEFAULT;
+                                PlayerManager.players[playerID].FumenState = PlayerFumenState.Default;
                             }
                         }
                     }

@@ -31,7 +31,7 @@ public class PlayerOtofudaMovement : PlayerMovement
             _receivedGripState = _getPlayerGripGesture._PlayerGripState;
 
             InputFunction(inputMovementTime, 2, timings[2],
-                _keyInputManager.PlayerManager._players[PlayerId].FumenState);
+                _keyInputManager.PlayerManager.players[PlayerId].FumenState);
             /*InputFunction(2, _keyInputManager._fumenDataManager.defaultTimings[PlayerId, 2],
                 _keyInputManager._playerManager._players[PlayerId].FumenState);*/
         }
@@ -64,13 +64,13 @@ public class PlayerOtofudaMovement : PlayerMovement
         }
     }
 
-    protected override void InputFunction(float inputMovementTime, int targetLane,
+    protected override bool InputFunction(float inputMovementTime, int targetLane,
         List<NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         var stateIndex = (int) fumenState;
         if (_cacheNoteCounters[stateIndex, targetLane] == targetTimings.Count)
         {
-            return;
+            return false;
         }
 
         //現在の次に来るはずのノーツ情報
@@ -81,11 +81,12 @@ public class PlayerOtofudaMovement : PlayerMovement
         var judgeTime = nextNoteTimingInfo._reachTime;
         var noteType = nextNoteTimingInfo._noteType;
 
-        
+
         if (nextNoteTimingInfo._noteEntity.IsActive == false)
         {
-            return;
+            return false;
         }
+
         //入力の精度の判定
         var judgeResult = InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
 
@@ -112,6 +113,8 @@ public class PlayerOtofudaMovement : PlayerMovement
             //音札のアクティベート関数を実行
             _keyInputManager.PlayerManager.OnUseOtofudaCard(PlayerId, judgeResult == Judge.Perfect);
         }
+
+        return true;
     }
 
 

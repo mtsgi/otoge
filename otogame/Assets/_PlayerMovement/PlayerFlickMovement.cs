@@ -26,7 +26,7 @@ public class PlayerFlickMovement : PlayerMovement
             for (int i = 0; i < PlayerKeys.Length; i++)
             {
                 InputFunction(inputMovementTime, i, timings[i],
-                    _keyInputManager.PlayerManager._players[PlayerId].FumenState);
+                    _keyInputManager.PlayerManager.players[PlayerId].FumenState);
             }
         }
 
@@ -58,13 +58,13 @@ public class PlayerFlickMovement : PlayerMovement
     }
 
 
-    protected override void InputFunction(float inputMovementTime, int targetLane,
+    protected override bool InputFunction(float inputMovementTime, int targetLane,
         List<NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         var stateIndex = (int) fumenState;
         if (_cacheNoteCounters[stateIndex, targetLane] == targetTimings.Count)
         {
-            return;
+            return false;
         }
 
         //現在の次に来るはずのノーツ情報
@@ -77,12 +77,12 @@ public class PlayerFlickMovement : PlayerMovement
 
         _tmpNoteType = nextNoteTimingInfo._noteType;
 
-        
+
         if (nextNoteTimingInfo._noteEntity.IsActive == false)
         {
-            return;
+            return false;
         }
-        
+
         //入力の精度の判定
         var judgeResult = InputJudge(inputTime, judgeTime, targetLane, noteType, stateIndex);
 //        Debug.Log(judgeResult);
@@ -102,6 +102,8 @@ public class PlayerFlickMovement : PlayerMovement
             //NoteObjectをディアクティベートする。
             nextNoteTimingInfo._noteEntity.Deactivate(judgeResult);
         }
+
+        return true;
     }
 
 

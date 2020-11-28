@@ -12,7 +12,7 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
     [SerializeField] private float inactivePosZ = 0.3f;
     
     
-    private OtofudaCard drawCard;
+    private OtofudaCardScriptableObject _drawCardScriptableObject;
 
 
 /*    private void Update()
@@ -26,10 +26,10 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
     }*/
     
     
-    public override void handEffect()
+    public override void HandEffect()
     {
-        //最初のワンドロー処理
-        base.handEffect();
+        /*//最初のワンドロー処理
+        base.HandEffect();
         
         //いったん使用した手札の情報をNoneの音札に置き換える
         _players[playerID].playerHand[handIndex] = PlayerManager.Instance.otofudaNone;
@@ -39,13 +39,13 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
         if (_targetPlayer.playerDeck.Count != 0)
         {
             _players[playerID].playerHand[handIndex] = _targetPlayer.playerDeck[0];
-            _players[playerID].playerHand[handIndex].setSprite(playerID,handIndex);
+            _players[playerID].playerHand[handIndex].SetSprite(playerID,handIndex);
             _players[playerID].playerDeck.RemoveAt(0);
         }
         else
         {
-            _players[playerID].playerHand[handIndex].setNone(playerID, handIndex);
-        }
+            OtofudaCardScriptableObject.setNone(playerID, handIndex);
+        }*/
         
 
 
@@ -104,7 +104,7 @@ public class CardEffect67910Seed : OtofudaCardEffectBase
         }
         */
         
-        _targetPlayer.FumenState = PlayerFumenState.MORE_DIFFICULT;
+        _targetPlayer.FumenState = PlayerFumenState.MoreDifficult;
         
         //   Debug.Log("EndCount");
 

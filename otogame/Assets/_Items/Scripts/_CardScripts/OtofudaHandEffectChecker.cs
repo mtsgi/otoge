@@ -13,7 +13,7 @@ namespace OtoFuda.Card
 
         private List<OtofudaHandEffectType> handeffectTypes = new List<OtofudaHandEffectType>();
         
-        internal List<OtofudaHandEffectType> handCheck(OtofudaCard[] cards)
+        internal List<OtofudaHandEffectType> handCheck(OtofudaCardScriptableObject[] cards)
         {
             var cardCount = cards.Length;
             
@@ -30,8 +30,8 @@ namespace OtoFuda.Card
                         
             for (int i = 0; i < cardCount; i++)
             {
-                flowers[i] = otofudaType.GetOtofudaFlowerFromMonth(cards[i]._monthType);
-                points[i] = cards[i]._pointType;
+                flowers[i] = otofudaType.GetOtofudaFlowerFromMonth(cards[i].monthType);
+                points[i] = cards[i].pointType;
             }
             
             if (cardCount >= 2)

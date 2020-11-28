@@ -20,11 +20,11 @@ public class PlayerAutoGripMovement : PlayerMovement
         for (var i = 0; i < PlayerKeys.Length; i++)
         {
             InputFunction(inputMovementTime, i, timings[i],
-                _keyInputManager.PlayerManager._players[PlayerId].FumenState);
+                _keyInputManager.PlayerManager.players[PlayerId].FumenState);
         }
     }
 
-    protected override void InputFunction(float inputMovementTime, int targetLane,
+    protected override bool InputFunction(float inputMovementTime, int targetLane,
         List<NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         var stateIndex = (int) fumenState;
@@ -34,7 +34,7 @@ public class PlayerAutoGripMovement : PlayerMovement
 
         if (targetTimings.Count == _cacheNoteCounters[stateIndex, targetLane])
         {
-            return;
+            return false;
         }
 
         //現在の次に来るはずのノーツ情報
@@ -48,10 +48,17 @@ public class PlayerAutoGripMovement : PlayerMovement
             if (0.025f > GetDifferentAbs(inputTime, judgeTime))
             {
                 GripLaneLight();
-                base.InputFunction(inputMovementTime, targetLane, targetTimings, fumenState);
+                var valid = base.InputFunction(inputMovementTime, targetLane, targetTimings, fumenState);
+                if (valid)
+                {
+                    _keyInputManager.PlayerManager.OnUseOtofudaCard(PlayerId, true);
+                }
             }
         }
+
+        return true;
     }
+
 
     private void GripLaneLight()
     {

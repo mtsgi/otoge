@@ -7,15 +7,16 @@ public class CardEffectNormalStrip : OtofudaCardEffectBase
 {
     //札を捨てた時、このターン相手の札効果を無効化し、短冊以外の役札をデッキからランダムに1枚引いてくる。
     //(この札の効果は無効化されないまた既に発動している効果は無効化できない) 
-    private OtofudaCard drawCard;
+    private OtofudaCardScriptableObject _drawCardScriptableObject;
     
-    public override void handEffect()
+    public override void HandEffect()
     {
         //最初のワンドロー処理
-        base.handEffect();
+        base.HandEffect();
         
         //ワンドロー処理の代わりに発動するものなのか、ワンドロー処理に追加で発動するものなのかを後で確認する。
        
+        /*
         //いったん使用した手札の情報をNoneの音札に置き換える
         _targetPlayer.playerHand[handIndex] = PlayerManager.Instance.otofudaNone;
         
@@ -29,7 +30,7 @@ public class CardEffectNormalStrip : OtofudaCardEffectBase
         else
         {
             _players[playerID].playerHand[handIndex].setNone(playerID, handIndex);
-        }*/
+        }#1#
 
         
         //デッキ枚数が0、もしくは手札枚数が枚であれば処理終了
@@ -40,7 +41,7 @@ public class CardEffectNormalStrip : OtofudaCardEffectBase
 
         var randIndex = 0;
         var deckCount = _targetPlayer.playerDeck.Count;
-        var copyDeck = new List<OtofudaCard>();
+        var copyDeck = new List<OtofudaCardScriptableObject>();
         
         var stripIndexList = new List<int>();
         Debug.Log("deck Count is "+ deckCount);
@@ -49,9 +50,9 @@ public class CardEffectNormalStrip : OtofudaCardEffectBase
         for (int i = 0; i < deckCount; i++)
         {
             var targetPlayerDeckCard = _targetPlayer.playerDeck[i];
-            if (targetPlayerDeckCard._pointType == OtofudaPointType.STRIP)
+            if (targetPlayerDeckCard.pointType == OtofudaPointType.STRIP)
             {
-                var monthType = targetPlayerDeckCard._monthType;
+                var monthType = targetPlayerDeckCard.monthType;
                 if (monthType == OtofudaMonthType.January || monthType == OtofudaMonthType.FEBRUARY ||
                     monthType == OtofudaMonthType.MARCH || monthType == OtofudaMonthType.JULY ||
                     monthType == OtofudaMonthType.SEPTEMBER || monthType == OtofudaMonthType.OCTOBER)
@@ -68,6 +69,7 @@ public class CardEffectNormalStrip : OtofudaCardEffectBase
         _targetPlayer.playerHand[handIndex] = _targetPlayer.playerDeck[randIndex];
         _players[playerID].playerHand[handIndex].setSprite(playerID,handIndex);
         _targetPlayer.playerDeck.RemoveAt(randIndex);
+        */
         
 
 /*

@@ -10,11 +10,11 @@ public class PlayerAutoTapMovement : PlayerMovement
         for (var i = 0; i < PlayerKeys.Length; i++)
         {
             InputFunction(inputMovementTime, i, timings[i],
-                _keyInputManager.PlayerManager._players[PlayerId].FumenState);
+                _keyInputManager.PlayerManager.players[PlayerId].FumenState);
         }
     }
 
-    protected override void InputFunction(float inputMovementTime, int targetLane,
+    protected override bool InputFunction(float inputMovementTime, int targetLane,
         List<NoteTimingInformation> targetTimings, PlayerFumenState fumenState)
     {
         var stateIndex = (int) fumenState;
@@ -24,7 +24,7 @@ public class PlayerAutoTapMovement : PlayerMovement
 
         if (targetTimings.Count == _cacheNoteCounters[stateIndex, targetLane])
         {
-            return;
+            return false;
         }
 
         //現在の次に来るはずのノーツ情報
@@ -50,5 +50,7 @@ public class PlayerAutoTapMovement : PlayerMovement
                 base.InputFunction(inputMovementTime, targetLane, targetTimings, fumenState);
             }
         }
+
+        return true;
     }
 }
